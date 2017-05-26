@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdfservice.config;
+package uk.gov.hmcts.reform.cmc.pdf.service.config;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.ObjectMapper;
