@@ -10,16 +10,10 @@ import uk.gov.hmcts.Ansible
 import uk.gov.hmcts.Packager
 import uk.gov.hmcts.Versioner
 import uk.gov.hmcts.RPMTagger
-@Library('CMC')
-import uk.gov.hmcts.cmc.integrationtests.IntegrationTests
-import uk.gov.hmcts.cmc.smoketests.SmokeTests
 
 def ansible = new Ansible(this, 'cmc')
 def packager = new Packager(this, 'cmc')
 def versioner = new Versioner(this)
-
-def smokeTests = new SmokeTests(this)
-def integrationTests = new IntegrationTests(env, this)
 
 milestone()
 lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
@@ -73,12 +67,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
       }
 
-      stage('Integration Tests') {
-        integrationTests.execute([
-          'PDF_SERVICE_API_VERSION'     : pdfServiceVersion
-        ])
-      }
-
       RPMTagger rpmTagger = new RPMTagger(this,
         'pdf-service',
         packager.rpmName('pdf-service', pdfServiceRPMVersion),
@@ -92,10 +80,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
             rpmTagger.tagDeploymentSuccessfulOn('dev')
             rpmTagger.tagAnsibleCommit(ansibleCommitId)
           }
-          stage('Smoke test (Dev)') {
-            smokeTests.executeAgainst(env.CMC_DEV_APPLICATION_URL)
-            rpmTagger.tagTestingPassedOn('dev')
-          }
         }
 
         milestone()
@@ -103,10 +87,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           stage('Deploy (Test)') {
             ansibleCommitId = ansible.runDeployPlaybook(version, 'test', ansibleCommitId)
             rpmTagger.tagDeploymentSuccessfulOn('test')
-          }
-          stage('Smoke test (Test)') {
-            smokeTests.executeAgainst(env.CMC_DEV_APPLICATION_URL)
-            rpmTagger.tagTestingPassedOn('test')
           }
         }
       }
