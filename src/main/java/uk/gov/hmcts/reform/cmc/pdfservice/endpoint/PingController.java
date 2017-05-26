@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdfservice.controllers;
+package uk.gov.hmcts.reform.cmc.pdfservice.endpoint;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -17,7 +17,7 @@ public class SwaggerConfiguration {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
             .select()
-            .apis(RequestHandlerSelectors.basePackage(PdfServiceApplication.BASE_PACKAGE_NAME + ".controllers"))
+            .apis(RequestHandlerSelectors.basePackage(PdfServiceApplication.BASE_PACKAGE_NAME + ".endpoint"))
             .paths(PathSelectors.any())
             .build();
     }

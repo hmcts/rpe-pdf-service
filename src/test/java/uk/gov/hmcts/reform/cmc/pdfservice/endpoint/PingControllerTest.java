@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdfservice.controllers;
+package uk.gov.hmcts.reform.cmc.pdfservice.endpoint;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
