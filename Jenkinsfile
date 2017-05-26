@@ -5,7 +5,7 @@ properties(
    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
-@Library('Reform@feature/ROPS-632-promotion-and-tagging')
+@Library('Reform')
 import uk.gov.hmcts.Ansible
 import uk.gov.hmcts.Packager
 import uk.gov.hmcts.Versioner
