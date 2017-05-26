@@ -80,8 +80,6 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: '1.0.0'
     compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.0.0'
 
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-
     compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.7.RELEASE'
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
