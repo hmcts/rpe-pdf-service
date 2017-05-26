@@ -1,4 +1,4 @@
-# CMC PDF service
+# PDF service
 
 Allows to generate PDFs based on given template and placeholder data
 
