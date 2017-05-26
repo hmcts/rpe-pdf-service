@@ -1,0 +1,10 @@
+pluginManagement {
+  repositories {
+    maven {
+      url 'https://artifactory.reform.hmcts.net/artifactory/libs-release'
+    }
+    gradlePluginPortal()
+  }
+}
+
+rootProject.name = 'pdf-service'
