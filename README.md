@@ -34,7 +34,7 @@ When distribution has been created in `build/install/pdf-service` directory, you
 ```
 
 As a result the following container(s) will get created and started:
- - long living container for API application exposing ports `5500` and `5501`
+ - long living container for API application exposing port `5500`
 
 ### API documentation
 

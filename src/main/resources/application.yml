@@ -4,4 +4,3 @@ server:
 management:
   security:
     enabled: false
-  port: 5501

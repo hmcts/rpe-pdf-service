@@ -21,4 +21,3 @@ services:
       - ./build/install/pdf-service:/opt/app/
     ports:
       - 5500:5500
-      - 5501:5501
