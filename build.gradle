@@ -1,0 +1,112 @@
+plugins {
+    id 'application'
+    id 'checkstyle'
+    id 'io.spring.dependency-management' version '1.0.0.RC2'
+    id 'org.springframework.boot' version '1.5.3.RELEASE'
+    id 'org.owasp.dependencycheck' version '1.4.5.1'
+    id 'com.github.ben-manes.versions' version '0.14.0'
+}
+
+group 'uk.gov.hmcts.reform.cmc'
+version '1.0.0-beta'
+
+checkstyle.toolVersion = '7.2'
+checkstyle.configFile = new File(rootDir, "checkstyle.xml")
+
+// make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
+tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+        reports.all { report ->
+            def outputFile = report.destination
+            if (outputFile.exists() && outputFile.text.contains("<error ")) {
+                throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+            }
+        }
+    }
+}
+
+// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+dependencyCheck {
+    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+    // range of 0-10 fails the build, anything greater and it doesn't fail the build
+    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+    suppressionFile = 'dependency-check-suppressions.xml'
+}
+
+sourceCompatibility = 1.8
+compileJava {
+    options.compilerArgs << '-parameters'
+}
+
+mainClassName = 'uk.gov.hmcts.reform.cmc.pdfservice.PdfServiceApplication'
+
+repositories {
+    maven {
+        url 'http://artifactory.reform.hmcts.net/artifactory/libs-release'
+    }
+    jcenter() // fallback for developers without access to Reform Artifactory
+    mavenLocal()
+}
+
+def springBootVersion = '1.5.3.RELEASE'
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+    }
+}
+
+def versions = [
+        springBoot: springBootVersion,
+        jackson: dependencyManagement.importedProperties['jackson.version'],
+        springfoxSwagger: '2.6.1'
+]
+
+def debug = System.getProperty("debug")
+
+dependencies {
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
+
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: versions.jackson
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
+
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: '1.0.0'
+    compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.0.0'
+
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.7.RELEASE'
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
+}
+
+jar {
+  manifest {
+
+    attributes 'Implementation-Title': project.name,
+               'Implementation-Version': project.version
+  }
+}
+
+bootRepackage {
+    classifier 'all'
+}
+
+task printVersion {
+    doLast {
+        print project.version
+    }
+}
+
+run {
+    if (debug == 'true') {
+        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    }
+}
