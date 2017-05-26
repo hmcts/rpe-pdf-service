@@ -42,7 +42,7 @@ mainClassName = 'uk.gov.hmcts.reform.cmc.pdfservice.PdfServiceApplication'
 
 repositories {
     maven {
-        url 'http://artifactory.reform.hmcts.net/artifactory/libs-release'
+        url 'https://artifactory.reform.hmcts.net/artifactory/libs-release'
     }
     jcenter() // fallback for developers without access to Reform Artifactory
     mavenLocal()
