@@ -25,10 +25,12 @@ import java.util.Map;
 public class PDFGenerationEndpoint {
 
     private HtmlToPdf htmlToPdf;
+    private ObjectMapper objectMapper;
 
     @Autowired
-    public PDFGenerationEndpoint(HtmlToPdf htmlToPdf) {
+    public PDFGenerationEndpoint(HtmlToPdf htmlToPdf, ObjectMapper objectMapper) {
         this.htmlToPdf = htmlToPdf;
+        this.objectMapper = objectMapper;
     }
 
     @ApiOperation("Returns a PDF file generated from provided HTML/Twig template and placeholder values")
@@ -43,28 +45,31 @@ public class PDFGenerationEndpoint {
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        byte[] result = htmlToPdf.convert(toBytes(template), toMap(placeholderValues));
+        byte[] result = htmlToPdf.convert(asBytes(template), asMap(placeholderValues));
         return ResponseEntity
             .ok()
             .contentLength(result.length)
             .body(new ByteArrayResource(result));
     }
 
-    private String toBytes(MultipartFile template) {
+    private byte[] asBytes(MultipartFile template) {
         try {
-            return new String(template.getBytes());
+            return template.getBytes();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Map<String, Object> toMap(String placeholderValues) {
-        ObjectMapper mapper = new ObjectMapper();
+    private Map<String, Object> asMap(String placeholderValues) {
         try {
-            return mapper.readValue(placeholderValues, new TypeReference<Map<String, Object>>() { });
+            return objectMapper.readValue(placeholderValues, MapType.REFERENCE);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static class MapType extends TypeReference<Map<String, Object>> {
+        private static MapType REFERENCE = new MapType();
     }
 
 }

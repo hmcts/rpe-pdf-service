@@ -17,11 +17,11 @@ import java.util.UUID;
 
 public class HtmlToPdf {
 
-    public byte[] convert(String html, Map<String, Object> context) {
+    public byte[] convert(byte[] html, Map<String, Object> context) {
         try {
             Writer writer = new StringWriter();
             PebbleEngine pebble = new PebbleEngine.Builder().loader(new StringLoader()).build();
-            PebbleTemplate template = pebble.getTemplate(html);
+            PebbleTemplate template = pebble.getTemplate(new String(html));
             template.evaluate(writer, context);
 
             final File outputFile = new File(UUID.randomUUID().toString() + ".pdf");
