@@ -33,14 +33,13 @@ public class HTMLTemplateProcessor {
      * @return a String containing processed HTML output
      */
     public String process(byte[] template, Map<String, Object> context) {
-        Writer writer = new StringWriter();
-        try {
+        try (Writer writer = new StringWriter()) {
             PebbleTemplate pebbleTemplate = pebble.getTemplate(new String(template));
             pebbleTemplate.evaluate(writer, context);
+            return writer.toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return writer.toString();
     }
 
 }
