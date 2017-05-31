@@ -51,12 +51,11 @@ public class HTMLToPDF {
     private byte[] convertToPDF(String htmlString) {
         try {
             final File outputFile = File.createTempFile(UUID.randomUUID().toString(), ".pdf");
-            OutputStream os = new FileOutputStream(outputFile);
+            OutputStream outputStream = new FileOutputStream(outputFile);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlString);
             renderer.layout();
-            renderer.createPDF(os, false);
-            renderer.finishPDF();
+            renderer.createPDF(outputStream, true);
             return Files.readAllBytes(Paths.get(outputFile.toURI()));
         } catch (Exception e) {
             throw new RuntimeException(e);
