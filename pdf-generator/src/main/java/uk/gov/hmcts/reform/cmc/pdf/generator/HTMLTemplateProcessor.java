@@ -25,6 +25,13 @@ public class HTMLTemplateProcessor {
         this.pebble = pebble;
     }
 
+    /**
+     * Processes a Twig template.
+     *
+     * @param template a byte array which contains the Twig template
+     * @param context a map with a structure corresponding to the placeholders used in the template
+     * @return a String containing processed HTML output
+     */
     public String process(byte[] template, Map<String, Object> context) {
         Writer writer = new StringWriter();
         try {

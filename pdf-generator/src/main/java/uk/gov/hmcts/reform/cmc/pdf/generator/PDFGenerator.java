@@ -11,6 +11,12 @@ import java.util.UUID;
 
 public class PDFGenerator {
 
+    /**
+     * Generates a PDF document from provided HTML.
+     *
+     * @param htmlString a String containing HTML to convert to PDF
+     * @return a byte array which contains generated PDF output
+     */
     public byte[] generateFrom(String htmlString) {
         try {
             final File outputFile = File.createTempFile(UUID.randomUUID().toString(), ".pdf");
