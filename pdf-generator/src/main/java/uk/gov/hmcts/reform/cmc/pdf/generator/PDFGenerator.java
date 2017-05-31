@@ -4,6 +4,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -18,9 +19,8 @@ public class PDFGenerator {
      * @return a byte array which contains generated PDF output
      */
     public byte[] generateFrom(String htmlString) {
-        try {
-            final File outputFile = File.createTempFile(UUID.randomUUID().toString(), ".pdf");
-            OutputStream outputStream = new FileOutputStream(outputFile);
+        File outputFile = createTempFile();
+        try (OutputStream outputStream = new FileOutputStream(outputFile);) {
             ITextRenderer renderer = new ITextRenderer();
 
             renderer.setDocumentFromString(htmlString);
@@ -29,6 +29,14 @@ public class PDFGenerator {
 
             return Files.readAllBytes(Paths.get(outputFile.toURI()));
         } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private File createTempFile() {
+        try {
+            return File.createTempFile(UUID.randomUUID().toString(), ".pdf");
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
