@@ -20,7 +20,7 @@ public class PDFGenerator {
      */
     public byte[] generateFrom(String htmlString) {
         File outputFile = createTempFile();
-        try (OutputStream outputStream = new FileOutputStream(outputFile);) {
+        try (OutputStream outputStream = new FileOutputStream(outputFile)) {
             ITextRenderer renderer = new ITextRenderer();
 
             renderer.setDocumentFromString(htmlString);
