@@ -18,18 +18,42 @@ import java.util.UUID;
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class HTMLToPDF {
 
-    public byte[] generate(byte[] html, Map<String, Object> context) {
-        try {
-            Writer writer = new StringWriter();
-            PebbleEngine pebble = new PebbleEngine.Builder().loader(new StringLoader()).build();
-            PebbleTemplate template = pebble.getTemplate(new String(html));
-            template.evaluate(writer, context);
+    private PebbleEngine pebble;
 
+    public HTMLToPDF() {
+        this(new PebbleEngine.Builder()
+            .loader(new StringLoader())
+            .cacheActive(false)
+            .build()
+        );
+    }
+
+    public HTMLToPDF(PebbleEngine pebble) {
+        this.pebble = pebble;
+    }
+
+    public byte[] generate(byte[] template, Map<String, Object> context) {
+        String processedHtml = processTemplate(template, context);
+        return convertToPDF(processedHtml);
+    }
+
+    private String processTemplate(byte[] template, Map<String, Object> context) {
+        Writer writer = new StringWriter();
+        try {
+            PebbleTemplate pebbleTemplate = pebble.getTemplate(new String(template));
+            pebbleTemplate.evaluate(writer, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return writer.toString();
+    }
+
+    private byte[] convertToPDF(String htmlString) {
+        try {
             final File outputFile = new File(UUID.randomUUID().toString() + ".pdf");
             OutputStream os = new FileOutputStream(outputFile);
-
             ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(writer.toString());
+            renderer.setDocumentFromString(htmlString);
             renderer.layout();
             renderer.createPDF(os, false);
             renderer.finishPDF();
