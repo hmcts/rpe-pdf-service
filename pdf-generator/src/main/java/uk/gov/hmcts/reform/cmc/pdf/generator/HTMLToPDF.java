@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class HTMLToPDF {
 
     public byte[] generate(byte[] html, Map<String, Object> context) {
