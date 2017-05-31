@@ -39,17 +39,17 @@ public class PDFGenerationEndpoint {
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         produces = MediaType.APPLICATION_PDF_VALUE
     )
-    public ResponseEntity<ByteArrayResource> generate(
+    public ResponseEntity<ByteArrayResource> generateFromHtml(
         @ApiParam("A HTML/Twig file. CSS should be embedded, images should be embedded using Data URI scheme")
         @RequestParam("template") MultipartFile template,
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        byte[] result = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
+        byte[] pdfDocument = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
         return ResponseEntity
             .ok()
-            .contentLength(result.length)
-            .body(new ByteArrayResource(result));
+            .contentLength(pdfDocument.length)
+            .body(new ByteArrayResource(pdfDocument));
     }
 
     private byte[] asBytes(MultipartFile template) {

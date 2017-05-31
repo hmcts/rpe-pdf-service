@@ -22,9 +22,11 @@ public class PDFGenerator {
             final File outputFile = File.createTempFile(UUID.randomUUID().toString(), ".pdf");
             OutputStream outputStream = new FileOutputStream(outputFile);
             ITextRenderer renderer = new ITextRenderer();
+
             renderer.setDocumentFromString(htmlString);
             renderer.layout();
             renderer.createPDF(outputStream, true);
+
             return Files.readAllBytes(Paths.get(outputFile.toURI()));
         } catch (Exception e) {
             throw new RuntimeException(e);
