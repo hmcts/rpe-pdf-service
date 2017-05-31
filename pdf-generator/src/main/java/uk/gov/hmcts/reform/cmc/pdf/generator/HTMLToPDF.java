@@ -50,7 +50,7 @@ public class HTMLToPDF {
 
     private byte[] convertToPDF(String htmlString) {
         try {
-            final File outputFile = new File(UUID.randomUUID().toString() + ".pdf");
+            final File outputFile = File.createTempFile(UUID.randomUUID().toString(), ".pdf");
             OutputStream os = new FileOutputStream(outputFile);
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlString);
