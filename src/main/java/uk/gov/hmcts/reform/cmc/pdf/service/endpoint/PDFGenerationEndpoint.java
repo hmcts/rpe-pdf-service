@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,13 @@ import java.util.Map;
 @RequestMapping("/api/v1/pdf-generator")
 public class PDFGenerationEndpoint {
 
+    private HtmlToPdf htmlToPdf;
+
+    @Autowired
+    public PDFGenerationEndpoint(HtmlToPdf htmlToPdf) {
+        this.htmlToPdf = htmlToPdf;
+    }
+
     @ApiOperation("Generates and returns PDF file from provided HTML template and placeholder values")
     @PostMapping(
         value = "/html",
@@ -32,7 +40,7 @@ public class PDFGenerationEndpoint {
         @RequestParam("template") MultipartFile template,
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        byte[] result = new HtmlToPdf().convert(toBytes(template), toMap(placeholderValues));
+        byte[] result = htmlToPdf.convert(toBytes(template), toMap(placeholderValues));
         return ResponseEntity
             .ok()
             .contentLength(result.length)
