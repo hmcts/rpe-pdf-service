@@ -36,7 +36,6 @@ public class PDFGenerationEndpoint {
         return ResponseEntity
             .ok()
             .contentLength(result.length)
-            .contentType(MediaType.APPLICATION_PDF)
             .body(new ByteArrayResource(result));
     }
 
