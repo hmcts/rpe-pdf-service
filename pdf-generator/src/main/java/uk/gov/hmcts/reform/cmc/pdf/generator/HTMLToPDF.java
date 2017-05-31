@@ -15,9 +15,9 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 
-public class HtmlToPdf {
+public class HTMLToPDF {
 
-    public byte[] convert(byte[] html, Map<String, Object> context) {
+    public byte[] generate(byte[] html, Map<String, Object> context) {
         try {
             Writer writer = new StringWriter();
             PebbleEngine pebble = new PebbleEngine.Builder().loader(new StringLoader()).build();

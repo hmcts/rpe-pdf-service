@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cmc.pdf.generator.HtmlToPdf;
+import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDF;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,11 +24,11 @@ import java.util.Map;
 @RequestMapping("/api/v1/pdf-generator")
 public class PDFGenerationEndpoint {
 
-    private HtmlToPdf htmlToPdf;
+    private HTMLToPDF htmlToPdf;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public PDFGenerationEndpoint(HtmlToPdf htmlToPdf, ObjectMapper objectMapper) {
+    public PDFGenerationEndpoint(HTMLToPDF htmlToPdf, ObjectMapper objectMapper) {
         this.htmlToPdf = htmlToPdf;
         this.objectMapper = objectMapper;
     }
@@ -45,7 +45,7 @@ public class PDFGenerationEndpoint {
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        byte[] result = htmlToPdf.convert(asBytes(template), asMap(placeholderValues));
+        byte[] result = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
         return ResponseEntity
             .ok()
             .contentLength(result.length)
