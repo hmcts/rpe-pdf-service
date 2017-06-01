@@ -5,13 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.UUID;
+import java.io.ByteArrayOutputStream;
 
 public class PDFGenerator {
 
@@ -26,8 +20,7 @@ public class PDFGenerator {
     public byte[] generateFrom(String htmlString) {
         log.debug("Generating PDF from given HTML file");
         log.trace("HTML content: {}", htmlString);
-        File outputFile = createTempFile();
-        try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             ITextRenderer renderer = new ITextRenderer();
 
             renderer.setDocumentFromString(htmlString);
@@ -35,17 +28,9 @@ public class PDFGenerator {
             renderer.createPDF(outputStream, true);
 
             log.debug("PDF generation finished successfully");
-            return Files.readAllBytes(Paths.get(outputFile.toURI()));
+            return outputStream.toByteArray();
         } catch (Exception e) {
             throw new PDFGenerationException(e);
-        }
-    }
-
-    private File createTempFile() {
-        try {
-            return File.createTempFile(UUID.randomUUID().toString(), ".pdf");
-        } catch (IOException e) {
-            throw new PDFGenerationException("Unable to create a temp file for the PDF", e);
         }
     }
 
