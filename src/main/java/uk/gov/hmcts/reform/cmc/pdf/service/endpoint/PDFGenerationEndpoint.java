@@ -50,9 +50,9 @@ public class PDFGenerationEndpoint {
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        log.info("Received a PDF generation request");
+        log.debug("Received a PDF generation request");
         byte[] pdfDocument = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
-        log.info("PDF generated");
+        log.debug("PDF generated");
         return ResponseEntity
             .ok()
             .contentLength(pdfDocument.length)
