@@ -16,15 +16,15 @@ public class ExceptionLogging {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public void handleException(Exception e) {
-        log.error("Unhandled exception:", e);
+    public void handleException(Exception exception) {
+        log.error("Unhandled exception:", exception);
     }
 
     @ExceptionHandler(InvalidArgumentException.class)
     @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
     @ResponseBody
-    public void handleInvalidArgumentException(InvalidArgumentException e) {
-        handleException(e);
+    public void handleInvalidArgumentException(InvalidArgumentException exception) {
+        handleException(exception);
     }
 
 }
