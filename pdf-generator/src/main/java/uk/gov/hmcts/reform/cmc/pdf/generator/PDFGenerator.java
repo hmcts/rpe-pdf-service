@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.cmc.pdf.generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +37,7 @@ public class PDFGenerator {
             log.debug("PDF generation finished successfully");
             return Files.readAllBytes(Paths.get(outputFile.toURI()));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new PDFGenerationException(e);
         }
     }
 
@@ -44,7 +45,7 @@ public class PDFGenerator {
         try {
             return File.createTempFile(UUID.randomUUID().toString(), ".pdf");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PDFGenerationException("Unable to create a temp file for the PDF", e);
         }
     }
 

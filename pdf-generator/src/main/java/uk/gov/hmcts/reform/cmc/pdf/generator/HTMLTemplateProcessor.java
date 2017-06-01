@@ -5,6 +5,7 @@ import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -47,7 +48,7 @@ public class HTMLTemplateProcessor {
             log.debug("Template processing finished successfully");
             return writer.toString();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new PDFGenerationException("There was an error during template processing", e);
         }
     }
 

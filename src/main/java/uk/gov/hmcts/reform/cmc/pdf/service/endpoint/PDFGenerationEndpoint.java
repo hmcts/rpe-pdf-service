@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDF;
+import uk.gov.hmcts.reform.cmc.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -59,10 +60,13 @@ public class PDFGenerationEndpoint {
     }
 
     private byte[] asBytes(MultipartFile template) {
+        if (template.isEmpty()) {
+            throw new InvalidArgumentException("Received an empty template file");
+        }
         try {
             return template.getBytes();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InvalidArgumentException(e);
         }
     }
 
@@ -70,7 +74,7 @@ public class PDFGenerationEndpoint {
         try {
             return objectMapper.readValue(placeholderValues, MapType.REFERENCE);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new InvalidArgumentException("Unable to successfully parse received JSON string", e);
         }
     }
 
