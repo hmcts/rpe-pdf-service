@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDF;
+import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.cmc.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
@@ -29,11 +29,11 @@ public class PDFGenerationEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
 
-    private HTMLToPDF htmlToPdf;
+    private HTMLToPDFConverter htmlToPdf;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public PDFGenerationEndpoint(HTMLToPDF htmlToPdf, ObjectMapper objectMapper) {
+    public PDFGenerationEndpoint(HTMLToPDFConverter htmlToPdf, ObjectMapper objectMapper) {
         this.htmlToPdf = htmlToPdf;
         this.objectMapper = objectMapper;
     }
@@ -51,7 +51,7 @@ public class PDFGenerationEndpoint {
         @RequestParam("placeholderValues") String placeholderValues
     ) {
         log.debug("Received a PDF generation request");
-        byte[] pdfDocument = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
+        byte[] pdfDocument = htmlToPdf.convert(asBytes(template), asMap(placeholderValues));
         log.debug("PDF generated");
         return ResponseEntity
             .ok()

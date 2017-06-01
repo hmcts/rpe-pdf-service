@@ -3,16 +3,16 @@ package uk.gov.hmcts.reform.cmc.pdf.generator;
 import java.util.Map;
 
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
-public class HTMLToPDF {
+public class HTMLToPDFConverter {
 
     private HTMLTemplateProcessor templateProcessor;
     private PDFGenerator pdfGenerator;
 
-    public HTMLToPDF() {
+    public HTMLToPDFConverter() {
         this(new HTMLTemplateProcessor(), new PDFGenerator());
     }
 
-    public HTMLToPDF(HTMLTemplateProcessor templateProcessor, PDFGenerator pdfGenerator) {
+    public HTMLToPDFConverter(HTMLTemplateProcessor templateProcessor, PDFGenerator pdfGenerator) {
         this.templateProcessor = templateProcessor;
         this.pdfGenerator = pdfGenerator;
     }
@@ -24,7 +24,7 @@ public class HTMLToPDF {
      * @param context a map with a structure corresponding to the placeholders used in the template
      * @return a byte array which contains generated PDF output
      */
-    public byte[] generate(byte[] template, Map<String, Object> context) {
+    public byte[] convert(byte[] template, Map<String, Object> context) {
         String processedHtml = templateProcessor.process(template, context);
         return pdfGenerator.generateFrom(processedHtml);
     }
