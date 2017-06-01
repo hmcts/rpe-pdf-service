@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
@@ -23,6 +25,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/pdf-generator")
 public class PDFGenerationEndpoint {
+
+    private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
 
     private HTMLToPDF htmlToPdf;
     private ObjectMapper objectMapper;
@@ -45,7 +49,9 @@ public class PDFGenerationEndpoint {
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
+        log.info("Received a PDF generation request");
         byte[] pdfDocument = htmlToPdf.generate(asBytes(template), asMap(placeholderValues));
+        log.info("PDF generated");
         return ResponseEntity
             .ok()
             .contentLength(pdfDocument.length)
