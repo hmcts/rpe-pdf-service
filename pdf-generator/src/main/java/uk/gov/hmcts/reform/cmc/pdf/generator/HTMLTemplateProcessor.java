@@ -1,12 +1,15 @@
 package uk.gov.hmcts.reform.cmc.pdf.generator;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
 import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 
+import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Map;
@@ -47,7 +50,9 @@ public class HTMLTemplateProcessor {
             pebbleTemplate.evaluate(writer, context);
             log.debug("Template processing finished successfully");
             return writer.toString();
-        } catch (Exception e) {
+        } catch (PebbleException e) {
+            throw new MalformedTemplateException("Malformed Twig syntax in the template", e);
+        } catch (IOException e) {
             throw new PDFGenerationException("There was an error during template processing", e);
         }
     }

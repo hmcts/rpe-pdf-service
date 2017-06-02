@@ -95,6 +95,15 @@ dependencies {
     compile project(':pdf-generator')
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
+    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+}
+
+test {
+  exclude 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
+}
+
+task apiTest(type: Test) {
+  include 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
 }
 
 jar {

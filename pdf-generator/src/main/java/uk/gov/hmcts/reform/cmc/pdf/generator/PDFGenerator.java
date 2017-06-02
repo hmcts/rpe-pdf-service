@@ -3,6 +3,8 @@ package uk.gov.hmcts.reform.cmc.pdf.generator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import org.xhtmlrenderer.util.XRRuntimeException;
+import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
 import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 
 import java.io.ByteArrayOutputStream;
@@ -29,6 +31,8 @@ public class PDFGenerator {
 
             log.debug("PDF generation finished successfully");
             return outputStream.toByteArray();
+        } catch (XRRuntimeException e) {
+            throw new MalformedTemplateException("Malformed HTML document provided", e);
         } catch (Exception e) {
             throw new PDFGenerationException(e);
         }
