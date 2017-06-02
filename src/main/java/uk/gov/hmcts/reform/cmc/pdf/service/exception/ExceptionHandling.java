@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
 
 @ControllerAdvice
 public class ExceptionHandling {
@@ -22,21 +23,16 @@ public class ExceptionHandling {
         log.error("Unhandled exception:", exception);
     }
 
-    @ExceptionHandler(InvalidArgumentException.class)
-    @ResponseStatus(code = HttpStatus.UNPROCESSABLE_ENTITY)
-    @ResponseBody
-    public void handleInvalidArgumentException(InvalidArgumentException exception) {
-        handleException(exception);
-    }
-
     @ExceptionHandler({
         MissingServletRequestParameterException.class,
-        MissingServletRequestPartException.class
+        MissingServletRequestPartException.class,
+        InvalidArgumentException.class,
+        MalformedTemplateException.class
     })
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
-    public void handleMissingServletRequestElements(Exception exception) {
-        handleException(exception);
+    public void handleMissingAndMalformedParametersValues(Exception exception) {
+        log.error("Input parameters were missing/malformed:", exception);
     }
 
 }
