@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PDFGenerationServiceAPITest {
+public class ResponseCodesTest {
 
     public static final String API_URL = "/api/v1/pdf-generator/html";
 
