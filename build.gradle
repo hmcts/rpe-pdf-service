@@ -99,11 +99,11 @@ dependencies {
 }
 
 test {
-  exclude 'uk/gov/hmcts/reform/cmc/pdf/service/api/**'
+  exclude 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
 }
 
 task apiTest(type: Test) {
-  include 'uk/gov/hmcts/reform/cmc/pdf/service/api/**'
+  include 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
 }
 
 jar {
