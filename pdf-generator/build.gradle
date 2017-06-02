@@ -1,0 +1,23 @@
+def flyingSaucerVersion = '9.1.5'
+
+dependencyManagement {
+  imports {
+    mavenBom "org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}"
+  }
+}
+
+def versions = [
+  flyingSaucer    : flyingSaucerVersion,
+  openPdf         : dependencyManagement.importedProperties['openpdf.version']
+]
+
+dependencies {
+  compile group: 'com.mitchellbosecke', name: 'pebble', version: '2.3.0'
+
+  compile group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: versions.flyingSaucer
+  compile group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: versions.flyingSaucer, {
+    exclude group: 'com.lowagie'
+    exclude group: 'org.bouncycastle'
+  }
+  compile group: 'com.github.librepdf', name: 'openpdf', version: versions.openPdf
+}
