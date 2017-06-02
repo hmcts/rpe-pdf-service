@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ResponseCodesTest {
 
-    public static final String API_URL = "/api/v1/pdf-generator/html";
+    private static final String API_URL = "/api/v1/pdf-generator/html";
 
     @Autowired
     private MockMvc webClient;
