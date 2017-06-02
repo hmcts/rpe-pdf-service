@@ -56,7 +56,7 @@ public class ResponseCodesTest {
     }
 
     @Test
-    public void shouldReturn400WhenMalformedHTMLTemplateIsSent() throws Exception {
+    public void shouldReturn400WhenMalformedHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
                 .file("template", "<html><not-html".getBytes())
@@ -74,7 +74,7 @@ public class ResponseCodesTest {
     }
 
     @Test
-    public void shouldReturn200WhenCorrectHTMLTemplateIsSent() throws Exception {
+    public void shouldReturn200WhenCorrectHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
                 .file("template", "<html><body>Hello!</body></html>".getBytes())

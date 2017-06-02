@@ -27,8 +27,7 @@ public class ExceptionHandling {
         MissingServletRequestParameterException.class,
         MissingServletRequestPartException.class,
         InvalidArgumentException.class,
-        MalformedTemplateException.class
-    })
+        MalformedTemplateException.class })
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public void handleMissingAndMalformedParametersValues(Exception exception) {
