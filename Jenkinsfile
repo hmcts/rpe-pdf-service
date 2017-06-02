@@ -46,6 +46,9 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         sh "./gradlew test"
       }
 
+      stage('Test (API)') {
+        sh "./gradlew apiTest"
+      }
 
       stage('Package (JAR)') {
         versioner.addJavaVersionInfo()
