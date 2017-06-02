@@ -45,7 +45,6 @@ public class GeneratedPDFContentTest {
                 .param("placeholderValues", "{ \"hello\": \"World!\" }"))
             .andReturn().getResponse().getContentAsByteArray();
 
-        System.out.println(textContentOf(pdf));
         assertThat(textContentOf(pdf)).contains("World!");
     }
 
