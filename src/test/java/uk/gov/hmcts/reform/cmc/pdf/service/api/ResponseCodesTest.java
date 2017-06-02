@@ -56,6 +56,15 @@ public class ResponseCodesTest {
     }
 
     @Test
+    public void shouldReturn400WhenMalformedJsonIsSentForPlaceholderValues() throws Exception {
+        webClient
+            .perform(fileUpload(API_URL)
+                .file("template", "<html></html>".getBytes())
+                .param("placeholderValues", "{:"))
+            .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void shouldReturn400WhenMalformedHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
