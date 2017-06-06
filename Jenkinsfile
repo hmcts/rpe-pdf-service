@@ -29,7 +29,8 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
       stage('Build') {
-        sh "./gradlew clean build -x test"
+        versioner.addJavaVersionInfo()
+        sh "./gradlew build -x test"
       }
 
       stage('OWASP dependency check') {
@@ -50,12 +51,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         sh "./gradlew apiTest"
       }
 
-      stage('Package (JAR)') {
-        versioner.addJavaVersionInfo()
-        sh "./gradlew bootRepackage installDist"
-      }
-
-
       stage('Package (RPM)') {
         pdfServiceRPMVersion = packager.javaRPM('pdf-service', 'build/libs/pdf-service-$(./gradlew -q printVersion)-all.jar',
           'springboot', 'src/main/resources/application.yml')
@@ -67,6 +62,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
       stage('Package (Docker)') {
+        sh "./gradlew clean installDist"
         pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
       }
 
