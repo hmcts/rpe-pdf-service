@@ -2,7 +2,7 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.0.0.RC2'
-  id 'org.springframework.boot' version '1.5.3.RELEASE'
+  id 'org.springframework.boot' version '1.5.4.RELEASE'
   id 'org.owasp.dependencycheck' version '1.4.5.1'
   id 'com.github.ben-manes.versions' version '0.14.0'
 }
@@ -59,7 +59,7 @@ allprojects {
 
 }
 
-def springBootVersion = '1.5.3.RELEASE'
+def springBootVersion = '1.5.4.RELEASE'
 
 dependencyManagement {
   imports {
