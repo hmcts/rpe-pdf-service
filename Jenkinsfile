@@ -71,7 +71,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         packager.rpmName('pdf-service', pdfServiceRPMVersion),
         'cmc-local'
       )
-      if ("master" == "${env.BRANCH_NAME}") {
+      onMaster {
         milestone()
         lock(resource: "CMC-deploy-dev", inversePrecedence: true) {
           stage('Deploy (Dev)') {
@@ -82,12 +82,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         }
 
         milestone()
-        lock(resource: "CMC-deploy-test", inversePrecedence: true) {
-          stage('Deploy (Test)') {
-            ansibleCommitId = ansible.runDeployPlaybook(version, 'test', ansibleCommitId)
-            rpmTagger.tagDeploymentSuccessfulOn('test')
-          }
-        }
       }
     } catch (err) {
       notifyBuildFailure channel: '#cmc-tech-notification'
