@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.nio.charset.Charset;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,7 +35,7 @@ public class ResponseCodesTest {
     public void shouldReturn400WhenPlaceholderValuesAreNotSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html></html>".getBytes()))
+                .file("template", "<html></html>".getBytes(Charset.defaultCharset())))
             .andExpect(status().isBadRequest());
     }
 
@@ -50,7 +52,7 @@ public class ResponseCodesTest {
     public void shouldReturn400WhenEmptyStringIsSentForPlaceholderValues() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html></html>".getBytes())
+                .file("template", "<html></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", ""))
             .andExpect(status().isBadRequest());
     }
@@ -59,7 +61,7 @@ public class ResponseCodesTest {
     public void shouldReturn400WhenMalformedJsonIsSentForPlaceholderValues() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html></html>".getBytes())
+                .file("template", "<html></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{:"))
             .andExpect(status().isBadRequest());
     }
@@ -68,7 +70,7 @@ public class ResponseCodesTest {
     public void shouldReturn400WhenMalformedHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html><not-html".getBytes())
+                .file("template", "<html><not-html".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ }"))
             .andExpect(status().isBadRequest());
     }
@@ -77,7 +79,7 @@ public class ResponseCodesTest {
     public void shouldReturn400WhenMalformedTwigTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html> {% notATag </html>".getBytes())
+                .file("template", "<html> {% notATag </html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ }"))
             .andExpect(status().isBadRequest());
     }
@@ -86,7 +88,7 @@ public class ResponseCodesTest {
     public void shouldReturn200WhenCorrectHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html><body>Hello!</body></html>".getBytes())
+                .file("template", "<html><body>Hello!</body></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ }"))
             .andExpect(status().isOk());
     }
@@ -95,7 +97,7 @@ public class ResponseCodesTest {
     public void shouldReturn200WhenCorrectTwigTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html><body>{{ hello }}</body></html>".getBytes())
+                .file("template", "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ \"hello\": \"world\" }"))
             .andExpect(status().isOk());
     }
