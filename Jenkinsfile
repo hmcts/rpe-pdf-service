@@ -84,6 +84,8 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
     } catch (err) {
+      archiveArtifacts 'build/reports/**/*.html'
+      archiveArtifacts 'build/pdf-service/reports/**/*.html'
       notifyBuildFailure channel: '#cmc-tech-notification'
       throw err
     }

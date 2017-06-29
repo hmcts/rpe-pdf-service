@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
@@ -30,7 +31,7 @@ public class GeneratedPDFContentTest {
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
         byte[] pdf = webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html><body>Hello!</body></html>".getBytes())
+                .file("template", "<html><body>Hello!</body></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ }"))
             .andReturn().getResponse().getContentAsByteArray();
 
@@ -41,7 +42,7 @@ public class GeneratedPDFContentTest {
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
         byte[] pdf = webClient
             .perform(fileUpload(API_URL)
-                .file("template", "<html><body>{{ hello }}</body></html>".getBytes())
+                .file("template", "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ \"hello\": \"World!\" }"))
             .andReturn().getResponse().getContentAsByteArray();
 

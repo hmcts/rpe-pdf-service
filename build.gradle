@@ -1,6 +1,7 @@
 plugins {
   id 'application'
   id 'checkstyle'
+  id 'findbugs'
   id 'io.spring.dependency-management' version '1.0.0.RC2'
   id 'org.springframework.boot' version '1.5.4.RELEASE'
   id 'org.owasp.dependencycheck' version '1.4.5.1'
@@ -11,6 +12,7 @@ allprojects {
 
   apply plugin: 'application'
   apply plugin: 'checkstyle'
+  apply plugin: 'findbugs'
   apply plugin: 'io.spring.dependency-management'
   apply plugin: 'org.springframework.boot'
   apply plugin: 'org.owasp.dependencycheck'
@@ -31,6 +33,13 @@ allprojects {
           throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
         }
       }
+    }
+  }
+
+  tasks.withType(FindBugs) {
+    reports {
+      xml.enabled = false
+      html.enabled = true
     }
   }
 
