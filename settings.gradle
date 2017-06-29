@@ -9,4 +9,5 @@ pluginManagement {
 
 rootProject.name = 'pdf-service'
 include 'pdf-generator'
+include 'service-client'
 
