@@ -10,7 +10,6 @@ plugins {
 
 allprojects {
 
-  apply plugin: 'application'
   apply plugin: 'checkstyle'
   apply plugin: 'findbugs'
   apply plugin: 'io.spring.dependency-management'
@@ -56,8 +55,6 @@ allprojects {
     options.compilerArgs << '-parameters'
   }
 
-  mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
-
   repositories {
     mavenLocal()
     jcenter() // fallback for developers without access to Reform Artifactory
@@ -67,6 +64,10 @@ allprojects {
   }
 
 }
+
+apply plugin: 'application'
+
+mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
 
 def springBootVersion = '1.5.4.RELEASE'
 
