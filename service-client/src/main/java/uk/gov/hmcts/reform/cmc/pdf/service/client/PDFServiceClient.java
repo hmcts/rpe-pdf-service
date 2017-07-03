@@ -1,14 +1,12 @@
 package uk.gov.hmcts.reform.cmc.pdf.service.client;
 
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
+import uk.gov.hmcts.reform.cmc.pdf.service.client.http.FileBytesResource;
 
 import java.util.Map;
 
@@ -32,7 +30,7 @@ public class PDFServiceClient {
         MultiValueMap<String, Object> formData = new LinkedMultiValueMap<>();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-        formData.add("template", new TemplateResource(template));
+        formData.add("template", new FileBytesResource(template));
         formData.add("placeholderValues", placeholders);
         return restTemplate.postForObject(htmlEndpoint(), new HttpEntity<>(formData, headers), byte[].class);
     }
