@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'maven'
 
 dependencies {
   compile group: 'org.springframework', name: 'spring-web', version: rootProject.versions.spring

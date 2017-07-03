@@ -14,6 +14,7 @@ import uk.gov.hmcts.RPMTagger
 def ansible = new Ansible(this, 'cmc')
 def packager = new Packager(this, 'cmc')
 def versioner = new Versioner(this)
+def server = Artifactory.server 'artifactory.reform'
 
 milestone()
 lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
@@ -83,6 +84,14 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
 
         milestone()
       }
+
+//      onMaster {
+        stage('Publish Client JAR') {
+          sh '''
+            ./gradlew service-client:install
+          '''
+        }
+//      }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
