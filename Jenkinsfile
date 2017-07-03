@@ -85,13 +85,13 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-//      onMaster {
+      onMaster {
         stage('Publish Client JAR') {
           sh '''
             ./gradlew service-client:install
           '''
         }
-//      }
+      }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
