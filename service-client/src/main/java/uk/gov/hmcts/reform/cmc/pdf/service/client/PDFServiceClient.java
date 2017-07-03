@@ -34,7 +34,6 @@ public class PDFServiceClient {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         formData.add("template", new TemplateResource(template));
         formData.add("placeholderValues", placeholders);
-        System.out.println(new HttpEntity<>(formData, headers));
         return restTemplate.postForObject(htmlEndpoint(), new HttpEntity<>(formData, headers), byte[].class);
     }
 
