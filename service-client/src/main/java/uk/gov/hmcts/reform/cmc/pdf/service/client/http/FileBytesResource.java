@@ -2,6 +2,10 @@ package uk.gov.hmcts.reform.cmc.pdf.service.client.http;
 
 import org.springframework.core.io.ByteArrayResource;
 
+/**
+ * The 'filename' attribute is needed in multipart/form-data part's Content-Disposition. Otherwise
+ * the endpoint will not treat sent bytes as a MultipartFile.
+ */
 public class FileBytesResource extends ByteArrayResource {
 
     public static final String DEFAULT_FILE_NAME = "template.html";
