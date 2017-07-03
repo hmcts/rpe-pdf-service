@@ -1,5 +1,5 @@
 apply plugin: 'java'
 
 dependencies {
-  compile group: 'org.springframework', name: 'spring-web', version: '3.0.2.RELEASE'
+  compile group: 'org.springframework', name: 'spring-web', version: '4.3.9.RELEASE'
 }

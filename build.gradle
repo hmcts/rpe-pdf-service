@@ -106,6 +106,7 @@ dependencies {
 
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
     testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+    testCompile project(':service-client')
 }
 
 test {
