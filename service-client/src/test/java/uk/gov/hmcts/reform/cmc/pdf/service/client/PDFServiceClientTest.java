@@ -7,6 +7,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
+
 import static java.util.Collections.emptyMap;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,6 +32,11 @@ public class PDFServiceClientTest {
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenGivenEmptyTemplate() {
         client.generateFromHtml(new byte[] { }, emptyMap());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGivenNullPlaceholders() {
+        client.generateFromHtml("content".getBytes(Charset.defaultCharset()), null);
     }
 
 }

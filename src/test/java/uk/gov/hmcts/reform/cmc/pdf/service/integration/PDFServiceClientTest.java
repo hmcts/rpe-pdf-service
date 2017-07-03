@@ -10,9 +10,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.cmc.pdf.service.client.PDFServiceClient;
+import uk.gov.hmcts.reform.cmc.pdf.service.client.exception.PDFServiceClientException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
@@ -25,7 +27,7 @@ public class PDFServiceClientTest {
     @LocalServerPort
     private Integer runningPort;
 
-    private byte[] template = "<html><body>{{ hello }}</body></html>".getBytes();
+    private byte[] template = "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset());
     private Map<String, Object> placeholders = singletonMap("hello", "World!");
 
     private PDFServiceClient client;
@@ -43,6 +45,12 @@ public class PDFServiceClientTest {
     public void shouldGeneratePdfFromValidTemplateAndParameters() throws Exception {
         byte[] pdf = client.generateFromHtml(template, placeholders);
         assertThat(textContentOf(pdf)).contains("World!");
+    }
+
+    @Test(expected = PDFServiceClientException.class)
+    public void shouldThrowClientExceptionWhenEndpointReturnsError() throws Exception {
+        byte[] malformedTemplate = "<html malformed html".getBytes(Charset.defaultCharset());
+        client.generateFromHtml(malformedTemplate, placeholders);
     }
 
     private static String textContentOf(byte[] pdfData) throws IOException {
