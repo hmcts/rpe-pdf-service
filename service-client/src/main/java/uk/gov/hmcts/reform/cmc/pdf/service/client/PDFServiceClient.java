@@ -27,6 +27,9 @@ public class PDFServiceClient {
     }
 
     public byte[] generateFromHtml(byte[] template, Map<String, Object> placeholders) {
+        if (template == null || template.length == 0) {
+            throw new IllegalArgumentException("Template must not be empty");
+        }
         MultiValueMap<String, Object> formData = new LinkedMultiValueMap<>();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);

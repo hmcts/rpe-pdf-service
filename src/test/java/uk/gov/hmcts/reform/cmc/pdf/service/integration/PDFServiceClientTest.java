@@ -10,10 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.cmc.pdf.service.client.PDFServiceClient;
+import uk.gov.hmcts.reform.cmc.pdf.service.client.exception.PDFServiceClientException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 import static java.util.Collections.singletonMap;
@@ -25,6 +25,9 @@ public class PDFServiceClientTest {
 
     @LocalServerPort
     private Integer runningPort;
+
+    private byte[] template = "<html><body>{{ hello }}</body></html>".getBytes();
+    private Map<String, Object> placeholders = singletonMap("hello", "World!");
 
     private PDFServiceClient client;
 
@@ -39,12 +42,18 @@ public class PDFServiceClientTest {
 
     @Test
     public void shouldGeneratePdfFromValidTemplateAndParameters() throws Exception {
-        byte[] template = "<html><body>{{ hello }}</body></html>".getBytes();
-        Map<String, Object> placeholders = singletonMap("hello", "World!");
-
         byte[] pdf = client.generateFromHtml(template, placeholders);
-
         assertThat(textContentOf(pdf)).contains("World!");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGivenNullTemplate() {
+        client.generateFromHtml(null, placeholders);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenGivenEmptyTemplate() {
+        client.generateFromHtml(new byte[] { }, placeholders);
     }
 
     private static String textContentOf(byte[] pdfData) throws IOException {
