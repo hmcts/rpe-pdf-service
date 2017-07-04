@@ -7,7 +7,7 @@ import java.nio.charset.Charset;
 
 import static java.util.Collections.emptyMap;
 
-public class PDFServiceClientTest {
+public class PDFServiceClientInputChecksTest {
 
     private PDFServiceClient client;
 
