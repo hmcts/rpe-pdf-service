@@ -16,7 +16,7 @@ public class PDFServiceClientTest {
         client = new PDFServiceClient("http://this-can-be-anything/");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldThrowIllegalArgumentExceptionWhenGivenNullTemplate() {
         client.generateFromHtml(null, emptyMap());
     }
@@ -26,11 +26,10 @@ public class PDFServiceClientTest {
         client.generateFromHtml(new byte[] { }, emptyMap());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void shouldThrowIllegalArgumentExceptionWhenGivenNullPlaceholders() {
         client.generateFromHtml("content".getBytes(Charset.defaultCharset()), null);
     }
-
 
 
 }

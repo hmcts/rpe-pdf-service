@@ -12,6 +12,9 @@ import uk.gov.hmcts.reform.cmc.pdf.service.client.http.FileBytesResource;
 
 import java.util.Map;
 
+import static uk.gov.hmcts.reform.cmc.pdf.service.client.util.Preconditions.checkNotEmpty;
+import static uk.gov.hmcts.reform.cmc.pdf.service.client.util.Preconditions.checkNotNull;
+
 public class PDFServiceClient {
 
     private static final String GENERATE_FROM_HTML_ENDPOINT_PATH = "/html";
@@ -25,12 +28,9 @@ public class PDFServiceClient {
     }
 
     public byte[] generateFromHtml(byte[] template, Map<String, Object> placeholders) {
-        if (template == null || template.length == 0) {
-            throw new IllegalArgumentException("Template must not be empty");
-        }
-        if (placeholders == null) {
-            throw new IllegalArgumentException("Placeholders may not be null");
-        }
+        checkNotNull(template);
+        checkNotEmpty(template);
+        checkNotNull(placeholders);
 
         try {
             return restTemplate.postForObject(
