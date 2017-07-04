@@ -69,6 +69,25 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
       }
 
+      onMaster {
+        stage('Publish Client JAR') {
+          if (params.publishArtifacts) {
+            def server = Artifactory.server 'artifactory.reform'
+            def buildInfo = Artifactory.newBuildInfo()
+            def rtGradle = Artifactory.newGradleBuild()
+            rtGradle.useWrapper = true
+            rtGradle.deployer repo: 'libs-release', server: server
+            rtGradle.resolver repo: 'libs-release', server: server
+
+            rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
+
+            server.publishBuildInfo buildInfo
+          } else {
+            print 'Artifacts publishing skipped'
+          }
+        }
+      }
+
       RPMTagger rpmTagger = new RPMTagger(this,
         'pdf-service',
         packager.rpmName('pdf-service', pdfServiceRPMVersion),
@@ -87,24 +106,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-      onMaster {
-        stage('Publish Client JAR') {
-          if (publishArtifacts == true) {
-            def server = Artifactory.server 'artifactory.reform'
-            def buildInfo = Artifactory.newBuildInfo()
-            def rtGradle = Artifactory.newGradleBuild()
-            rtGradle.useWrapper = true
-            rtGradle.deployer repo: 'libs-release', server: server
-            rtGradle.resolver repo: 'libs-release', server: server
-
-            rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
-
-            server.publishBuildInfo buildInfo
-          } else {
-            print 'Artifacts publishing skipped'
-          }
-        }
-      }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
