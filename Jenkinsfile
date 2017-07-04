@@ -87,7 +87,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-      onMaster {
+//      onMaster {
         stage('Publish Client JAR') {
           if (paparams.publishArtifacts) {
             def server = Artifactory.server 'artifactory.reform'
@@ -103,7 +103,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           } else {
             print 'Artifacts publishing skipped'
           }
-        }
+//        }
       }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
