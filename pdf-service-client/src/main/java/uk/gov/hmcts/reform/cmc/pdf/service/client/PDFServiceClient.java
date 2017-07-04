@@ -65,7 +65,7 @@ public class PDFServiceClient {
      * The 'filename' attribute is needed in multipart/form-data part's Content-Disposition. Otherwise
      * the endpoint will not treat sent bytes as a MultipartFile.
      */
-    private class FileBytesResource extends ByteArrayResource {
+    private static class FileBytesResource extends ByteArrayResource {
 
         private static final String DEFAULT_FILE_NAME = "template.html";
 
