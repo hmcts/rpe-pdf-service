@@ -69,24 +69,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
       }
 
-      RPMTagger rpmTagger = new RPMTagger(this,
-        'pdf-service',
-        packager.rpmName('pdf-service', pdfServiceRPMVersion),
-        'cmc-local'
-      )
-      onMaster {
-        milestone()
-        lock(resource: "CMC-deploy-dev", inversePrecedence: true) {
-          stage('Deploy (Dev)') {
-            ansibleCommitId = ansible.runDeployPlaybook(version, 'dev')
-            rpmTagger.tagDeploymentSuccessfulOn('dev')
-            rpmTagger.tagAnsibleCommit(ansibleCommitId)
-          }
-        }
-
-        milestone()
-      }
-
       onMaster {
         stage('Publish Client JAR') {
           if (params.publishArtifacts) {
@@ -105,6 +87,25 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           }
         }
       }
+
+      RPMTagger rpmTagger = new RPMTagger(this,
+        'pdf-service',
+        packager.rpmName('pdf-service', pdfServiceRPMVersion),
+        'cmc-local'
+      )
+      onMaster {
+        milestone()
+        lock(resource: "CMC-deploy-dev", inversePrecedence: true) {
+          stage('Deploy (Dev)') {
+            ansibleCommitId = ansible.runDeployPlaybook(version, 'dev')
+            rpmTagger.tagDeploymentSuccessfulOn('dev')
+            rpmTagger.tagAnsibleCommit(ansibleCommitId)
+          }
+        }
+
+        milestone()
+      }
+
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
