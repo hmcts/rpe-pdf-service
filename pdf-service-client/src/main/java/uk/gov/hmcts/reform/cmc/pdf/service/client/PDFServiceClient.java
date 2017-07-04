@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.cmc.pdf.service.client;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -8,7 +9,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.cmc.pdf.service.client.exception.PDFServiceClientException;
-import uk.gov.hmcts.reform.cmc.pdf.service.client.http.FileBytesResource;
 
 import java.util.Map;
 
@@ -59,6 +59,35 @@ public class PDFServiceClient {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         return new HttpEntity<>(formData, headers);
+    }
+
+    /**
+     * The 'filename' attribute is needed in multipart/form-data part's Content-Disposition. Otherwise
+     * the endpoint will not treat sent bytes as a MultipartFile.
+     */
+    private class FileBytesResource extends ByteArrayResource {
+
+        private static final String DEFAULT_FILE_NAME = "template.html";
+
+        private FileBytesResource(byte[] byteArray) {
+            super(byteArray);
+        }
+
+        @Override
+        public String getFilename() {
+            return DEFAULT_FILE_NAME;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return super.equals(obj);
+        }
+
+        @Override
+        public int hashCode() {
+            return super.hashCode();
+        }
+
     }
 
 }
