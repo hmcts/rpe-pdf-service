@@ -8,7 +8,6 @@ import org.pdfbox.util.PDFTextStripper;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 import uk.gov.hmcts.reform.cmc.pdf.service.client.PDFServiceClient;
 import uk.gov.hmcts.reform.cmc.pdf.service.client.exception.PDFServiceClientException;
 
@@ -34,7 +33,7 @@ public class PDFServiceClientTest {
 
     @Before
     public void beforeEachTest() {
-        client = new PDFServiceClient(new RestTemplate(), testInstanceUrl());
+        client = new PDFServiceClient(testInstanceUrl());
     }
 
     private String testInstanceUrl() {

@@ -19,12 +19,8 @@ public class PDFServiceClient {
     private final RestTemplate restTemplate;
     private final String pdfServiceBaseUrl;
 
-    public PDFServiceClient() {
-        this(new RestTemplate(), System.getenv("PDF_SERVICE_URL"));
-    }
-
-    public PDFServiceClient(RestTemplate restTemplate, String pdfServiceBaseUrl) {
-        this.restTemplate = restTemplate;
+    public PDFServiceClient(String pdfServiceBaseUrl) {
+        this.restTemplate = new RestTemplate();
         this.pdfServiceBaseUrl = pdfServiceBaseUrl;
     }
 
