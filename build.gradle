@@ -8,9 +8,10 @@ plugins {
   id 'com.github.ben-manes.versions' version '0.14.0'
 }
 
+def springBootVersion = '1.5.4.RELEASE'
+
 allprojects {
 
-  apply plugin: 'application'
   apply plugin: 'checkstyle'
   apply plugin: 'findbugs'
   apply plugin: 'io.spring.dependency-management'
@@ -19,7 +20,7 @@ allprojects {
   apply plugin: 'com.github.ben-manes.versions'
 
   group 'uk.gov.hmcts.reform.cmc'
-  version '1.0.0-beta'
+  version '1.0.0'
 
   checkstyle.toolVersion = '7.2'
   checkstyle.configFile = new File(rootDir, "checkstyle.xml")
@@ -56,8 +57,6 @@ allprojects {
     options.compilerArgs << '-parameters'
   }
 
-  mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
-
   repositories {
     mavenLocal()
     jcenter() // fallback for developers without access to Reform Artifactory
@@ -66,9 +65,24 @@ allprojects {
     }
   }
 
+  test {
+    exclude 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  task apiTest(type: Test) {
+    include 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  dependencies {
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+  }
+
 }
 
-def springBootVersion = '1.5.4.RELEASE'
+apply plugin: 'application'
+
+mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
 
 dependencyManagement {
   imports {
@@ -76,43 +90,35 @@ dependencyManagement {
   }
 }
 
-def versions = [
-  springBoot      : springBootVersion,
-  jackson         : dependencyManagement.importedProperties['jackson.version'],
-  springfoxSwagger: '2.6.1'
-]
+ext {
+  versions = [
+    springBoot      : springBootVersion,
+    spring          : '4.3.9.RELEASE',
+    jackson         : dependencyManagement.importedProperties['jackson.version'],
+    springfoxSwagger: '2.6.1'
+  ]
+}
 
 def debug = System.getProperty("debug")
 
 dependencies {
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: versions.jackson
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: versions.jackson
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: versions.jackson
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: versions.jackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: versions.springfoxSwagger
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: versions.springfoxSwagger
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
 
-    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.7.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: versions.springBoot
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: versions.springBoot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
 
     compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.0.0'
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: '1.0.0'
 
     compile project(':pdf-generator')
-
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: versions.springBoot
-    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
-}
-
-test {
-  exclude 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
-}
-
-task apiTest(type: Test) {
-  include 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
 }
 
 jar {
