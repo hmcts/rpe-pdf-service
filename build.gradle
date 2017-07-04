@@ -65,6 +65,19 @@ allprojects {
     }
   }
 
+  test {
+    exclude 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  task apiTest(type: Test) {
+    include 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  dependencies {
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+  }
+
 }
 
 apply plugin: 'application'
@@ -106,18 +119,6 @@ dependencies {
     compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: '1.0.0'
 
     compile project(':pdf-generator')
-
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: project.versions.springBoot
-    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
-    testCompile project(':pdf-service-client')
-}
-
-test {
-  exclude 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
-}
-
-task apiTest(type: Test) {
-  include 'uk/gov/hmcts/reform/cmc/pdf/service/integration/**'
 }
 
 jar {
