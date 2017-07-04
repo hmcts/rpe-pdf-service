@@ -89,7 +89,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
 
       onMaster {
         stage('Publish Client JAR') {
-          if (publishArtifacts == true) {
+          if (params.publishArtifacts) {
             def server = Artifactory.server 'artifactory.reform'
             def buildInfo = Artifactory.newBuildInfo()
             def rtGradle = Artifactory.newGradleBuild()
