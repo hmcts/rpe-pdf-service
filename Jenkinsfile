@@ -88,7 +88,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       onMaster {
         stage('Publish Client JAR') {
           sh '''
-            ./gradlew service-client:install
+            ./gradlew pdf-service-client:install
           '''
         }
       }
