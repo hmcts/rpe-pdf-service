@@ -87,9 +87,9 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-//      onMaster {
+      onMaster {
         stage('Publish Client JAR') {
-          if (publishArtifacts) {
+          if (publishArtifacts == true) {
             def server = Artifactory.server 'artifactory.reform'
             def buildInfo = Artifactory.newBuildInfo()
             def rtGradle = Artifactory.newGradleBuild()
@@ -103,7 +103,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           } else {
             print 'Artifacts publishing skipped'
           }
-//        }
+        }
       }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
