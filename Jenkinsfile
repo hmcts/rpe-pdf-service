@@ -2,6 +2,9 @@
 
 properties(
   [[$class: 'GithubProjectProperty', projectUrlStr: 'http://git.reform.hmcts.net/cmc/pdf-service/'],
+   parameters(
+     [booleanParam( name: 'publishArtifacts', description: 'Whether to publish artifacts to Artifactory during the run', defaultValue: true)]
+   ),
    pipelineTriggers([[$class: 'GitHubPushTrigger']])]
 )
 
@@ -86,16 +89,20 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
 
       onMaster {
         stage('Publish Client JAR') {
-          def server = Artifactory.server 'artifactory.reform'
-          def buildInfo = Artifactory.newBuildInfo()
-          def rtGradle = Artifactory.newGradleBuild()
-          rtGradle.useWrapper = true
-          rtGradle.deployer repo: 'libs-release', server: server
-          rtGradle.resolver repo: 'libs-release', server: server
+          if (paparams.publishArtifacts) {
+            def server = Artifactory.server 'artifactory.reform'
+            def buildInfo = Artifactory.newBuildInfo()
+            def rtGradle = Artifactory.newGradleBuild()
+            rtGradle.useWrapper = true
+            rtGradle.deployer repo: 'libs-release', server: server
+            rtGradle.resolver repo: 'libs-release', server: server
 
-          rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
+            rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
 
-          server.publishBuildInfo buildInfo
+            server.publishBuildInfo buildInfo
+          } else {
+            print 'Artifacts publishing skipped'
+          }
         }
       }
     } catch (err) {
