@@ -31,5 +31,14 @@ public class PDFServiceClientTest {
         client.generateFromHtml("content".getBytes(Charset.defaultCharset()), null);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void constructorShouldThrowNullPointerWWhenGivenNullServiceURLString() {
+        new PDFServiceClient(null);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void constructorShouldThrowIllegalArgumentWWhenGivenInvalidServiceURLString() {
+        new PDFServiceClient("this is not a URL");
+    }
 
 }

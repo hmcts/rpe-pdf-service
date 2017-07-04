@@ -14,6 +14,7 @@ import java.util.Map;
 
 import static uk.gov.hmcts.reform.cmc.pdf.service.client.util.Preconditions.checkNotEmpty;
 import static uk.gov.hmcts.reform.cmc.pdf.service.client.util.Preconditions.checkNotNull;
+import static uk.gov.hmcts.reform.cmc.pdf.service.client.util.Preconditions.checkValidURL;
 
 public class PDFServiceClient {
 
@@ -23,6 +24,8 @@ public class PDFServiceClient {
     private final String pdfServiceBaseUrl;
 
     public PDFServiceClient(String pdfServiceBaseUrl) {
+        checkNotNull(pdfServiceBaseUrl);
+        checkValidURL(pdfServiceBaseUrl);
         this.restTemplate = new RestTemplate();
         this.pdfServiceBaseUrl = pdfServiceBaseUrl;
     }
