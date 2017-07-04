@@ -14,7 +14,6 @@ import uk.gov.hmcts.RPMTagger
 def ansible = new Ansible(this, 'cmc')
 def packager = new Packager(this, 'cmc')
 def versioner = new Versioner(this)
-def server = Artifactory.server 'artifactory.reform'
 
 milestone()
 lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
@@ -85,19 +84,20 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-//      onMaster {
+      onMaster {
         stage('Publish Client JAR') {
-          def buildInfo = server.newBuildInfo()
-          def rtGradle = server.newGradleBuild()
+          def server = Artifactory.server 'artifactory.reform'
+          def buildInfo = Artifactory.newBuildInfo()
+          def rtGradle = Artifactory.newGradleBuild()
           rtGradle.useWrapper = true
-          rtGradle.deployer repo: 'libs-snapshot', server: server
+          rtGradle.deployer repo: 'libs-release', server: server
           rtGradle.resolver repo: 'libs-release', server: server
 
-          rtGradle.run rootDir: ".", buildFile: "build.gradle", task: 'clean pdf-service-client:build'
+          rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
 
           server.publishBuildInfo buildInfo
         }
-//      }
+      }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
