@@ -85,13 +85,19 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         milestone()
       }
 
-      onMaster {
+//      onMaster {
         stage('Publish Client JAR') {
-          sh '''
-            ./gradlew pdf-service-client:install
-          '''
+          def buildInfo = server.newBuildInfo()
+          def rtGradle = server.newGradleBuild()
+          rtGradle.useWrapper = true
+          rtGradle.deployer repo: 'libs-snapshot', server: server
+          rtGradle.resolver repo: 'libs-release', server: server
+
+          rtGradle.run rootDir: ".", buildFile: "build.gradle", task: 'clean pdf-service-client:build'
+
+          server.publishBuildInfo buildInfo
         }
-      }
+//      }
     } catch (err) {
       archiveArtifacts 'build/reports/**/*.html'
       archiveArtifacts 'build/pdf-service/reports/**/*.html'
