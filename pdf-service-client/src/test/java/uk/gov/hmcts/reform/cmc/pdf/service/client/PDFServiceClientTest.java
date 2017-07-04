@@ -31,4 +31,6 @@ public class PDFServiceClientTest {
         client.generateFromHtml("content".getBytes(Charset.defaultCharset()), null);
     }
 
+
+
 }
