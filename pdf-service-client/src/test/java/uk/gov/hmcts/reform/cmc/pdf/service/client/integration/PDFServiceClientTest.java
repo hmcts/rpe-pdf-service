@@ -25,9 +25,19 @@ public class PDFServiceClientTest {
 
     @LocalServerPort
     private Integer runningPort;
+    private static final String content = "Nguyễn Tấn Dũng Ą ą Ć ć Ę ę Ł ł Ń ń Ó ó Ś ś Ż ż Ź ź";
 
-    private byte[] template = "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset());
-    private Map<String, Object> placeholders = singletonMap("hello", "World!");
+    private final byte[] template = ("<?xml version=\"1.0\" encoding=\"UTF-8\"?><html>"
+        + " <head><meta charset=\"utf-8\"/>"
+        + " <style> "
+        + " html, body, table, td, th, span { "
+        + " font-family: Arial Unicode MS; "
+        + " }"
+        + " </style></head>"
+        + " <body><span>{{ hello }} </span></body></html>")
+        .getBytes(Charset.defaultCharset());
+
+    private Map<String, Object> placeholders = singletonMap("hello", content);
 
     private PDFServiceClient client;
 
@@ -43,7 +53,7 @@ public class PDFServiceClientTest {
     @Test
     public void shouldGeneratePdfFromValidTemplateAndParameters() throws Exception {
         byte[] pdf = client.generateFromHtml(template, placeholders);
-        assertThat(textContentOf(pdf)).contains("World!");
+        assertThat(textContentOf(pdf)).contains(content);
     }
 
     @Test(expected = PDFServiceClientException.class)

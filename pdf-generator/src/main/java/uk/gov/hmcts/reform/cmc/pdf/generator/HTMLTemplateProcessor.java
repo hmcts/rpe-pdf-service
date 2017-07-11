@@ -12,7 +12,7 @@ import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
@@ -43,7 +43,7 @@ public class HTMLTemplateProcessor {
      */
     public String process(byte[] template, Map<String, Object> context) {
         log.debug("Processing the template file");
-        String templateString = new String(template, Charset.defaultCharset());
+        String templateString = new String(template, StandardCharsets.UTF_8);
         log.trace("Template: {}", templateString);
         log.trace("Context: {}", context);
         try (Writer writer = new StringWriter()) {
