@@ -13,6 +13,8 @@ import uk.gov.hmcts.reform.cmc.pdf.service.client.exception.PDFServiceClientExce
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -43,11 +45,15 @@ public class PDFServiceClientTest {
 
     @Before
     public void beforeEachTest() {
-        client = new PDFServiceClient(testInstanceUrl());
+        client = new PDFServiceClient(testInstanceUrl(), "v1");
     }
 
-    private String testInstanceUrl() {
-        return "http://localhost:" + runningPort + "/api/v1/pdf-generator";
+    private URI testInstanceUrl() {
+        try {
+            return new URI("http://localhost:" + runningPort);
+        } catch (URISyntaxException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Test
