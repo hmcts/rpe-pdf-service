@@ -45,6 +45,27 @@ API documentation is provided in form of following Swagger endpoints:
 
 NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.cmc.pdfservice.controllers` package.  
 
+#### Non ASCII Characters Support
+
+To render PDF with non ASCII characters, please use the 'Arial Unicode MS' font-family.
+
+```css
+font-family: Arial Unicode MS;
+```
+
+Example:
+
+```html
+<head>
+   <style> 
+      html, body, table, td, th, span {
+      font-family: Arial Unicode MS; 
+      }
+   </style>
+</head>
+
+```
+
 ## Developing
 
 ### Unit tests
