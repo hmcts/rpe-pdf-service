@@ -58,7 +58,7 @@ public class PDFServiceClient {
      * Calls the PDF service healthcheck.
      * @return health status
      */
-    public Health healthy() {
+    public Health serviceHealthy() {
         try {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
