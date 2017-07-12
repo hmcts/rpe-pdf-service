@@ -1,11 +1,14 @@
 apply plugin: 'java'
+apply plugin: "maven"
 
-version '1.0.1'
+version '1.1.0'
 
 dependencies {
   compile group: 'org.springframework', name: 'spring-web', version: rootProject.versions.spring
   testCompile group: 'commons-logging', name: 'commons-logging', version: '1.2'
   testCompile rootProject
+
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
 }
 
 bootRepackage.enabled = false
