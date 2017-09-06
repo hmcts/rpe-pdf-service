@@ -1,0 +1,142 @@
+plugins {
+  id 'application'
+  id 'checkstyle'
+  id 'findbugs'
+  id 'io.spring.dependency-management' version '1.0.3.RELEASE'
+  id 'org.springframework.boot' version '1.5.6.RELEASE'
+  id 'org.owasp.dependencycheck' version '1.4.5.1'
+  id 'com.github.ben-manes.versions' version '0.15.0'
+}
+
+def springBootVersion = '1.5.6.RELEASE'
+
+allprojects {
+
+  apply plugin: 'checkstyle'
+  apply plugin: 'findbugs'
+  apply plugin: 'io.spring.dependency-management'
+  apply plugin: 'org.springframework.boot'
+  apply plugin: 'org.owasp.dependencycheck'
+  apply plugin: 'com.github.ben-manes.versions'
+
+  group 'uk.gov.hmcts.reform.cmc'
+  version '1.0.0'
+
+  checkstyle.toolVersion = '7.2'
+  checkstyle.configFile = new File(rootDir, "checkstyle.xml")
+
+  // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
+  tasks.withType(Checkstyle).each { checkstyleTask ->
+    checkstyleTask.doLast {
+      reports.all { report ->
+        def outputFile = report.destination
+        if (outputFile.exists() && outputFile.text.contains("<error ")) {
+          throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+        }
+      }
+    }
+  }
+
+  tasks.withType(FindBugs) {
+    reports {
+      xml.enabled = false
+      html.enabled = true
+    }
+  }
+
+  // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+  dependencyCheck {
+    // Specifies if the build should be failed if a CVSS score above a specified level is identified.
+    // range of 0-10 fails the build, anything greater and it doesn't fail the build
+    failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'true' ? 0 : 11
+    suppressionFile = 'dependency-check-suppressions.xml'
+  }
+
+  sourceCompatibility = 1.8
+  compileJava {
+    options.compilerArgs << '-parameters'
+  }
+
+  repositories {
+    mavenLocal()
+    jcenter()
+  }
+
+  test {
+    exclude 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  task apiTest(type: Test) {
+    include 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  }
+
+  dependencies {
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+  }
+
+}
+
+apply plugin: 'application'
+
+mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
+
+dependencyManagement {
+  imports {
+    mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
+  }
+}
+
+ext {
+  versions = [
+    springBoot      : springBootVersion,
+    spring          : '4.3.10.RELEASE',
+    jackson         : dependencyManagement.importedProperties['jackson.version'],
+    springfoxSwagger: '2.6.1'
+  ]
+}
+
+def debug = System.getProperty("debug")
+
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
+    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
+
+    compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
+
+    compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
+    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
+
+    compile project(':pdf-generator')
+}
+
+jar {
+  manifest {
+    attributes 'Implementation-Title': project.name,
+               'Implementation-Version': project.version
+  }
+}
+
+bootRepackage {
+    classifier 'all'
+}
+
+task printVersion {
+    doLast {
+        print project.version
+    }
+}
+
+run {
+    if (debug == 'true') {
+        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    }
+}

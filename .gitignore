@@ -1,0 +1,16 @@
+.DS_Store
+
+.gradle
+build
+classes
+out
+*.ipr
+*.iml
+*.iws
+
+.idea
+
+src/main/resources/version
+java-rpm-packaging/
+
+.gradletasknamecache

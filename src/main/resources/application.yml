@@ -1,0 +1,6 @@
+server:
+  port: 5500
+
+management:
+  security:
+    enabled: false

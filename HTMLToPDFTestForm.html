@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <form action="http://localhost:5500/api/v1/pdf-generator/html" method="POST" enctype="multipart/form-data">
+      Twig/HTML template: <input type="file" name="template">
+      <br>
+      <p>Enter JSON mapping PDF field names to required values.</p>
+      <textarea rows="10" cols="100" name="placeholderValues"></textarea>
+      <input type="submit">
+    </form>
+  </body>
+</html>
