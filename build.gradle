@@ -20,7 +20,7 @@ allprojects {
   apply plugin: 'com.github.ben-manes.versions'
 
   group 'uk.gov.hmcts.reform.cmc'
-  version '1.0.0'
+  version '1.0.1'
 
   checkstyle.toolVersion = '7.2'
   checkstyle.configFile = new File(rootDir, "checkstyle.xml")
