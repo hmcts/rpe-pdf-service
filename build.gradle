@@ -2,10 +2,12 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'findbugs'
+  id 'java-library'
   id 'io.spring.dependency-management' version '1.0.3.RELEASE'
   id 'org.springframework.boot' version '1.5.6.RELEASE'
   id 'org.owasp.dependencycheck' version '1.4.5.1'
   id 'com.github.ben-manes.versions' version '0.15.0'
+  id 'com.jfrog.bintray' version '1.7.3'
 }
 
 def springBootVersion = '1.5.6.RELEASE'
