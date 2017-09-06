@@ -1,0 +1,22 @@
+language: java
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+deploy:
+  - provider: script
+    script: './gradlew bintrayUpload'
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: releases
+    api_key:
+      secure: ML0uJ4IXsEcZdwIDE2YERH7MEUul1De/6mSneSjeQdUci7ZiZGPGH/spOvCMZH71Sv9bcRNaSAMPHPAYccL9w/We7M0BIim/Sr6VBeALX2834GbFO5x+FJznAshwKzbksG9WERyBm5/5MU2jeIuBK9pmhS8uyUhbaxWTZdv0VzDJRk5o/Db5FmpEiRN9SHFHdEA7Rju3yyg5O8vrDbiX0klVug2WyYxjjQul4fzyIOk05ORN+FNprSeMfo1A8U/hVqA/BnznCMAg535Q+YxXN5YPBNeNbCy+lx/aYTKvpsAbmEkuMxCWfGF5FwPSQNzu+jSmHbQ0YPCnnyqyHmUXwMmsxIgYbdxo2ovyUdlqwE88UuiwmNN/w0jiTM5YewsQQedS+iv5ez5+XsLvt5mSe9mHoc3wDekMQYkeokoubu8JWwauWvw1FeUexruf9bLzEFaWs8W0MF+P5JZtl6xfM3C7xnzgXuYzh/65Of1A4GQiFuu78hzDPlcL4qPfQAV3TqRKq1fJAnk5XNBmS5UxXB3zBCKi/JUosLljUx3zra+y9miPCv7yazHOJXGj1xkxa75d22bgmnNBE2S4cRvzTZUX0O9DYiWwpiCzTyZE8Hb610EaPdPmbSRoL0cINQoFhsZ3PkLV6GTXveHSItNFvDyAo01/rv9lj7cjx+yqcxw=
+    file_glob: true
+    file: pdf-service-client/build/libs/pdf-service-client-*.jar
+    skip_cleanup: true
+    on:
+      tags: true

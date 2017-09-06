@@ -1,5 +1,7 @@
 apply plugin: 'java'
-apply plugin: "maven"
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
 version '1.1.0'
 
@@ -9,6 +11,51 @@ dependencies {
   testCompile rootProject
 
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
+}
+
+publishing {
+  publications {
+    Main(MavenPublication) {
+      from components.java
+      artifact sourcesJar
+      artifact javadocJar
+      groupId project.group
+      artifactId 'java-logging'
+      version project.version
+    }
+  }
+}
+
+bintray {
+  user = System.getenv('BINTRAY_USER')
+  key = System.getenv('BINTRAY_KEY')
+  publications = ['Main']
+  publish = true
+  pkg {
+    repo = 'hmcts-maven'
+    name = 'pdf-service-client'
+    userOrg = 'hmcts'
+    licenses = ['MIT']
+    vcsUrl = 'https://github.com/hmcts/cmc-pdf-service'
+    version {
+      name = project.version
+    }
+  }
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+  classifier = 'sources'
+  from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  classifier = 'javadoc'
+  from javadoc.destinationDir
+}
+
+artifacts {
+  archives sourcesJar
+  archives javadocJar
 }
 
 bootRepackage.enabled = false
