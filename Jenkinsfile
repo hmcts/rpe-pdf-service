@@ -67,28 +67,6 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
       }
 
-      onMaster {
-        stage('Publish Client JAR') {
-          def clientVersion = sh returnStdout: true, script: './gradlew -q printClientVersion'
-          def clientVersionAlreadyPublished = checkJavaVersionPublished group: 'cmc', artifact: 'pdf-service-client', version: clientVersion
-
-          if (clientVersionAlreadyPublished) {
-            print "PDF Service Client version ${clientVersion} is already published, skipping"
-          } else {
-            def server = Artifactory.server 'artifactory.reform'
-            def buildInfo = Artifactory.newBuildInfo()
-            def rtGradle = Artifactory.newGradleBuild()
-            rtGradle.useWrapper = true
-            rtGradle.deployer repo: 'libs-release', server: server
-            rtGradle.resolver repo: 'libs-release', server: server
-
-            rtGradle.run rootDir: ".", buildFile: "pdf-service-client/build.gradle", tasks: 'clean assemble', buildInfo: buildInfo
-
-            server.publishBuildInfo buildInfo
-          }
-        }
-      }
-
       //noinspection GroovyVariableNotAssigned it is guaranteed to be assigned
       RPMTagger rpmTagger = new RPMTagger(this,
         'pdf-service',
