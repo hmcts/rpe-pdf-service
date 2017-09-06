@@ -29,23 +29,25 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         checkout scm
       }
 
-      stage('Build') {
-        versioner.addJavaVersionInfo()
-        sh "./gradlew build -x test"
-      }
-
-      stage('OWASP dependency check') {
-        try {
-          sh "./gradlew -DdependencyCheck.failBuild=true dependencyCheck"
-        } catch (ignored) {
-          archiveArtifacts 'build/reports/dependency-check-report.html'
-          notifyBuildResult channel: '#cmc-tech-notification', color: 'warning',
-            message: 'OWASP dependency check failed see the report for the errors'
+      onMaster {
+        stage('Build') {
+          versioner.addJavaVersionInfo()
+          sh "./gradlew build -x test"
         }
-      }
 
-      stage('Test (Unit)') {
-        sh "./gradlew test"
+        stage('OWASP dependency check') {
+          try {
+            sh "./gradlew -DdependencyCheck.failBuild=true dependencyCheck"
+          } catch (ignored) {
+            archiveArtifacts 'build/reports/dependency-check-report.html'
+            notifyBuildResult channel: '#cmc-tech-notification', color: 'warning',
+              message: 'OWASP dependency check failed see the report for the errors'
+          }
+        }
+
+        stage('Test (Unit)') {
+          sh "./gradlew test"
+        }
       }
 
       stage('Test (API)') {
