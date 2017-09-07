@@ -55,6 +55,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
       stage('Package (RPM)') {
+        sh "./gradlew bootRepackage"
         pdfServiceRPMVersion = packager.javaRPM('', 'pdf-service', 'build/libs/pdf-service-$(./gradlew -q printVersion)-all.jar',
           'springboot', 'src/main/resources/application.yml', true)
         version = "{pdf_service_buildnumber: ${pdfServiceRPMVersion} }"
