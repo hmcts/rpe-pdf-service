@@ -29,23 +29,25 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         checkout scm
       }
 
-      stage('Build') {
-        versioner.addJavaVersionInfo()
-        sh "./gradlew build -x test"
-      }
-
-      stage('OWASP dependency check') {
-        try {
-          sh "./gradlew -DdependencyCheck.failBuild=true dependencyCheck"
-        } catch (ignored) {
-          archiveArtifacts 'build/reports/dependency-check-report.html'
-          notifyBuildResult channel: '#cmc-tech-notification', color: 'warning',
-            message: 'OWASP dependency check failed see the report for the errors'
+      onMaster {
+        stage('Build') {
+          versioner.addJavaVersionInfo()
+          sh "./gradlew build -x test"
         }
-      }
 
-      stage('Test (Unit)') {
-        sh "./gradlew test"
+        stage('OWASP dependency check') {
+          try {
+            sh "./gradlew -DdependencyCheck.failBuild=true dependencyCheck"
+          } catch (ignored) {
+            archiveArtifacts 'build/reports/dependency-check-report.html'
+            notifyBuildResult channel: '#cmc-tech-notification', color: 'warning',
+              message: 'OWASP dependency check failed see the report for the errors'
+          }
+        }
+
+        stage('Test (Unit)') {
+          sh "./gradlew test"
+        }
       }
 
       stage('Test (API)') {
@@ -53,11 +55,12 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
       stage('Package (RPM)') {
+        sh "./gradlew bootRepackage"
         pdfServiceRPMVersion = packager.javaRPM('', 'pdf-service', 'build/libs/pdf-service-$(./gradlew -q printVersion)-all.jar',
           'springboot', 'src/main/resources/application.yml', true)
         version = "{pdf_service_buildnumber: ${pdfServiceRPMVersion} }"
 
-        if ("master" == "${env.BRANCH_NAME}") {
+        onMaster {
           packager.publishJavaRPM('pdf-service')
         }
       }
@@ -94,8 +97,10 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
     } catch (err) {
-      archiveArtifacts 'build/reports/**/*.html'
-      archiveArtifacts 'build/pdf-service/reports/**/*.html'
+      onMaster {
+        archiveArtifacts 'build/reports/**/*.html'
+        archiveArtifacts 'build/pdf-service/reports/**/*.html'
+      }
       notifyBuildFailure channel: '#cmc-tech-notification'
       throw err
     }
