@@ -50,6 +50,9 @@ API documentation is provided with Swagger:
 
 NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.cmc.pdfservice.controllers` package.
 
+### Consuming
+There is a client library provided for java https://github.com/hmcts/cmc-pdf-service-client
+
 #### Non ASCII Characters Support
 
 To render PDF with non ASCII characters, please use the 'Open Sans' font-family.
