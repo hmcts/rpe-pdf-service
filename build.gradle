@@ -1,11 +1,12 @@
 plugins {
   id 'application'
   id 'checkstyle'
-  id 'findbugs'
   id 'io.spring.dependency-management' version '1.0.3.RELEASE'
   id 'org.springframework.boot' version '1.5.6.RELEASE'
   id 'org.owasp.dependencycheck' version '1.4.5.1'
   id 'com.github.ben-manes.versions' version '0.15.0'
+  id 'org.sonarqube' version '2.5'
+  id 'jacoco'
 }
 
 def springBootVersion = '1.5.6.RELEASE'
@@ -13,7 +14,6 @@ def springBootVersion = '1.5.6.RELEASE'
 allprojects {
 
   apply plugin: 'checkstyle'
-  apply plugin: 'findbugs'
   apply plugin: 'io.spring.dependency-management'
   apply plugin: 'org.springframework.boot'
   apply plugin: 'org.owasp.dependencycheck'
@@ -37,13 +37,6 @@ allprojects {
     }
   }
 
-  tasks.withType(FindBugs) {
-    reports {
-      xml.enabled = false
-      html.enabled = true
-    }
-  }
-
   // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
   dependencyCheck {
     // Specifies if the build should be failed if a CVSS score above a specified level is identified.
@@ -62,12 +55,31 @@ allprojects {
     jcenter()
   }
 
-  test {
-    exclude 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+  sourceSets {
+    integrationTest {
+      java {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        srcDir('src/integrationTest/java')
+      }
+      resources {
+        srcDir('src/integrationTests/resources')
+      }
+    }
+  }
+
+  dependencies {
+    integrationTestCompile(sourceSets.test.output)
+    integrationTestCompile(project(':pdf-generator').sourceSets.main.output)
   }
 
   task apiTest(type: Test) {
-    include 'uk/gov/hmcts/reform/cmc/pdf/**/integration/**'
+    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
+    setClasspath(sourceSets.integrationTest.runtimeClasspath)
+  }
+
+  compileIntegrationTestJava {
+    options.compilerArgs << '-Xlint:deprecation'
   }
 
   dependencies {
@@ -96,47 +108,64 @@ ext {
   ]
 }
 
-def debug = System.getProperty("debug")
+configurations {
+  integrationTestCompile.extendsFrom(testCompile)
+  integrationTestRuntime.extendsFrom(testRuntime)
+}
 
 dependencies {
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
-    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
 
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
+  compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
+  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
 
-    compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
+  compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
 
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
 
-    compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
-    compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
+  compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
 
-    compile project(':pdf-generator')
+  compile project(':pdf-generator')
+}
+
+jacocoTestReport {
+  executionData(test, apiTest)
+}
+
+project.tasks['sonarqube'].dependsOn test, apiTest
+sonarqube {
+  properties {
+    property "sonar.projectName", "CMC :: PDF Service"
+    property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/apiTest.exec"
+  }
 }
 
 jar {
   manifest {
     attributes 'Implementation-Title': project.name,
-               'Implementation-Version': project.version
+      'Implementation-Version': project.version
   }
 }
 
 bootRepackage {
-    classifier 'all'
+  classifier 'all'
 }
 
 task printVersion {
-    doLast {
-        print project.version
-    }
+  doLast {
+    print project.version
+  }
 }
 
+def debug = System.getProperty("debug")
 run {
-    if (debug == 'true') {
-        jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
-    }
+  if (debug == 'true') {
+    jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+  }
 }

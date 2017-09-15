@@ -79,7 +79,7 @@ public class PDFGenerationEndpoint {
     }
 
     private static class MapType extends TypeReference<Map<String, Object>> {
-        private static MapType REFERENCE = new MapType();
+        private static final MapType REFERENCE = new MapType();
     }
 
 }
