@@ -54,6 +54,27 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         sh "./gradlew apiTest"
       }
 
+      stage('Sonar') {
+        onPR {
+          withCredentials([string(credentialsId: 'jenkins-public-github-api-token-text', variable: 'GITHUB_ACCESS_TOKEN')]) {
+            String prNumber = env.BRANCH_NAME.substring(3)
+            sh """
+               ./gradlew -Dsonar.analysis.mode=preview \
+                -Dsonar.github.pullRequest=$prNumber \
+                -Dsonar.github.repository=hmcts/cmc-pdf-service \
+                -Dsonar.github.oauth=$GITHUB_ACCESS_TOKEN \
+                -Dsonar.host.url=$SONARQUBE_URL \
+                sonarqube
+            """
+          }
+        }
+
+        onMaster {
+          sh "./gradlew -Dsonar.host.url=$SONARQUBE_URL sonarqube"
+        }
+      }
+
+
       stage('Package (RPM)') {
         sh "./gradlew bootRepackage"
         pdfServiceRPMVersion = packager.javaRPM('', 'pdf-service', 'build/libs/pdf-service-$(./gradlew -q printVersion)-all.jar',
