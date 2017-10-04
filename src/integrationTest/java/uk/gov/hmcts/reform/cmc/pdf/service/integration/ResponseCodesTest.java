@@ -85,6 +85,16 @@ public class ResponseCodesTest {
     }
 
     @Test
+    public void shouldReturn400WhenMissingPlaceholderValues() throws Exception {
+        webClient
+            .perform(fileUpload(API_URL)
+                .file("template", "<html><body> {{person}} </body></html>".getBytes(Charset.defaultCharset()))
+                .param("placeholderValues", "{}"))
+            .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
     public void shouldReturn200WhenCorrectHtmlTemplateIsSent() throws Exception {
         webClient
             .perform(fileUpload(API_URL)
