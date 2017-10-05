@@ -24,6 +24,7 @@ public class HTMLTemplateProcessor {
 
     public HTMLTemplateProcessor() {
         this(new PebbleEngine.Builder()
+            .strictVariables(true)
             .loader(new StringLoader())
             .cacheActive(false)
             .build()
