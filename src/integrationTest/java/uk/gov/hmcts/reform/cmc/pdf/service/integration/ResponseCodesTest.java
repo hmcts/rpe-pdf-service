@@ -93,7 +93,6 @@ public class ResponseCodesTest {
             .andExpect(status().isBadRequest());
     }
 
-
     @Test
     public void shouldReturn200WhenCorrectHtmlTemplateIsSent() throws Exception {
         webClient
