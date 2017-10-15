@@ -1,5 +1,7 @@
 # PDF service
 
+[![codecov](https://codecov.io/gh/hmcts/cmc-pdf-service/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/cmc-pdf-service)
+
 This is a PDF service which allows to generate read-only PDFs based on given template in HTML/Twig format and 
 placeholder data in JSON format. 
 The service provides a single RESTful endpoint that merges both template and placeholder data together and 
