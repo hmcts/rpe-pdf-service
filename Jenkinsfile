@@ -106,15 +106,13 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
             rpmTagger.tagAnsibleCommit(ansibleCommitId)
           }
         }
-
         milestone()
-        lock(resource: "CMC-deploy-demo", inversePrecedence: true) {
-          stage('Deploy (Demo)') {
-            ansible.runDeployPlaybook(version, 'demo')
-          }
-        }
-
-        milestone()
+//        lock(resource: "CMC-deploy-demo", inversePrecedence: true) {
+//          stage('Deploy (Demo)') {
+//            ansible.runDeployPlaybook(version, 'demo')
+//          }
+//        }
+//        milestone()
       }
 
     } catch (err) {
