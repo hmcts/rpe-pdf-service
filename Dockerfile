@@ -1,10 +1,10 @@
-FROM openjdk:8-jre
-
-COPY build/install/pdf-service /opt/app/
+FROM openjdk:8-jre-alpine
 
 WORKDIR /opt/app
 
-HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy="" curl --silent --fail http://localhost:5500/health
+COPY build/install/pdf-service /opt/app/
+
+HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= wget -q http://localhost:5500/health || exit 1
 
 EXPOSE 5500
 
