@@ -4,7 +4,7 @@ WORKDIR /opt/app
 
 COPY build/install/pdf-service /opt/app/
 
-HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy="" curl --silent --fail http://localhost:5500/health
+HEALTHCHECK --interval=10s --timeout=10s --retries=10 CMD http_proxy= wget -q http://localhost:5500/health || exit 1
 
 EXPOSE 5500
 
