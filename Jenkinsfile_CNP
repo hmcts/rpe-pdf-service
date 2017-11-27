@@ -1,0 +1,12 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def product = "cmc"
+def component = "pdf-service"
+
+withPipeline("java", product, component) {
+  after('checkout') {
+    echo 'pdf-service checked out'
+  }
+}
