@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@feature/add-build-info")
 
 def product = "cmc"
 def component = "pdf-service"
