@@ -10,5 +10,5 @@ withPipeline("java", product, component) {
     echo 'pdf-service checked out'
   }
 
-  enableSlackNotifications('#cmc-tech-notification')
+//  enableSlackNotifications('#cmc-tech-notification')
 }
