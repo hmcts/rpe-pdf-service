@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@feature/add-build-info")
+@Library("Infrastructure@feature/add-slack-integration")
 
 def product = "cmc"
 def component = "pdf-service"
@@ -9,4 +9,6 @@ withPipeline("java", product, component) {
   after('checkout') {
     echo 'pdf-service checked out'
   }
+
+  enableSlackNotifications('#cmc-tech-notification')
 }
