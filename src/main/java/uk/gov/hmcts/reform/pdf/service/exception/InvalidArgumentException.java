@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.service.exception;
+package uk.gov.hmcts.reform.pdf.service.exception;
 
 public class InvalidArgumentException extends RuntimeException {
 

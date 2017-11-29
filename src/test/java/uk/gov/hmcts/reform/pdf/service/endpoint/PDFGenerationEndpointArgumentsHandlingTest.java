@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.service.endpoint;
+package uk.gov.hmcts.reform.pdf.service.endpoint;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -9,8 +9,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDFConverter;
-import uk.gov.hmcts.reform.cmc.pdf.service.exception.InvalidArgumentException;
+import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
+import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;

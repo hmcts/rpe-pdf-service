@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.service.exception;
+package uk.gov.hmcts.reform.pdf.service.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
+import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
 
 @ControllerAdvice
 public class ExceptionHandling {

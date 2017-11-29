@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.service.endpoint;
+package uk.gov.hmcts.reform.pdf.service.endpoint;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import uk.gov.hmcts.reform.cmc.pdf.generator.HTMLToPDFConverter;
-import uk.gov.hmcts.reform.cmc.pdf.service.exception.InvalidArgumentException;
+import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
+import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
 import java.util.Map;

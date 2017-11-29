@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.generator.exception;
+package uk.gov.hmcts.reform.pdf.generator.exception;
 
 public class PDFGenerationException extends RuntimeException {
 

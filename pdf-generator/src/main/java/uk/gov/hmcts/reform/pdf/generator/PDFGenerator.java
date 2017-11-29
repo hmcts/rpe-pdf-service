@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.generator;
+package uk.gov.hmcts.reform.pdf.generator;
 
 import com.lowagie.text.pdf.BaseFont;
 import org.slf4j.Logger;
@@ -7,8 +7,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
 import org.xhtmlrenderer.util.XRRuntimeException;
 import org.xml.sax.SAXParseException;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
+import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
+import uk.gov.hmcts.reform.pdf.generator.exception.PDFGenerationException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
