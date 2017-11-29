@@ -6,8 +6,8 @@ import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
+import uk.gov.hmcts.reform.cmc.pdf.exception.MalformedTemplateException;
+import uk.gov.hmcts.reform.cmc.pdf.exception.PDFGenerationException;
 
 import java.io.IOException;
 import java.io.StringWriter;
