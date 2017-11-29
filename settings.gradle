@@ -1,3 +1,4 @@
 rootProject.name = 'pdf-service'
-include 'pdf-generator'
 
+include 'pdf-generator'
+include 'pdf-templates'
