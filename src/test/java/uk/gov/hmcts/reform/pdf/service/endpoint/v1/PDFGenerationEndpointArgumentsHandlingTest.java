@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.pdf.service.endpoint;
+package uk.gov.hmcts.reform.pdf.service.endpoint.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
