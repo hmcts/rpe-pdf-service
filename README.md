@@ -50,7 +50,7 @@ As a result the following container(s) will get created and started:
 API documentation is provided with Swagger:
  - `http://localhost:5500/swagger-ui.html` - UI to interact with the API resources
 
-NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.cmc.pdfservice.controllers` package.
+NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.pdfservice.controllers` package.
 
 ### Consuming
 There is a client library provided for java https://github.com/hmcts/cmc-pdf-service-client

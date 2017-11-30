@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.service.integration;
+package uk.gov.hmcts.reform.pdf.service.integration;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

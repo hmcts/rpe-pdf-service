@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.generator;
+package uk.gov.hmcts.reform.pdf.generator;
 
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
@@ -6,8 +6,8 @@ import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.MalformedTemplateException;
-import uk.gov.hmcts.reform.cmc.pdf.generator.exception.PDFGenerationException;
+import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
+import uk.gov.hmcts.reform.pdf.generator.exception.PDFGenerationException;
 
 import java.io.IOException;
 import java.io.StringWriter;
