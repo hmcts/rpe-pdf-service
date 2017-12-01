@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@feature/Enable-deployments-for-cnp-branch")
+@Library("Infrastructure@feature/retry-for-healthcheck")
 
 def product = "cmc"
 def component = "pdf-service"
