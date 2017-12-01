@@ -13,7 +13,6 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
-import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfResponse;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
 
 import java.io.ByteArrayInputStream;
@@ -66,13 +65,11 @@ public class GeneratedPDFContentV2Test {
 
         MockHttpServletResponse response = webClient
             .perform(post(API_URL)
-                .accept(PDFGenerationEndpointV2.MEDIA_TYPE)
-                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_PDF_VALUE)
+                .contentType(PDFGenerationEndpointV2.MEDIA_TYPE)
                 .content(json))
             .andReturn().getResponse();
 
-        GeneratePdfResponse value = objectMapper.readValue(response.getContentAsString(), GeneratePdfResponse.class);
-
-        assertThat(textContentOf(value.file)).contains(expectedText);
+        assertThat(textContentOf(response.getContentAsByteArray())).contains(expectedText);
     }
 }

@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
-import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfResponse;
 
 @Api
 @RestController
 @RequestMapping(
     path = "pdf",
-    produces = PDFGenerationEndpointV2.MEDIA_TYPE
+    consumes = PDFGenerationEndpointV2.MEDIA_TYPE,
+    produces = MediaType.APPLICATION_PDF_VALUE
 )
 public class PDFGenerationEndpointV2 {
 
@@ -33,11 +35,11 @@ public class PDFGenerationEndpointV2 {
     }
 
     @PostMapping
-    public ResponseEntity<GeneratePdfResponse> generateFromHtml(
+    public ResponseEntity<ByteArrayResource> generateFromHtml(
         @RequestBody GeneratePdfRequest request
     ) {
         byte[] pdfDocument = htmlToPdf.convert(request.template, request.values);
         log.info("Generated document");
-        return ResponseEntity.ok(new GeneratePdfResponse(pdfDocument));
+        return ResponseEntity.ok(new ByteArrayResource(pdfDocument));
     }
 }
