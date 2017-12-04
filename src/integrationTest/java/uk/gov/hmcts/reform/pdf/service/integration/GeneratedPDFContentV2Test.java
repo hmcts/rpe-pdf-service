@@ -1,6 +1,7 @@
 package uk.gov.hmcts.reform.pdf.service.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.pdfbox.pdmodel.PDDocument;
@@ -18,7 +19,6 @@ import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,9 +52,7 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
-        Map<String, Object> values = new HashMap<String, Object>() {{
-            put("hello", "World!");
-        }};
+        Map<String, Object> values = ImmutableMap.of("hello", "World!");
         assertThatGeneratedPdfContains("<html>{{ hello }}</html>", values, "World!");
     }
 
