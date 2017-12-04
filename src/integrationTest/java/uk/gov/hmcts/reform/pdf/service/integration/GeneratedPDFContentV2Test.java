@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 public class GeneratedPDFContentV2Test {
 
-    private static final String API_URL = "/pdf";
+    private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired

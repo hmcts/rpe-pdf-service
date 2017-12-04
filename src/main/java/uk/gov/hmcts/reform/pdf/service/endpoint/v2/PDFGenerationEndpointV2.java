@@ -17,7 +17,7 @@ import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 @Api
 @RestController
 @RequestMapping(
-    path = "pdf",
+    path = "pdfs",
     consumes = PDFGenerationEndpointV2.MEDIA_TYPE,
     produces = MediaType.APPLICATION_PDF_VALUE
 )
