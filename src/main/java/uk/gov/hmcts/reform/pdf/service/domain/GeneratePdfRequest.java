@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class GeneratePdfRequest {
 
-    public final byte[] template;
+    public final String template;
     public final Map<String, Object> values;
 
     public GeneratePdfRequest(
-        @JsonProperty(value = "template", required = true) byte[] template,
+        @JsonProperty(value = "template", required = true) String template,
         @JsonProperty(value = "values", required = true) Map<String, Object> values
     ) {
         this.template = template;

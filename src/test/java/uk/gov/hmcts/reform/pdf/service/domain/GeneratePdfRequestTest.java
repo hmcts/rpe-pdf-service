@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Base64;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,14 +30,13 @@ public class GeneratePdfRequestTest {
     }
 
     @Test
-    public void template_is_byte_array_encoded_as_base64_string() throws IOException {
+    public void template_is_string() throws IOException {
         String originalSource = "<html>{{ test }}</html>";
-        String encodedSource = Base64.getEncoder().encodeToString(originalSource.getBytes());
-        String json = "{\"template\":\"" + encodedSource + "\",\"values\":{}}";
+        String json = "{\"template\":\"" + originalSource + "\",\"values\":{}}";
 
         GeneratePdfRequest pdfRequest = mapper.readValue(json, GeneratePdfRequest.class);
 
-        assertThat(new String(pdfRequest.template)).isEqualTo(originalSource);
+        assertThat(pdfRequest.template).isEqualTo(originalSource);
     }
 
     @Test

@@ -58,7 +58,7 @@ public class GeneratedPDFContentV2Test {
 
     private void assertThatGeneratedPdfContains(String template, Map<String, Object> values, String expectedText)
         throws Exception {
-        GeneratePdfRequest request = new GeneratePdfRequest(template.getBytes(), values);
+        GeneratePdfRequest request = new GeneratePdfRequest(template, values);
         String json = objectMapper.writeValueAsString(request);
 
         MockHttpServletResponse response = webClient

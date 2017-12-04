@@ -38,7 +38,7 @@ public class PDFGenerationEndpointV2 {
     public ResponseEntity<ByteArrayResource> generateFromHtml(
         @RequestBody GeneratePdfRequest request
     ) {
-        byte[] pdfDocument = htmlToPdf.convert(request.template, request.values);
+        byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values);
         log.info("Generated document");
         return ResponseEntity.ok(new ByteArrayResource(pdfDocument));
     }
