@@ -24,4 +24,4 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
   - java -cp ~/codacy-coverage-reporter-assembly-latest.jar com.codacy.CodacyCoverageReporter -l Java -r build/reports/jacoco/test/jacocoTestReport.xml
-  - if [ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" = "false" ]; then ./publish-swagger-docs.sh; fi
+  - test "$TRAVIS_BRANCH" = "master" && test "$TRAVIS_PULL_REQUEST" = "false" && sh ./publish-swagger-docs.sh
