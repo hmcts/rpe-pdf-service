@@ -127,6 +127,8 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
 
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
+
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
 
