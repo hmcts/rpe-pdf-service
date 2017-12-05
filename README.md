@@ -52,6 +52,14 @@ API documentation is provided with Swagger:
 
 NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.pdfservice.controllers` package.
 
+
+### Service authentication
+
+Since API v2, service to service authentication header presence is required. Endpoints are automatically authenticated if and when first argument in the method definition is `@RequestHeader("ServiceAuthorization") String serviceAuthHeader`:
+
+- Annotation is Spring framework requirement for defining incoming header
+- Authentication provider only requires `String` to be present in order to authenticate
+
 ### Consuming
 There is a client library provided for java https://github.com/hmcts/cmc-pdf-service-client
 
