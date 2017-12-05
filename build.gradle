@@ -125,6 +125,7 @@ dependencies {
   compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
 
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: project.versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
