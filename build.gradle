@@ -91,7 +91,7 @@ allprojects {
 
 apply plugin: 'application'
 
-mainClassName = 'uk.gov.hmcts.reform.cmc.pdf.service.PDFServiceApplication'
+mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
 dependencyManagement {
   imports {
@@ -151,7 +151,7 @@ project.tasks['sonarqube'].dependsOn test, apiTest
 project.tasks['check'].dependsOn apiTest
 sonarqube {
   properties {
-    property "sonar.projectName", "CMC :: PDF Service"
+    property "sonar.projectName", "Platform :: PDF Service"
     property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
     property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/apiTest.exec"
   }

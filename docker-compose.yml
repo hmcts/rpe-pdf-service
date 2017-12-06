@@ -20,4 +20,4 @@ services:
     volumes:
       - ./build/install/pdf-service:/opt/app/
     ports:
-      - 5500:5500
+      - $SERVER_PORT:$SERVER_PORT
