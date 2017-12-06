@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
-import uk.gov.hmcts.reform.pdf.service.service.AuthService;
+import uk.gov.hmcts.reform.pdf.service.service.AuthorisationService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class GeneratedPDFContentV2Test {
     private HTMLToPDFConverter converter;
 
     @MockBean
-    private AuthService authService;
+    private AuthorisationService authorisationService;
 
     private static String textContentOf(byte[] pdfData) throws IOException {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
@@ -66,7 +66,7 @@ public class GeneratedPDFContentV2Test {
 
     @After
     public void verifyAuth() {
-        verify(authService).authenticate("some-service-auth-header");
+        verify(authorisationService).authorise("some-service-auth-header");
     }
 
     @Test
@@ -86,7 +86,7 @@ public class GeneratedPDFContentV2Test {
         Response feignResponse = Response.builder().headers(Collections.emptyMap()).status(666).build();
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
 
-        when(authService.authenticate("some-service-auth-header")).thenThrow(exception);
+        when(authorisationService.authorise("some-service-auth-header")).thenThrow(exception);
 
         HttpServletResponse response = getResponse("<html></html>", Collections.emptyMap());
 
