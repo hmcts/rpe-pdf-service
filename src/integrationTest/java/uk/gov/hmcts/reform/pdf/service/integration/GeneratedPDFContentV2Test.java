@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -83,14 +84,17 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     public void failAuthentication() throws Exception {
-        Response feignResponse = Response.builder().headers(Collections.emptyMap()).status(666).build();
+        Response feignResponse = Response.builder()
+            .headers(Collections.emptyMap())
+            .status(HttpStatus.UNAUTHORIZED.value())
+            .build();
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
 
         when(authorisationService.authorise("some-service-auth-header")).thenThrow(exception);
 
         HttpServletResponse response = getResponse("<html></html>", Collections.emptyMap());
 
-        assertThat(response.getStatus()).isEqualTo(666);
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
         verify(converter, never()).convert(any(), anyMapOf(String.class, Object.class));
     }
 
