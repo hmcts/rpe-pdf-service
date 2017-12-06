@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
@@ -36,6 +37,7 @@ public class PDFGenerationEndpointV2 {
 
     @PostMapping
     public ResponseEntity<ByteArrayResource> generateFromHtml(
+        @RequestHeader("ServiceAuthorization") String serviceAuthHeader,
         @RequestBody GeneratePdfRequest request
     ) {
         byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values);
