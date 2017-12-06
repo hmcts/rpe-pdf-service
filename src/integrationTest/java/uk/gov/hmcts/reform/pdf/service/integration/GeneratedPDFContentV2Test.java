@@ -83,7 +83,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void failAuthentication() throws Exception {
+    public void shouldFailAuthorisationWhenServiceThrowsException() throws Exception {
         Response feignResponse = Response.builder()
             .headers(Collections.emptyMap())
             .status(HttpStatus.UNAUTHORIZED.value())
