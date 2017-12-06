@@ -23,7 +23,7 @@ public class PDFGeneratorTest {
     }
 
     @Test
-    public void shouldProcessSuccessfullyWhenGivenAfterRunningIllegalHTMLThroughSanitizer() {
+    public void shouldProcessSuccessfullyAfterRunningIllegalHTMLThroughSanitizer() {
         String illegalHTML = ResourceLoader.loadString("/illegal-characters.html");
 
         Throwable thrown = catchThrowable(() -> pdfGenerator.generateFrom(contentSanitizer.stripIllegalCharacters(illegalHTML)));
