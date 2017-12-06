@@ -6,6 +6,7 @@ import org.xml.sax.SAXParseException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public class PDFGeneratorTest {
 
     private PDFGenerator pdfGenerator = new PDFGenerator();
@@ -26,7 +27,9 @@ public class PDFGeneratorTest {
     public void shouldProcessSuccessfullyAfterRunningIllegalHTMLThroughSanitizer() {
         String illegalHTML = ResourceLoader.loadString("/illegal-characters.html");
 
-        Throwable thrown = catchThrowable(() -> pdfGenerator.generateFrom(contentSanitizer.stripIllegalCharacters(illegalHTML)));
+        Throwable thrown = catchThrowable(
+            () -> pdfGenerator.generateFrom(contentSanitizer.stripIllegalCharacters(illegalHTML))
+        );
 
         assertThat(thrown).isNull();
     }

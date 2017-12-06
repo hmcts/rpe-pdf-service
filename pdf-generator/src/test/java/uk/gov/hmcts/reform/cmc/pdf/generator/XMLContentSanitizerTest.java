@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@SuppressWarnings({
+    "checkstyle:AvoidEscapedUnicodeCharacters", "checkstyle:AbbreviationAsWordInName", "checkstyle:IllegalTokenText" })
 public class XMLContentSanitizerTest {
 
     private XMLContentSanitizer contentSanitizer = new XMLContentSanitizer();
@@ -52,7 +54,7 @@ public class XMLContentSanitizerTest {
     }
 
     @Test
-    public void shouldStripFFFEAnfFFFFSpecialCharacters() {
+    public void shouldStripFFFEAndFFFFSpecialCharacters() {
         String input = "\uFFFE\uFFFF";
         String output = contentSanitizer.stripIllegalCharacters(input);
         assertThat(output).isEqualTo("");

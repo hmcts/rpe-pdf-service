@@ -28,6 +28,7 @@ package uk.gov.hmcts.reform.cmc.pdf.generator;
  *   </li>
  * </ul></p>
  */
+@SuppressWarnings("checkstyle:IllegalTokenText")
 public class XMLContentSanitizer {
 
     private static final String INVALID_XML_CHARS = "[^\\u0009\\u000A\\u000D\\u0020-\\uD7FF\\uE000-\\uFFFD]";
