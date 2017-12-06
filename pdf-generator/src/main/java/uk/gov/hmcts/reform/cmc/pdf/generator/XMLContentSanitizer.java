@@ -5,7 +5,7 @@ package uk.gov.hmcts.reform.cmc.pdf.generator;
  *
  * <p>Decided to strip the <code>[#x10000-#x10FFFF]</code> supplementary plane characters as well since allowing them would make the
  * code much more complex. This is because Java String is UTF-16 and does not support those as literals and I would
- * need to operate on surrogate code pairs.</p>
+ * need to operate on surrogate code pairs. Also it's rather unlikely someone would use them as they essentially are some hieroglyphs.</p>
  *
  *
  * <p>For reference:
