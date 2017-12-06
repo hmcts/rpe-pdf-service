@@ -13,7 +13,11 @@ public class HTMLToPDFConverter {
         this(new HTMLTemplateProcessor(), new PDFGenerator(), new XMLContentSanitizer());
     }
 
-    public HTMLToPDFConverter(HTMLTemplateProcessor templateProcessor, PDFGenerator pdfGenerator, XMLContentSanitizer xmlContentSanitizer) {
+    public HTMLToPDFConverter(
+        HTMLTemplateProcessor templateProcessor,
+        PDFGenerator pdfGenerator,
+        XMLContentSanitizer xmlContentSanitizer
+    ) {
         this.templateProcessor = templateProcessor;
         this.pdfGenerator = pdfGenerator;
         this.xmlContentSanitizer = xmlContentSanitizer;
