@@ -29,7 +29,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         checkout scm
       }
 
-      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
+      if (env.BRANCH_NAME == 'hotfix/Strip-illegal-xml-characters') {
         stage('Build') {
           versioner.addJavaVersionInfo()
           sh "./gradlew build -x test"
@@ -69,7 +69,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           }
         }
 
-        if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
+        if (env.BRANCH_NAME == 'hotfix/Strip-illegal-xml-characters') {
           sh "./gradlew -Dsonar.host.url=$SONARQUBE_URL sonarqube"
         }
       }
@@ -81,7 +81,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           'springboot', 'src/main/resources/application.yml', true)
         version = "{pdf_service_buildnumber: ${pdfServiceRPMVersion} }"
 
-        if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
+        if (env.BRANCH_NAME == 'hotfix/Strip-illegal-xml-characters') {
           packager.publishJavaRPM('pdf-service')
         }
       }
@@ -97,7 +97,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         packager.rpmName('pdf-service', pdfServiceRPMVersion),
         'cmc-local'
       )
-      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
+      if (env.BRANCH_NAME == 'hotfix/Strip-illegal-xml-characters') {
         milestone()
         lock(resource: "CMC-deploy-test", inversePrecedence: true) {
           stage('Deploy (Test)') {
@@ -118,7 +118,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
 
     } catch (err) {
-      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
+      if (env.BRANCH_NAME == 'hotfix/Strip-illegal-xml-characters') {
         archiveArtifacts 'build/reports/**/*.html'
         archiveArtifacts 'build/pdf-service/reports/**/*.html'
       }
