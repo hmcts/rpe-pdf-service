@@ -29,7 +29,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         checkout scm
       }
 
-      onMaster {
+      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
         stage('Build') {
           versioner.addJavaVersionInfo()
           sh "./gradlew build -x test"
@@ -69,7 +69,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           }
         }
 
-        onMaster {
+        if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
           sh "./gradlew -Dsonar.host.url=$SONARQUBE_URL sonarqube"
         }
       }
@@ -81,15 +81,15 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
           'springboot', 'src/main/resources/application.yml', true)
         version = "{pdf_service_buildnumber: ${pdfServiceRPMVersion} }"
 
-        onMaster {
+        if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
           packager.publishJavaRPM('pdf-service')
         }
       }
 
-      stage('Package (Docker)') {
-        sh "./gradlew clean installDist"
-        pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
-      }
+//      stage('Package (Docker)') {
+//        sh "./gradlew clean installDist"
+//        pdfServiceVersion = dockerImage imageName: 'cmc/pdf-service-api'
+//      }
 
       //noinspection GroovyVariableNotAssigned it is guaranteed to be assigned
       RPMTagger rpmTagger = new RPMTagger(this,
@@ -97,28 +97,28 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
         packager.rpmName('pdf-service', pdfServiceRPMVersion),
         'cmc-local'
       )
-      onMaster {
+      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
         milestone()
-        lock(resource: "CMC-deploy-dev", inversePrecedence: true) {
-          stage('Deploy (Dev)') {
-            ansibleCommitId = ansible.runDeployPlaybook(version, 'dev')
-            rpmTagger.tagDeploymentSuccessfulOn('dev')
+        lock(resource: "CMC-deploy-test", inversePrecedence: true) {
+          stage('Deploy (Test)') {
+            ansibleCommitId = ansible.runDeployPlaybook(version, 'test')
+            rpmTagger.tagDeploymentSuccessfulOn('test')
             rpmTagger.tagAnsibleCommit(ansibleCommitId)
           }
         }
 
         milestone()
-        lock(resource: "CMC-deploy-demo", inversePrecedence: true) {
-          stage('Deploy (Demo)') {
-            ansible.runDeployPlaybook(version, 'demo')
-          }
-        }
-
-        milestone()
+//        lock(resource: "CMC-deploy-demo", inversePrecedence: true) {
+//          stage('Deploy (Demo)') {
+//            ansible.runDeployPlaybook(version, 'demo')
+//          }
+//        }
+//
+//        milestone()
       }
 
     } catch (err) {
-      onMaster {
+      if (env.BRANCH_NAME == 'bug/Strip-illegal-xml-characters') {
         archiveArtifacts 'build/reports/**/*.html'
         archiveArtifacts 'build/pdf-service/reports/**/*.html'
       }
