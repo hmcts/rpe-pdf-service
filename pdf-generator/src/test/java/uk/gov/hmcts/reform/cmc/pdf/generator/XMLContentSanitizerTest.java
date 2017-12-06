@@ -1,18 +1,12 @@
 package uk.gov.hmcts.reform.cmc.pdf.generator;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class XMLContentSanitizerTest {
 
-    private XMLContentSanitizer contentSanitizer;
-
-    @Before
-    public void beforeEachTest() {
-        contentSanitizer = new XMLContentSanitizer();
-    }
+    private XMLContentSanitizer contentSanitizer = new XMLContentSanitizer();
 
     @Test
     public void shouldReturnValidStringUnmodified() {

@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.cmc.pdf.generator;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXParseException;
 
@@ -9,14 +8,8 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 public class PDFGeneratorTest {
 
-    private PDFGenerator pdfGenerator;
-    private XMLContentSanitizer contentSanitizer;
-
-    @Before
-    public void beforeEachTest() {
-        pdfGenerator = new PDFGenerator();
-        contentSanitizer = new XMLContentSanitizer();
-    }
+    private PDFGenerator pdfGenerator = new PDFGenerator();
+    private XMLContentSanitizer contentSanitizer = new XMLContentSanitizer();
 
     @Test
     public void shouldThrowSaxParseExceptionWhenGivenHTMLWithIllegalCharacters() {
