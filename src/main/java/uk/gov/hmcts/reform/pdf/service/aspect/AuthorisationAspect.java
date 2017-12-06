@@ -21,7 +21,7 @@ public class AuthorisationAspect {
     private AuthorisationService authorisationService;
 
     private void parseAndAuthorize(RequestHeader header, String serviceAuthHeader) {
-        if (header.value().equals("ServiceAuthorization")) {
+        if ("ServiceAuthorization".equals(header.value())) {
             stop = true;
             authorisationService.authorise(serviceAuthHeader);
         }
