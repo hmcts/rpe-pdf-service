@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.cmc.pdf.generator;
+package uk.gov.hmcts.reform.pdf.generator;
 
 import org.junit.Test;
 

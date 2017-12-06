@@ -1,6 +1,7 @@
-package uk.gov.hmcts.reform.cmc.pdf.generator;
+package uk.gov.hmcts.reform.pdf.generator;
 
 import org.junit.Test;
+import uk.gov.hmcts.reform.pdf.generator.XMLContentSanitizer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
