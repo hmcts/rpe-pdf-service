@@ -19,7 +19,7 @@ allprojects {
   apply plugin: 'org.owasp.dependencycheck'
   apply plugin: 'com.github.ben-manes.versions'
 
-  group 'uk.gov.hmcts.reform.cmc'
+  group 'uk.gov.hmcts.reform'
   version '1.0.2'
 
   checkstyle.toolVersion = '7.2'
