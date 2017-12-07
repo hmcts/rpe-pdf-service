@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.client.S2sClient;
-import uk.gov.hmcts.reform.pdf.service.service.AuthService;
+import uk.gov.hmcts.reform.pdf.service.service.AuthorisationService;
 
 @Configuration
 public class PDFServiceConfiguration {
@@ -19,7 +19,7 @@ public class PDFServiceConfiguration {
     }
 
     @Bean
-    public AuthService authService() {
-        return new AuthService(s2sClient);
+    public AuthorisationService authorisationService() {
+        return new AuthorisationService(s2sClient);
     }
 }

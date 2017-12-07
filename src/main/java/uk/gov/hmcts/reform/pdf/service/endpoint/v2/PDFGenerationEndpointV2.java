@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
-import uk.gov.hmcts.reform.pdf.service.service.AuthService;
+import uk.gov.hmcts.reform.pdf.service.service.AuthorisationService;
 
 @Api
 @RestController
@@ -30,20 +30,20 @@ public class PDFGenerationEndpointV2 {
     private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpointV2.class);
 
     private final HTMLToPDFConverter htmlToPdf;
-    private final AuthService authService;
+    private final AuthorisationService authorisationService;
 
     @Autowired
-    public PDFGenerationEndpointV2(HTMLToPDFConverter htmlToPdf, AuthService authService) {
+    public PDFGenerationEndpointV2(HTMLToPDFConverter htmlToPdf, AuthorisationService authorisationService) {
         this.htmlToPdf = htmlToPdf;
-        this.authService = authService;
+        this.authorisationService = authorisationService;
     }
 
     @PostMapping
     public ResponseEntity<ByteArrayResource> generateFromHtml(
-        @RequestHeader(AuthService.SERVICE_AUTHORISATION_HEADER) String serviceAuthHeader,
+        @RequestHeader(AuthorisationService.SERVICE_AUTHORISATION_HEADER) String serviceAuthHeader,
         @RequestBody GeneratePdfRequest request
     ) {
-        authService.authenticate(serviceAuthHeader);
+        authorisationService.authorise(serviceAuthHeader);
 
         byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values);
         log.info("Generated document");

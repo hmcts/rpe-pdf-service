@@ -23,8 +23,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
-import uk.gov.hmcts.reform.pdf.service.exception.AuthException;
-import uk.gov.hmcts.reform.pdf.service.service.AuthService;
+import uk.gov.hmcts.reform.pdf.service.exception.AuthorisationException;
+import uk.gov.hmcts.reform.pdf.service.service.AuthorisationService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class GeneratedPDFContentV2Test {
     private HTMLToPDFConverter converter;
 
     @MockBean
-    private AuthService authService;
+    private AuthorisationService authorisationService;
 
     private static String textContentOf(byte[] pdfData) throws IOException {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
@@ -64,7 +64,7 @@ public class GeneratedPDFContentV2Test {
     @SuppressWarnings("unchecked")
     @Test
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenReturn("test-service");
 
         MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html><body>Hello!</body></html>",
@@ -78,7 +78,7 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenReturn("test-service");
 
         MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html>{{ hello }}</html>",
@@ -98,9 +98,9 @@ public class GeneratedPDFContentV2Test {
             .build();
 
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
-        AuthException authException = new AuthException(exception.getMessage(), exception);
+        AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
 
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(authException);
+        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(authorisationException);
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
@@ -119,9 +119,9 @@ public class GeneratedPDFContentV2Test {
             .build();
 
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
-        AuthException authException = new AuthException(exception.getMessage(), exception);
+        AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
 
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(authException);
+        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(authorisationException);
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
@@ -141,7 +141,7 @@ public class GeneratedPDFContentV2Test {
 
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
 
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(exception);
+        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(exception);
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
@@ -160,7 +160,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        Mockito.verify(authService, Mockito.never()).authenticate(Mockito.anyString());
+        Mockito.verify(authorisationService, Mockito.never()).authorise(Mockito.anyString());
         Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
@@ -180,7 +180,7 @@ public class GeneratedPDFContentV2Test {
         throws JsonProcessingException {
 
         return getRequestWithoutAuthHeader(template, values)
-            .header(AuthService.SERVICE_AUTHORISATION_HEADER, "some-auth-header");
+            .header(AuthorisationService.SERVICE_AUTHORISATION_HEADER, "some-auth-header");
     }
 
     private MockHttpServletResponse getResponse(MockHttpServletRequestBuilder requestBuilder) throws Exception {

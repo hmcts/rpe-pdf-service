@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import uk.gov.hmcts.reform.pdf.service.exception.AuthException;
+import uk.gov.hmcts.reform.pdf.service.exception.AuthorisationException;
 
 @ControllerAdvice
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
@@ -24,7 +24,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(exc, null, null, HttpStatus.valueOf(exc.status()), req);
     }
 
-    @ExceptionHandler(AuthException.class)
+    @ExceptionHandler(AuthorisationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected void handleAuthException() {
     }
