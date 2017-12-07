@@ -46,5 +46,6 @@ public class ExceptionHandling {
     @ExceptionHandler(AuthorisationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected void handleAuthorisationException() {
+        // just respond with unauth status
     }
 }
