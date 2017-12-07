@@ -39,7 +39,7 @@ public class ExceptionHandling {
     }
 
     @ExceptionHandler(FeignException.class)
-    protected ResponseEntity handleFeignException(FeignException exc) {
+    protected ResponseEntity<Object> handleFeignException(FeignException exc) {
         return ResponseEntity.status(exc.status()).build();
     }
 
