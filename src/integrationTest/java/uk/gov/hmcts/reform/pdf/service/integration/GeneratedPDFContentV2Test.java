@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.pdf.service.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import feign.FeignException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -12,19 +13,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
+import uk.gov.hmcts.reform.pdf.service.exception.AuthException;
 import uk.gov.hmcts.reform.pdf.service.service.AuthService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,6 +45,9 @@ public class GeneratedPDFContentV2Test {
 
     @Autowired
     private MockMvc webClient;
+
+    @SpyBean
+    private HTMLToPDFConverter converter;
 
     @MockBean
     private AuthService authService;
@@ -63,6 +72,8 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("Hello!");
+        Mockito.verify(converter, Mockito.times(1))
+            .convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -75,6 +86,82 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("World!");
+        Mockito.verify(converter, Mockito.times(1))
+            .convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+    }
+
+    @Test
+    public void shouldRespond401WhenAuthorisationFailed() throws Exception {
+        feign.Response feignResponse = feign.Response.builder()
+            .headers(Collections.emptyMap())
+            .status(HttpStatus.UNAUTHORIZED.value())
+            .build();
+
+        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
+        AuthException authException = new AuthException(exception.getMessage(), exception);
+
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(authException);
+
+        HttpServletResponse response = getResponse(getRequestWithAuthHeader(
+            "<html></html>",
+            Collections.emptyMap()
+        ));
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+    }
+
+    @Test
+    public void shouldRespond401WhenAuthorisationFailedWith4xx() throws Exception {
+        feign.Response feignResponse = feign.Response.builder()
+            .headers(Collections.emptyMap())
+            .status(HttpStatus.NOT_FOUND.value())
+            .build();
+
+        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
+        AuthException authException = new AuthException(exception.getMessage(), exception);
+
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(authException);
+
+        HttpServletResponse response = getResponse(getRequestWithAuthHeader(
+            "<html></html>",
+            Collections.emptyMap()
+        ));
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+    }
+
+    @Test
+    public void shouldRespondWithFeignExceptionWhenAuthFailedWith5xx() throws Exception {
+        feign.Response feignResponse = feign.Response.builder()
+            .headers(Collections.emptyMap())
+            .status(HttpStatus.SERVICE_UNAVAILABLE.value())
+            .build();
+
+        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
+
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenThrow(exception);
+
+        HttpServletResponse response = getResponse(getRequestWithAuthHeader(
+            "<html></html>",
+            Collections.emptyMap()
+        ));
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE.value());
+        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+    }
+
+    @Test
+    public void shouldReturn400WhenAuthHeaderIsMissing() throws Exception {
+        HttpServletResponse response = getResponse(getRequestWithoutAuthHeader(
+            "<html></html>",
+            Collections.emptyMap()
+        ));
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        Mockito.verify(authService, Mockito.never()).authenticate(Mockito.anyString());
+        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
     private MockHttpServletRequestBuilder getRequestWithoutAuthHeader(String template, Map<String, Object> values)
