@@ -1,5 +1,6 @@
 package uk.gov.hmcts.reform.pdf.service.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
 import uk.gov.hmcts.reform.pdf.service.service.AuthService;
@@ -53,31 +55,48 @@ public class GeneratedPDFContentV2Test {
     @SuppressWarnings("unchecked")
     @Test
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
-        assertThatGeneratedPdfContains("<html><body>Hello!</body></html>", Collections.EMPTY_MAP, "Hello!");
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+
+        MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
+            "<html><body>Hello!</body></html>",
+            Collections.emptyMap()
+        ));
+
+        assertThat(textContentOf(response.getContentAsByteArray())).contains("Hello!");
     }
 
     @Test
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
-        Map<String, Object> values = ImmutableMap.of("hello", "World!");
-        assertThatGeneratedPdfContains("<html>{{ hello }}</html>", values, "World!");
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+
+        MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
+            "<html>{{ hello }}</html>",
+            ImmutableMap.of("hello", "World!")
+        ));
+
+        assertThat(textContentOf(response.getContentAsByteArray())).contains("World!");
     }
 
-    private void assertThatGeneratedPdfContains(String template, Map<String, Object> values, String expectedText)
-        throws Exception {
+    private MockHttpServletRequestBuilder getRequestWithoutAuthHeader(String template, Map<String, Object> values)
+        throws JsonProcessingException {
+
         GeneratePdfRequest request = new GeneratePdfRequest(template, values);
         String json = objectMapper.writeValueAsString(request);
 
-        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+        return post(API_URL)
+            .accept(MediaType.APPLICATION_PDF_VALUE)
+            .contentType(PDFGenerationEndpointV2.MEDIA_TYPE)
+            .content(json);
+    }
 
-        MockHttpServletResponse response = webClient
-            .perform(post(API_URL)
-                .accept(MediaType.APPLICATION_PDF_VALUE)
-                .contentType(PDFGenerationEndpointV2.MEDIA_TYPE)
-                .content(json)
-                .header(AuthService.SERVICE_AUTHORISATION_HEADER, "some-auth-header")
-            )
-            .andReturn().getResponse();
+    private MockHttpServletRequestBuilder getRequestWithAuthHeader(String template, Map<String, Object> values)
+        throws JsonProcessingException {
 
-        assertThat(textContentOf(response.getContentAsByteArray())).contains(expectedText);
+        return getRequestWithoutAuthHeader(template, values)
+            .header(AuthService.SERVICE_AUTHORISATION_HEADER, "some-auth-header");
+    }
+
+    private MockHttpServletResponse getResponse(MockHttpServletRequestBuilder requestBuilder) throws Exception {
+        return webClient.perform(requestBuilder).andReturn().getResponse();
     }
 }
