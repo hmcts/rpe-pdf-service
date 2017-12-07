@@ -6,7 +6,6 @@ import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyMapOf;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(SpringRunner.class)
@@ -70,8 +76,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("Hello!");
-        Mockito.verify(converter, Mockito.times(1))
-            .convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(converter, times(1)).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -82,8 +87,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("World!");
-        Mockito.verify(converter, Mockito.times(1))
-            .convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(converter, times(1)).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -96,7 +100,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertHttpStatus(response, HttpStatus.UNAUTHORIZED);
-        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(converter, never()).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -109,7 +113,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertHttpStatus(response, HttpStatus.UNAUTHORIZED);
-        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(converter, never()).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -122,7 +126,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertHttpStatus(response, HttpStatus.SERVICE_UNAVAILABLE);
-        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(converter, never()).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     @Test
@@ -133,8 +137,8 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertHttpStatus(response, HttpStatus.BAD_REQUEST);
-        Mockito.verify(authorisationService, Mockito.never()).authorise(Mockito.anyString());
-        Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
+        verify(authorisationService, never()).authorise(anyString());
+        verify(converter, never()).convert(any(), anyMapOf(String.class, Object.class));
     }
 
     private MockHttpServletRequestBuilder getRequestWithoutAuthHeader(String template, Map<String, Object> values)
@@ -161,7 +165,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     private void throwExceptionWhenAuthing(Throwable exception) {
-        Mockito.doThrow(exception).when(authorisationService).authorise(Mockito.anyString());
+        doThrow(exception).when(authorisationService).authorise(anyString());
     }
 
     private FeignException getFeignException(HttpStatus status) {
