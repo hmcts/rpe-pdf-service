@@ -8,6 +8,8 @@ import uk.gov.hmcts.reform.pdf.service.exception.AuthException;
 @Service
 public class AuthService {
 
+    public static final String SERVICE_AUTHORISATION_HEADER = "ServiceAuthorization";
+
     private final S2sClient s2sClient;
 
     public AuthService(S2sClient s2sClient) {

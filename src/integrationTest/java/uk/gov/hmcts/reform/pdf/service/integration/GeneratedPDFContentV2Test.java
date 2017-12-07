@@ -4,17 +4,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
+import uk.gov.hmcts.reform.pdf.service.service.AuthService;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,6 +37,9 @@ public class GeneratedPDFContentV2Test {
 
     @Autowired
     private MockMvc webClient;
+
+    @MockBean
+    private AuthService authService;
 
     private static String textContentOf(byte[] pdfData) throws IOException {
         PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
@@ -61,11 +67,15 @@ public class GeneratedPDFContentV2Test {
         GeneratePdfRequest request = new GeneratePdfRequest(template, values);
         String json = objectMapper.writeValueAsString(request);
 
+        Mockito.when(authService.authenticate(Mockito.anyString())).thenReturn("test-service");
+
         MockHttpServletResponse response = webClient
             .perform(post(API_URL)
                 .accept(MediaType.APPLICATION_PDF_VALUE)
                 .contentType(PDFGenerationEndpointV2.MEDIA_TYPE)
-                .content(json))
+                .content(json)
+                .header(AuthService.SERVICE_AUTHORISATION_HEADER, "some-auth-header")
+            )
             .andReturn().getResponse();
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains(expectedText);
