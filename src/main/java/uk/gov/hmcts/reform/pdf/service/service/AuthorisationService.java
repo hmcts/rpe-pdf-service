@@ -20,9 +20,9 @@ public class AuthorisationService {
      * Authenticates the service.
      * Returns service name on success.
      */
-    public String authorise(String serviceAuthHeader) {
+    public void authorise(String serviceAuthHeader) {
         try {
-            return s2SClient.getServiceName(serviceAuthHeader);
+            s2SClient.getServiceName(serviceAuthHeader);
         } catch (FeignException exc) {
             boolean isClientError = exc.status() >= 400 && exc.status() <= 499;
 

@@ -64,8 +64,6 @@ public class GeneratedPDFContentV2Test {
     @SuppressWarnings("unchecked")
     @Test
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
-        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenReturn("test-service");
-
         MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html><body>Hello!</body></html>",
             Collections.emptyMap()
@@ -78,8 +76,6 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
-        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenReturn("test-service");
-
         MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html>{{ hello }}</html>",
             ImmutableMap.of("hello", "World!")
@@ -100,7 +96,7 @@ public class GeneratedPDFContentV2Test {
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
         AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
 
-        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(authorisationException);
+        Mockito.doThrow(authorisationException).when(authorisationService).authorise(Mockito.anyString());
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
@@ -121,7 +117,7 @@ public class GeneratedPDFContentV2Test {
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
         AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
 
-        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(authorisationException);
+        Mockito.doThrow(authorisationException).when(authorisationService).authorise(Mockito.anyString());
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
@@ -141,7 +137,7 @@ public class GeneratedPDFContentV2Test {
 
         FeignException exception = FeignException.errorStatus("oh no", feignResponse);
 
-        Mockito.when(authorisationService.authorise(Mockito.anyString())).thenThrow(exception);
+        Mockito.doThrow(exception).when(authorisationService).authorise(Mockito.anyString());
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
