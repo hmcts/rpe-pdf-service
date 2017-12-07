@@ -88,63 +88,40 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     public void shouldRespond401WhenAuthorisationFailed() throws Exception {
-        feign.Response feignResponse = feign.Response.builder()
-            .headers(Collections.emptyMap())
-            .status(HttpStatus.UNAUTHORIZED.value())
-            .build();
-
-        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
-        AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
-
-        Mockito.doThrow(authorisationException).when(authorisationService).authorise(Mockito.anyString());
+        throwExceptionWhenAuthing(getAuthorisationException(HttpStatus.UNAUTHORIZED));
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
             Collections.emptyMap()
         ));
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertHttpStatus(response, HttpStatus.UNAUTHORIZED);
         Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
     @Test
     public void shouldRespond401WhenAuthorisationFailedWith4xx() throws Exception {
-        feign.Response feignResponse = feign.Response.builder()
-            .headers(Collections.emptyMap())
-            .status(HttpStatus.NOT_FOUND.value())
-            .build();
-
-        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
-        AuthorisationException authorisationException = new AuthorisationException(exception.getMessage(), exception);
-
-        Mockito.doThrow(authorisationException).when(authorisationService).authorise(Mockito.anyString());
+        throwExceptionWhenAuthing(getAuthorisationException(HttpStatus.NOT_FOUND));
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
             Collections.emptyMap()
         ));
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED.value());
+        assertHttpStatus(response, HttpStatus.UNAUTHORIZED);
         Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
     @Test
     public void shouldRespondWithFeignExceptionWhenAuthFailedWith5xx() throws Exception {
-        feign.Response feignResponse = feign.Response.builder()
-            .headers(Collections.emptyMap())
-            .status(HttpStatus.SERVICE_UNAVAILABLE.value())
-            .build();
-
-        FeignException exception = FeignException.errorStatus("oh no", feignResponse);
-
-        Mockito.doThrow(exception).when(authorisationService).authorise(Mockito.anyString());
+        throwExceptionWhenAuthing(getFeignException(HttpStatus.SERVICE_UNAVAILABLE));
 
         HttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html></html>",
             Collections.emptyMap()
         ));
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.SERVICE_UNAVAILABLE.value());
+        assertHttpStatus(response, HttpStatus.SERVICE_UNAVAILABLE);
         Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
 
@@ -155,7 +132,7 @@ public class GeneratedPDFContentV2Test {
             Collections.emptyMap()
         ));
 
-        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertHttpStatus(response, HttpStatus.BAD_REQUEST);
         Mockito.verify(authorisationService, Mockito.never()).authorise(Mockito.anyString());
         Mockito.verify(converter, Mockito.never()).convert(Mockito.any(), Mockito.anyMapOf(String.class, Object.class));
     }
@@ -181,5 +158,28 @@ public class GeneratedPDFContentV2Test {
 
     private MockHttpServletResponse getResponse(MockHttpServletRequestBuilder requestBuilder) throws Exception {
         return webClient.perform(requestBuilder).andReturn().getResponse();
+    }
+
+    private void throwExceptionWhenAuthing(Throwable exception) {
+        Mockito.doThrow(exception).when(authorisationService).authorise(Mockito.anyString());
+    }
+
+    private FeignException getFeignException(HttpStatus status) {
+        feign.Response feignResponse = feign.Response.builder()
+            .headers(Collections.emptyMap())
+            .status(status.value())
+            .build();
+
+        return FeignException.errorStatus("oh no", feignResponse);
+    }
+
+    private AuthorisationException getAuthorisationException(HttpStatus status) {
+        FeignException exception = getFeignException(status);
+
+        return new AuthorisationException(exception.getMessage(), exception);
+    }
+
+    private void assertHttpStatus(HttpServletResponse response, HttpStatus status) {
+        assertThat(response.getStatus()).isEqualTo(status.value());
     }
 }
