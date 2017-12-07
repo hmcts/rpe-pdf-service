@@ -11,6 +11,8 @@ services:
         - no_proxy
     image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
     environment:
+      - S2S_URL
+      # used by java-logging library
       - ROOT_APPENDER
       - JSON_CONSOLE_PRETTY_PRINT
       - ROOT_LOGGING_LEVEL
