@@ -43,8 +43,7 @@ public class PDFGenerationEndpoint {
         name = "/api/v1/pdf-generator/html",
         docLink = "https://github.com/hmcts/cmc-pdf-service#standard-api",
         expiryDate = "2018-02-08",
-        note = "Please use `/pdfs` instead."
-    )
+        note = "Please use `/pdfs` instead.")
     @ApiOperation("Returns a PDF file generated from provided HTML/Twig template and placeholder values")
     @PostMapping(
         value = "/html",
