@@ -25,7 +25,7 @@ public class DeprecatePDFGenerationEndpointTest {
     private MockMvc webClient;
 
     @Test
-    public void should_return_deprecated_api() throws Exception {
+    public void should_add_warning_header_to_the_response() throws Exception {
         MockHttpServletResponse response = webClient
             .perform(fileUpload(API_URL)
                 .file("template", "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset()))
