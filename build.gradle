@@ -51,7 +51,9 @@ allprojects {
   }
 
   repositories {
-    mavenLocal()
+    maven {
+      url "https://dl.bintray.com/hmcts/hmcts-maven"
+    }
     jcenter()
   }
 
@@ -129,6 +131,7 @@ dependencies {
 
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
+  compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
 
   compile project(':pdf-generator')
 }

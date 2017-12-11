@@ -99,6 +99,10 @@ To run all checks (including unit tests) please execute following command:
 We use [SemVer](http://semver.org/) for versioning.
 For the versions available, see the tags on this repository.
 
+## Standard API
+
+We follow [RESTful API standards](https://hmcts.github.io/restful-api-standards/).
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
