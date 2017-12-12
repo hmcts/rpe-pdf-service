@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import uk.gov.hmcts.reform.api.deprecated.APIDeprecated;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
@@ -38,6 +39,11 @@ public class PDFGenerationEndpoint {
         this.objectMapper = objectMapper;
     }
 
+    @APIDeprecated(
+        name = "/api/v1/pdf-generator/html",
+        docLink = "https://github.com/hmcts/cmc-pdf-service#standard-api",
+        expiryDate = "2018-02-08",
+        note = "Please use `/pdfs` instead.")
     @ApiOperation("Returns a PDF file generated from provided HTML/Twig template and placeholder values")
     @PostMapping(
         value = "/html",
