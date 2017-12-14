@@ -124,6 +124,10 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       }
       notifyBuildFailure channel: '#cmc-tech-notification'
       throw err
+    } finally {
+        step([$class: 'InfluxDbPublisher',
+               customProjectName: 'CMC PDF Service',
+               target: 'Jenkins Data'])
     }
   }
   milestone()
