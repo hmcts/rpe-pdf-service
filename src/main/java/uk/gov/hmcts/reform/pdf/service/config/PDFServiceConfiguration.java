@@ -11,5 +11,4 @@ public class PDFServiceConfiguration {
     public HTMLToPDFConverter htmlToPdf() {
         return new HTMLToPDFConverter();
     }
-
 }
