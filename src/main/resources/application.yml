@@ -6,4 +6,4 @@ management:
     enabled: false
 
 s2s:
-  url: ${S2S_URL}
+  url: ${S2S_URL:}
