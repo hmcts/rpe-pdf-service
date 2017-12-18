@@ -93,7 +93,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
       throw err
     } finally {
         step([$class: 'InfluxDbPublisher',
-               customProjectName: 'CMC PDF Service',
+               customProjectName: 'PDF Service',
                target: 'Jenkins Data'])
     }
   }
