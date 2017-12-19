@@ -30,8 +30,8 @@ public class PDFGenerationEndpoint {
 
     private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
 
-    private HTMLToPDFConverter htmlToPdf;
-    private ObjectMapper objectMapper;
+    private final HTMLToPDFConverter htmlToPdf;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public PDFGenerationEndpoint(HTMLToPDFConverter htmlToPdf, ObjectMapper objectMapper) {
