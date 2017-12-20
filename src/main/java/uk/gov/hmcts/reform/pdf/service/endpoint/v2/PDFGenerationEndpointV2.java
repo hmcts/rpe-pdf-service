@@ -25,7 +25,7 @@ import uk.gov.hmcts.reform.pdf.service.service.AuthorisationService;
 )
 public class PDFGenerationEndpointV2 {
 
-    public static final String MEDIA_TYPE = "application/vnd.uk.gov.hmcts.pdf-service.v2+json";
+    public static final String MEDIA_TYPE = "application/vnd.uk.gov.hmcts.pdf-service.v2+json;charset=UTF-8";
 
     private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpointV2.class);
 
