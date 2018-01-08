@@ -10,5 +10,6 @@ module "pdf-service-api" {
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
     REFORM_ENVIRONMENT = "${var.env}"
+    S2S_URL = "http://idam-s2s-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
   }
 }
