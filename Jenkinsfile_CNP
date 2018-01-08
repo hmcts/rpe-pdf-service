@@ -1,0 +1,9 @@
+#!groovy
+@Library("Infrastructure")
+
+def type = "java"
+def product = "pdf-service"
+def app = "backend"
+
+withPipeline(type, product, app) {
+}
