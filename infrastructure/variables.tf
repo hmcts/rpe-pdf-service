@@ -17,4 +17,9 @@ variable "env" {
   type = "string"
 }
 
+variable "s2s_url" {
+  type = "string"
+  default = ""
+}
+
 variable "ilbIp"{}
