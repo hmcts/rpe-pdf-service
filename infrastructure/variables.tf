@@ -17,9 +17,4 @@ variable "env" {
   type = "string"
 }
 
-variable "ssenv" {
-  type = "string"
-  default = "prd"
-}
-
 variable "ilbIp"{}
