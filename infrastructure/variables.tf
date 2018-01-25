@@ -18,7 +18,7 @@ variable "env" {
 }
 
 variable "s2s-url" {
-  default = "http://betaDevBccidamAppLB.reform.hmcts.net"
+  default = "http://betaDevBccidamS2SLB.reform.hmcts.net"
 }
 
 variable "ilbIp"{}

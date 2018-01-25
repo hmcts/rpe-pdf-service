@@ -40,12 +40,14 @@ public class ExceptionHandling {
 
     @ExceptionHandler(FeignException.class)
     protected ResponseEntity<Object> handleFeignException(FeignException exc) {
+        log.warn("Error communicating with an API", exc);
         return ResponseEntity.status(exc.status()).build();
     }
 
     @ExceptionHandler(AuthorisationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    protected void handleAuthorisationException() {
+    protected void handleAuthorisationException(AuthorisationException exc) {
+        log.error("Authorisation error", exc);
         // just respond with unauth status
     }
 }
