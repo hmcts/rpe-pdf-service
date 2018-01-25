@@ -6,6 +6,8 @@ module "pdf-service-api" {
   ilbIp = "${var.ilbIp}"
 
   app_settings = {
+    S2S_URL = "${var.s2s-url}"
+
     ROOT_APPENDER = "JSON_CONSOLE"
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
