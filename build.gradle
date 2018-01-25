@@ -7,6 +7,7 @@ plugins {
   id 'com.github.ben-manes.versions' version '0.15.0'
   id 'org.sonarqube' version '2.5'
   id 'jacoco'
+  id 'pmd'
 }
 
 def springBootVersion = '1.5.7.RELEASE'
@@ -20,7 +21,7 @@ allprojects {
   apply plugin: 'com.github.ben-manes.versions'
 
   group 'uk.gov.hmcts.reform'
-  version '1.0.1'
+  version '1.0.2'
 
   checkstyle.toolVersion = '7.2'
   checkstyle.configFile = new File(rootDir, "checkstyle.xml")
@@ -51,7 +52,6 @@ allprojects {
   }
 
   repositories {
-    mavenLocal()
     jcenter()
   }
 
@@ -127,8 +127,11 @@ dependencies {
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
 
+  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
+
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.2.1'
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.4.0'
+  compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
 
   compile project(':pdf-generator')
 }
@@ -155,6 +158,14 @@ sonarqube {
     property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
     property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/apiTest.exec"
   }
+}
+
+pmd {
+  toolVersion = "5.8.1"
+  ignoreFailures = true
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.integrationTest]
+  reportsDir = file("$project.buildDir/reports/pmd")
+  ruleSetFiles = files("ruleset.xml")
 }
 
 jar {

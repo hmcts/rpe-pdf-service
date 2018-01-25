@@ -9,8 +9,10 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: docker.artifactory.reform.hmcts.net/cmc/pdf-service-api
+    image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api
     environment:
+      - S2S_URL
+      # used by java-logging library
       - ROOT_APPENDER
       - JSON_CONSOLE_PRETTY_PRINT
       - ROOT_LOGGING_LEVEL
@@ -20,4 +22,4 @@ services:
     volumes:
       - ./build/install/pdf-service:/opt/app/
     ports:
-      - 5500:5500
+      - $SERVER_PORT:$SERVER_PORT

@@ -16,6 +16,8 @@ The template, besides containing ordinary HTML markup, can also contain inline C
 - [JDK 8](https://www.oracle.com/java)
 - [Docker](https://www.docker.com)
 
+![diagram](docs/component-diagram.jpg)
+
 ### Building
 
 The project uses [Gradle](https://gradle.org) as a build tool but you don't have to install it locally since there is a
@@ -98,6 +100,10 @@ To run all checks (including unit tests) please execute following command:
 
 We use [SemVer](http://semver.org/) for versioning.
 For the versions available, see the tags on this repository.
+
+## Standard API
+
+We follow [RESTful API standards](https://hmcts.github.io/restful-api-standards/).
 
 ## License
 

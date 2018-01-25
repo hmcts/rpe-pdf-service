@@ -7,14 +7,20 @@ public class HTMLToPDFConverter {
 
     private HTMLTemplateProcessor templateProcessor;
     private PDFGenerator pdfGenerator;
+    private XMLContentSanitizer xmlContentSanitizer;
 
     public HTMLToPDFConverter() {
-        this(new HTMLTemplateProcessor(), new PDFGenerator());
+        this(new HTMLTemplateProcessor(), new PDFGenerator(), new XMLContentSanitizer());
     }
 
-    public HTMLToPDFConverter(HTMLTemplateProcessor templateProcessor, PDFGenerator pdfGenerator) {
+    public HTMLToPDFConverter(
+        HTMLTemplateProcessor templateProcessor,
+        PDFGenerator pdfGenerator,
+        XMLContentSanitizer xmlContentSanitizer
+    ) {
         this.templateProcessor = templateProcessor;
         this.pdfGenerator = pdfGenerator;
+        this.xmlContentSanitizer = xmlContentSanitizer;
     }
 
     /**
@@ -26,7 +32,7 @@ public class HTMLToPDFConverter {
      */
     public byte[] convert(byte[] template, Map<String, Object> context) {
         String processedHtml = templateProcessor.process(template, context);
-        return pdfGenerator.generateFrom(processedHtml);
+        return pdfGenerator.generateFrom(xmlContentSanitizer.stripIllegalCharacters(processedHtml));
     }
 
 }
