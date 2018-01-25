@@ -8,7 +8,7 @@ module "pdf-service-api" {
   app_settings = {
     S2S_URL = "${var.s2s-url}"
 
-    ROOT_APPENDER = "JSON_CONSOLE"
+    ROOT_APPENDER = "CONSOLE"
     REFORM_TEAM = "${var.product}"
     REFORM_SERVICE_NAME = "${var.microservice}"
     REFORM_ENVIRONMENT = "${var.env}"
