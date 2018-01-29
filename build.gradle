@@ -170,7 +170,7 @@ pmd {
 }
 
 jar {
-  version = null
+  archiveName = 'pdf-service.jar'
   manifest {
     attributes 'Implementation-Title': project.name,
       'Implementation-Version': project.version
