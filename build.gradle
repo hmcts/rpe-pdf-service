@@ -170,6 +170,7 @@ pmd {
 }
 
 jar {
+  version = null
   manifest {
     attributes 'Implementation-Title': project.name,
       'Implementation-Version': project.version
