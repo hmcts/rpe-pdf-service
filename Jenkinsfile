@@ -72,7 +72,7 @@ lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
 
       stage('Package (RPM)') {
         sh "./gradlew bootRepackage"
-        packager.javaRPM('', 'pdf-service', 'build/libs/pdf-service-$(./gradlew -q printVersion)-all.jar',
+        packager.javaRPM('', 'pdf-service', 'build/libs/pdf-service-all.jar',
           'springboot', 'src/main/resources/application.yml', true)
 
         onMaster {
