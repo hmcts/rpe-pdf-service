@@ -5,5 +5,6 @@ management:
   security:
     enabled: false
 
-s2s:
-  url: ${S2S_URL:}
+idam:
+  s2s-auth:
+    url: ${S2S_URL:}

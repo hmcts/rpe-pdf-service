@@ -2,7 +2,7 @@ package uk.gov.hmcts.reform.pdf.service.service;
 
 import feign.FeignException;
 import org.springframework.stereotype.Service;
-import uk.gov.hmcts.reform.pdf.service.client.S2SClient;
+import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 import uk.gov.hmcts.reform.pdf.service.exception.AuthorisationException;
 
 @Service
@@ -10,10 +10,10 @@ public class AuthorisationService {
 
     public static final String SERVICE_AUTHORISATION_HEADER = "ServiceAuthorization";
 
-    private final S2SClient s2SClient;
+    private final ServiceAuthorisationApi serviceAuthorisationApi;
 
-    public AuthorisationService(S2SClient s2SClient) {
-        this.s2SClient = s2SClient;
+    public AuthorisationService(ServiceAuthorisationApi serviceAuthorisationApi) {
+        this.serviceAuthorisationApi = serviceAuthorisationApi;
     }
 
     /**
@@ -22,7 +22,7 @@ public class AuthorisationService {
      */
     public void authorise(String serviceAuthHeader) {
         try {
-            s2SClient.getServiceName(serviceAuthHeader);
+            serviceAuthorisationApi.getServiceName(serviceAuthHeader);
         } catch (FeignException exc) {
             boolean isClientError = exc.status() >= 400 && exc.status() <= 499;
 
