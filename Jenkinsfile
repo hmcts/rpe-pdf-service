@@ -10,7 +10,7 @@ properties(
 import uk.gov.hmcts.Packager
 import uk.gov.hmcts.Versioner
 
-Packager packager = new Packager(this, 'reform')
+Packager packager = new Packager(this, 'cmc')
 Versioner versioner = new Versioner(this)
 
 def channel = '#platform-engineering'
