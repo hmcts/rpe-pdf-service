@@ -187,6 +187,22 @@ task printVersion {
   }
 }
 
+task smoke {
+  group 'Delivery pipeline'
+  description 'Executes a non-destructive smoke test'
+  doLast {
+    print 'Hello, I am just a placeholder for a proper Smoke Test!'
+  }
+}
+
+task functional {
+  group 'Delivery pipeline'
+  description 'Executes a suite of functional tests'
+  doLast {
+    print 'Hello, I am just a placeholder for a proper Functional Test!'
+  }
+}
+
 def debug = System.getProperty("debug")
 run {
   if (debug == 'true') {
