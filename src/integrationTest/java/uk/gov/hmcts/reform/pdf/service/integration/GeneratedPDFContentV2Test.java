@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import feign.FeignException;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
@@ -69,6 +70,7 @@ public class GeneratedPDFContentV2Test {
 
     @SuppressWarnings("unchecked")
     @Test
+    @Category(SmokeTest.class)
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
         MockHttpServletResponse response = getResponse(getRequestWithAuthHeader(
             "<html><body>Hello!</body></html>",
