@@ -22,3 +22,5 @@ variable "s2s-url" {
 }
 
 variable "ilbIp"{}
+
+variable "subscription" {}
