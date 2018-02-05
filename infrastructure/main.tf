@@ -1,5 +1,5 @@
 module "pdf-service-api" {
-  source = "git@github.com:contino/moj-module-webapp.git?ref=add-java-to-staging-slot"
+  source = "git@github.com:contino/moj-module-webapp.git?ref=master"
   product = "${var.product}-${var.microservice}"
   location = "${var.location}"
   env = "${var.env}"
