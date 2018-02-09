@@ -17,8 +17,12 @@ variable "env" {
   type = "string"
 }
 
-variable "s2s-url" {
+variable "test-s2s-url" {
   default = "http://betaDevBccidamS2SLB.reform.hmcts.net"
+}
+
+variable "prod-s2s-url" {
+  default = "http://betaProdccidamAppLB.reform.hmcts.net:4502"
 }
 
 variable "ilbIp"{}
