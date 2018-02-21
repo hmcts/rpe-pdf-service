@@ -1,7 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@feature/Fetch-vault-secrets")
-//@Library("Infrastructure")
+@Library("Infrastructure")
 
 def product = "cmc"
 def component = "pdf-service"
