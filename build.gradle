@@ -78,6 +78,20 @@ allprojects {
     setClasspath(sourceSets.integrationTest.runtimeClasspath)
   }
 
+  task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
+    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
+    setClasspath(sourceSets.integrationTest.runtimeClasspath)
+
+    useJUnit {
+      includeCategories 'uk.gov.hmcts.reform.pdf.service.integration.SmokeTest'
+    }
+  }
+
+  task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
+    setClasspath(sourceSets.integrationTest.runtimeClasspath)
+  }
+
   compileIntegrationTestJava {
     options.compilerArgs << '-Xlint:deprecation'
   }
