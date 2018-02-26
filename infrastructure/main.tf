@@ -4,6 +4,7 @@ module "pdf-service-api" {
   location = "${var.location}"
   env = "${var.env}"
   ilbIp = "${var.ilbIp}"
+  subscription = "${var.subscription}"
 
   app_settings = {
     S2S_URL = "${var.s2s_url}"
