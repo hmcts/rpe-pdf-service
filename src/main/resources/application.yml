@@ -1,3 +1,7 @@
+spring:
+  application:
+    name: "pdf-service"
+
 server:
   port: 5500
 

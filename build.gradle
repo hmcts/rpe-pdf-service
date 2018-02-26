@@ -53,6 +53,9 @@ allprojects {
 
   repositories {
     jcenter()
+    maven {
+      url  "https://dl.bintray.com/hmcts/hmcts-maven"
+    }
   }
 
   sourceSets {
@@ -118,7 +121,8 @@ ext {
     springBoot      : springBootVersion,
     spring          : '4.3.10.RELEASE',
     jackson         : dependencyManagement.importedProperties['jackson.version'],
-    springfoxSwagger: '2.7.0'
+    springfoxSwagger: '2.7.0',
+    reformJavaLogging: '1.6.1'
   ]
 }
 
@@ -144,7 +148,8 @@ dependencies {
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
 
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: '1.4.0'
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-spring', version: project.versions.reformJavaLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: project.versions.reformJavaLogging
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
   compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '0.4.2'
 
