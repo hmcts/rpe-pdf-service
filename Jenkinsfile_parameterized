@@ -6,7 +6,7 @@ properties([
 			string(name: 'PRODUCT_NAME', defaultValue: 'cmc', description: ''),
 			string(name: 'APP', defaultValue: 'pdf-service', description: ''),
 			string(name: 'TYPE', defaultValue: 'java', description: ''),
-			string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
+			string(name: 'ENVIRONMENT', defaultValue: 'saat', description: 'Environment where code should be build and deployed'),
 			choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')
 		])
 ])
