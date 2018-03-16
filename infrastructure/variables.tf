@@ -17,10 +17,6 @@ variable "env" {
   type = "string"
 }
 
-variable "s2s_url" {
-  default = "http://betaDevBccidamS2SLB.reform.hmcts.net"
-}
-
 variable "ilbIp"{}
 
 variable "subscription" {}
