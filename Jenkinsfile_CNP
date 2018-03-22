@@ -7,4 +7,5 @@ def component = "pdf-service"
 
 withPipeline("java", product, component) {
   enableSlackNotifications('#cmc-tech-cnp')
+  enableSlackNotifications('#rpe-build-notices')
 }

@@ -13,7 +13,7 @@ import uk.gov.hmcts.Versioner
 Packager packager = new Packager(this, 'cmc')
 Versioner versioner = new Versioner(this)
 
-def channel = '#platform-engineering'
+def channel = '#rpe-build-notices'
 
 milestone()
 lock(resource: "pdf-service-${env.BRANCH_NAME}", inversePrecedence: true) {
