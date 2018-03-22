@@ -14,6 +14,8 @@ def versions = [
 ]
 
 dependencies {
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: project(':').versions.reformJavaLogging
+
   compile group: 'com.mitchellbosecke', name: 'pebble', version: '2.4.0'
 
   compile group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: versions.flyingSaucer

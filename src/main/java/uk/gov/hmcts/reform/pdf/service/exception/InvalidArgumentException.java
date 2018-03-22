@@ -1,16 +1,23 @@
 package uk.gov.hmcts.reform.pdf.service.exception;
 
-public class InvalidArgumentException extends RuntimeException {
+import uk.gov.hmcts.reform.logging.exception.AlertLevel;
+import uk.gov.hmcts.reform.logging.exception.UnknownErrorCodeException;
+
+/**
+ * SonarQube reports as error. Max allowed - 5 parents
+ */
+@SuppressWarnings("squid:MaximumInheritanceDepth")
+public class InvalidArgumentException extends UnknownErrorCodeException {
 
     public InvalidArgumentException(String message, Throwable cause) {
-        super(message, cause);
+        super(AlertLevel.P4, message, cause);
     }
 
     public InvalidArgumentException(Throwable cause) {
-        super(cause);
+        super(AlertLevel.P4, cause);
     }
 
     public InvalidArgumentException(String message) {
-        super(message);
+        super(AlertLevel.P4, message);
     }
 }
