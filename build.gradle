@@ -122,7 +122,7 @@ ext {
     spring          : '4.3.10.RELEASE',
     jackson         : dependencyManagement.importedProperties['jackson.version'],
     springfoxSwagger: '2.7.0',
-    reformJavaLogging: '1.6.1'
+    reformJavaLogging: '2.0.2'
   ]
 }
 
