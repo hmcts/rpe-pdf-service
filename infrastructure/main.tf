@@ -1,6 +1,9 @@
 locals {
   ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
-  s2s_url = "http://rpe-service-auth-provider-${var.env}.service.${local.ase_name}.internal"
+
+  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
+
+  s2s_url = "http://rpe-service-auth-provider-${local.local_env}.service.${local.ase_name}.internal"
 }
 
 module "pdf-service-api" {
