@@ -5,7 +5,7 @@ locals {
 
 module "pdf-service-api" {
   source = "git@github.com:contino/moj-module-webapp.git?ref=master"
-  product = "${var.product}-${var.microservice}"
+  product = "${var.product}-${var.component}"
   location = "${var.location}"
   env = "${var.env}"
   ilbIp = "${var.ilbIp}"
@@ -16,7 +16,7 @@ module "pdf-service-api" {
 
     ROOT_APPENDER = "CONSOLE"
     REFORM_TEAM = "${var.product}"
-    REFORM_SERVICE_NAME = "${var.microservice}"
+    REFORM_SERVICE_NAME = "${var.component}"
     REFORM_ENVIRONMENT = "${var.env}"
   }
 }

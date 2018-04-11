@@ -1,11 +1,9 @@
 variable "product" {
   type    = "string"
-  default = "cmc"
 }
 
-variable "microservice" {
+variable "component" {
   type = "string"
-  default = "pdf-service"
 }
 
 variable "location" {
