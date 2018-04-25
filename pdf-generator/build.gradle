@@ -1,6 +1,4 @@
-plugins {
-  id 'org.owasp.dependencycheck'
-}
+apply plugin: 'java'
 
 def flyingSaucerVersion = '9.1.7'
 
@@ -8,13 +6,6 @@ dependencyManagement {
   imports {
     mavenBom "org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}"
   }
-}
-
-dependencyCheck {
-  // Specifies if the build should be failed if a CVSS score above a specified level is identified.
-  // range of 0-10 fails the build, anything greater and it doesn't fail the build
-  failBuildOnCVSS = System.getProperty('dependencyCheck.failBuild') == 'false' ? 11 : 0
-  suppressionFile = 'dependency-check-suppressions.xml'
 }
 
 def versions = [
