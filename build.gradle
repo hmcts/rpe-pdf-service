@@ -151,7 +151,6 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: project.versions.reformJavaLogging
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: project.versions.reformJavaLogging
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
-  compile group: 'uk.gov.hmcts.reform', name: 'service-auth-provider-client', version: '0.4.2'
 
   compile project(':pdf-generator')
 }

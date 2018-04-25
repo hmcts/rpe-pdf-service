@@ -2,10 +2,7 @@ package uk.gov.hmcts.reform.pdf.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
-import uk.gov.hmcts.reform.authorisation.ServiceAuthorisationApi;
 
-@EnableFeignClients(basePackageClasses = ServiceAuthorisationApi.class)
 @SpringBootApplication
 public class PDFServiceApplication {
 
