@@ -43,11 +43,4 @@ public class ExceptionHandling {
         log.warn("Error communicating with an API", exc);
         return ResponseEntity.status(exc.status()).build();
     }
-
-    @ExceptionHandler(AuthorisationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    protected void handleAuthorisationException(AuthorisationException exc) {
-        log.error("Authorisation error", exc);
-        // just respond with unauth status
-    }
 }
