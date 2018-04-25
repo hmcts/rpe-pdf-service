@@ -3,7 +3,6 @@ package uk.gov.hmcts.reform.pdf.service.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import feign.FeignException;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -27,7 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.any;
@@ -98,18 +95,5 @@ public class GeneratedPDFContentV2Test {
 
     private MockHttpServletResponse getResponse(MockHttpServletRequestBuilder requestBuilder) throws Exception {
         return webClient.perform(requestBuilder).andReturn().getResponse();
-    }
-
-    private FeignException getFeignException(HttpStatus status) {
-        feign.Response feignResponse = feign.Response.builder()
-            .headers(Collections.emptyMap())
-            .status(status.value())
-            .build();
-
-        return FeignException.errorStatus("oh no", feignResponse);
-    }
-
-    private void assertHttpStatus(HttpServletResponse response, HttpStatus status) {
-        assertThat(response.getStatus()).isEqualTo(status.value());
     }
 }
