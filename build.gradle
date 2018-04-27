@@ -133,6 +133,13 @@ dependencyManagement {
       entry 'jackson-core'
       entry 'jackson-databind'
     }
+    dependencySet(group: 'com.fasterxml.jackson.datatype', version: '2.9.5') {
+      entry 'jackson-datatype-jdk8'
+      entry 'jackson-datatype-jsr310'
+    }
+    dependencySet(group: 'com.fasterxml.jackson.module', version: '2.9.5') {
+      entry 'jackson-module-parameter-names'
+    }
     // the url pattern of "" is not correctly handled in tomcat
     // it is possible for unauthorised users to gain access to web application resources that should have been protected
     // not bumping tomcat-annotations-api as it introduces way more vulnerabilities than 8.5.27
