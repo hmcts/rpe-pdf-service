@@ -49,4 +49,23 @@ Security constraints defined by annotations of Servlets in Apache Tomcat 9.0.0.M
     <cve>CVE-2010-0538</cve>
   </suppress>
 
+  <!-- not really applicable at server level. hopefully get better cover with spring boot 2 -->
+
+  <suppress>
+    <notes>
+      <![CDATA[
+## CVE-2014-3488
+
+The SslHandler in Netty before 3.9.2 allows remote attackers to cause a denial of service (infinite loop and CPU consumption) via a crafted SSLv2Hello message.
+
+## CVE-2015-2156
+
+Allow remote attackers to bypass the httpOnly flag on cookies and obtain sensitive information by leveraging improper validation of cookie name and value characters.
+]]>
+    </notes>
+    <gav regex="true">io\.reactivex:rxnetty(-)?(contexts|servo)?:0\.4\.20</gav>
+    <cve>CVE-2014-3488</cve>
+    <cve>CVE-2015-2156</cve>
+  </suppress>
+
 </suppressions>
