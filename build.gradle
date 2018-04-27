@@ -1,16 +1,16 @@
 plugins {
   id 'application'
   id 'checkstyle'
-  id 'io.spring.dependency-management' version '1.0.3.RELEASE'
-  id 'org.springframework.boot' version '1.5.7.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.5.RELEASE'
+  id 'org.springframework.boot' version '1.5.10.RELEASE'
   id 'org.owasp.dependencycheck' version '3.1.2'
-  id 'com.github.ben-manes.versions' version '0.15.0'
-  id 'org.sonarqube' version '2.5'
+  id 'com.github.ben-manes.versions' version '0.17.0'
+  id 'org.sonarqube' version '2.6.1'
   id 'jacoco'
   id 'pmd'
 }
 
-def springBootVersion = '1.5.7.RELEASE'
+def springBootVersion = plugins.getPlugin('org.springframework.boot').class.package.implementationVersion
 
 allprojects {
 
@@ -118,8 +118,7 @@ dependencyManagement {
 
 ext {
   versions = [
-    springBoot      : springBootVersion,
-    spring          : '4.3.10.RELEASE',
+    spring          : '4.3.16.RELEASE',
     jackson         : dependencyManagement.importedProperties['jackson.version'],
     springfoxSwagger: '2.7.0',
     reformJavaLogging: '2.1.1'
@@ -142,8 +141,8 @@ dependencies {
 
   compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
 
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
 
