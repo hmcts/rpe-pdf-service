@@ -111,6 +111,15 @@ apply plugin: 'application'
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
 dependencyManagement {
+  dependencies {
+    // spring boot dependency management plugin downgrades
+    // bump to 2.9.5 because of https://nvd.nist.gov/vuln/detail/CVE-2018-7489
+    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.9.5') {
+      entry 'jackson-annotations'
+      entry 'jackson-core'
+      entry 'jackson-databind'
+    }
+  }
   imports {
     mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
   }
@@ -119,7 +128,6 @@ dependencyManagement {
 ext {
   versions = [
     spring          : '4.3.16.RELEASE',
-    jackson         : dependencyManagement.importedProperties['jackson.version'],
     springfoxSwagger: '2.7.0',
     reformJavaLogging: '2.1.1'
   ]
@@ -131,10 +139,10 @@ configurations {
 }
 
 dependencies {
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
+  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names'
 
   compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
