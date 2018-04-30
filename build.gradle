@@ -1,16 +1,16 @@
 plugins {
   id 'application'
   id 'checkstyle'
-  id 'io.spring.dependency-management' version '1.0.3.RELEASE'
-  id 'org.springframework.boot' version '1.5.7.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.5.RELEASE'
+  id 'org.springframework.boot' version '1.5.10.RELEASE'
   id 'org.owasp.dependencycheck' version '3.1.2'
-  id 'com.github.ben-manes.versions' version '0.15.0'
-  id 'org.sonarqube' version '2.5'
+  id 'com.github.ben-manes.versions' version '0.17.0'
+  id 'org.sonarqube' version '2.6.1'
   id 'jacoco'
   id 'pmd'
 }
 
-def springBootVersion = '1.5.7.RELEASE'
+def springBootVersion = plugins.getPlugin('org.springframework.boot').class.package.implementationVersion
 
 allprojects {
 
@@ -111,6 +111,43 @@ apply plugin: 'application'
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
 dependencyManagement {
+  dependencies {
+    // openfeign imports 0.4.9 which imports io.netty 4.0.27.
+    // reactivex 0.4.20 follows the release compatibility but still falls under owasp risk factor.
+    // reactivex 0.4.20 uses io.netty 4.1.5 which is OK with owasp.
+    // latest (1.4.4) spring cloud starter feign library does not update either of those
+    dependencySet(group: 'io.reactivex', version: '0.4.20') {
+      entry 'rxnetty'
+      entry 'rxnetty-contexts'
+      entry 'rxnetty-servo'
+    }
+    // spring boot drags in 1.1.11 and `java-logging` already is on 1.2.3
+    dependencySet(group: 'ch.qos.logback', version: '1.2.3') {
+      entry 'logback-core'
+      entry 'logback-classic'
+    }
+    // spring boot dependency management plugin downgrades
+    // bump to 2.9.5 because of https://nvd.nist.gov/vuln/detail/CVE-2018-7489
+    dependencySet(group: 'com.fasterxml.jackson.core', version: '2.9.5') {
+      entry 'jackson-annotations'
+      entry 'jackson-core'
+      entry 'jackson-databind'
+    }
+    dependencySet(group: 'com.fasterxml.jackson.datatype', version: '2.9.5') {
+      entry 'jackson-datatype-jdk8'
+      entry 'jackson-datatype-jsr310'
+    }
+    dependencySet(group: 'com.fasterxml.jackson.module', version: '2.9.5') {
+      entry 'jackson-module-parameter-names'
+    }
+    // the url pattern of "" is not correctly handled in tomcat
+    // it is possible for unauthorised users to gain access to web application resources that should have been protected
+    // not bumping tomcat-annotations-api as it introduces way more vulnerabilities than 8.5.27
+    dependencySet(group: 'org.apache.tomcat.embed', version: '8.5.29') {
+      entry 'tomcat-embed-core'
+      entry 'tomcat-embed-websocket'
+    }
+  }
   imports {
     mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
   }
@@ -118,9 +155,7 @@ dependencyManagement {
 
 ext {
   versions = [
-    springBoot      : springBootVersion,
-    spring          : '4.3.10.RELEASE',
-    jackson         : dependencyManagement.importedProperties['jackson.version'],
+    spring          : '4.3.16.RELEASE',
     springfoxSwagger: '2.7.0',
     reformJavaLogging: '2.1.1'
   ]
@@ -132,18 +167,18 @@ configurations {
 }
 
 dependencies {
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: project.versions.jackson
-  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names', version: project.versions.jackson
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
+  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names'
 
   compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
 
   compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
 
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: project.versions.springBoot
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: project.versions.springBoot
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
 
   compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
 
