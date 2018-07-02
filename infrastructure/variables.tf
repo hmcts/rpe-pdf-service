@@ -18,3 +18,7 @@ variable "env" {
 variable "ilbIp"{}
 
 variable "subscription" {}
+
+variable "common_tags" {
+  type = "map"
+}
