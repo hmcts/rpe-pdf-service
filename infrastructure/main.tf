@@ -16,6 +16,7 @@ module "pdf-service-api" {
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
   common_tags = "${var.common_tags}"
+  common_tags = "${merge(var.common_tags, map("Team Name", "Software Engineering"))}"
   asp_name      = "${var.product}-${var.component}-${var.env}"
   asp_rg        = "${var.product}-${var.component}-${var.env}"
   instance_size = "${local.sku_size}"
