@@ -219,6 +219,10 @@ task printVersion {
   }
 }
 
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 def debug = System.getProperty("debug")
 run {
   if (debug == 'true') {

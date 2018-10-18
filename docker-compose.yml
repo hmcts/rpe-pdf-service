@@ -9,7 +9,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: docker.artifactory.reform.hmcts.net/reform/pdf-service-api
+    image: hmcts.azurecr.io/hmcts/cmc-pdf-service
     environment:
       - S2S_URL
       # used by java-logging library
