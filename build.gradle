@@ -2,8 +2,8 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.0.5.RELEASE'
-  id 'org.springframework.boot' version '1.5.15.RELEASE'
-  id 'org.owasp.dependencycheck' version '3.3.1'
+  id 'org.springframework.boot' version '1.5.17.RELEASE'
+  id 'org.owasp.dependencycheck' version '4.0.0'
   id 'com.github.ben-manes.versions' version '0.17.0'
   id 'org.sonarqube' version '2.6.1'
   id 'jacoco'
@@ -135,7 +135,7 @@ dependencyManagement {
 ext {
   versions = [
     spring          : '4.3.16.RELEASE',
-    springfoxSwagger: '2.7.0',
+    springfoxSwagger: '2.9.2',
     reformJavaLogging: '2.1.1'
   ]
 }
