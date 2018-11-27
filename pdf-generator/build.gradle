@@ -23,6 +23,7 @@ dependencyManagement {
 }
 
 def versions = [
+  openPdf         : dependencyManagement.importedProperties['openpdf.version'],
   flyingSaucer    : flyingSaucerVersion
 ]
 
