@@ -1,6 +1,6 @@
 apply plugin: 'java'
 
-def flyingSaucerVersion = '9.1.7'
+def flyingSaucerVersion = '9.1.16'
 
 dependencyManagement {
   dependencies {
@@ -23,8 +23,8 @@ dependencyManagement {
 }
 
 def versions = [
-  flyingSaucer    : flyingSaucerVersion,
-  openPdf         : dependencyManagement.importedProperties['openpdf.version']
+  openPdf         : dependencyManagement.importedProperties['openpdf.version'],
+  flyingSaucer    : flyingSaucerVersion
 ]
 
 dependencies {

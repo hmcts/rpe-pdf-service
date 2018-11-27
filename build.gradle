@@ -2,8 +2,8 @@ plugins {
   id 'application'
   id 'checkstyle'
   id 'io.spring.dependency-management' version '1.0.5.RELEASE'
-  id 'org.springframework.boot' version '1.5.15.RELEASE'
-  id 'org.owasp.dependencycheck' version '3.3.1'
+  id 'org.springframework.boot' version '1.5.17.RELEASE'
+  id 'org.owasp.dependencycheck' version '4.0.0'
   id 'com.github.ben-manes.versions' version '0.17.0'
   id 'org.sonarqube' version '2.6.1'
   id 'jacoco'
@@ -110,32 +110,10 @@ apply plugin: 'application'
 
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
-dependencyManagement {
-  dependencies {
-    // openfeign imports 0.4.9 which imports io.netty 4.0.27.
-    // reactivex 0.4.20 follows the release compatibility but still falls under owasp risk factor.
-    // reactivex 0.4.20 uses io.netty 4.1.5 which is OK with owasp.
-    // latest (1.4.4) spring cloud starter feign library does not update either of those
-    dependencySet(group: 'io.reactivex', version: '0.4.20') {
-      entry 'rxnetty'
-      entry 'rxnetty-contexts'
-      entry 'rxnetty-servo'
-    }
-    // spring boot drags in 1.1.11 and `java-logging` already is on 1.2.3
-    dependencySet(group: 'ch.qos.logback', version: '1.2.3') {
-      entry 'logback-core'
-      entry 'logback-classic'
-    }
-  }
-  imports {
-    mavenBom "org.springframework.boot:spring-boot-starter-parent:${springBootVersion}"
-  }
-}
-
 ext {
   versions = [
     spring          : '4.3.16.RELEASE',
-    springfoxSwagger: '2.7.0',
+    springfoxSwagger: '2.9.2',
     reformJavaLogging: '2.1.1'
   ]
 }
@@ -154,12 +132,8 @@ dependencies {
   compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
 
-  compile group: 'org.springframework', name: 'spring-context-support', version: project.versions.spring
-
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-
-  compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '1.4.0.RELEASE'
 
   compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: project.versions.reformJavaLogging

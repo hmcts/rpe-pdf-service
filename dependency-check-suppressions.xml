@@ -1,39 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
-
   <suppress>
-    <notes><![CDATA[
-      Applies to Mac OS X implementation of Java only.
-    ]]></notes>
-    <gav regex="true">^com\.apple:AppleJavaExtensions:.*$</gav>
-    <cve>CVE-2010-0538</cve>
+    <notes><![CDATA[ pulled by swaggerfox ]]></notes>
+    <gav regex="true">^com\.google\.guava:guava:.*$</gav>
+    <cpe>cpe:/a:google:guava</cpe>
+
+
   </suppress>
-
-  <suppress>
-    <notes><![CDATA[
-   file name: spring-context-support-4.3.16.RELEASE.jar
-   ]]></notes>
-    <gav regex="true">^org\.springframework:spring-context-support:.*$</gav>
-    <cpe>cpe:/a:pivotal_software:spring_framework</cpe>
-  </suppress>
-
-  <!-- not really applicable at server level. hopefully get better cover with spring boot 2 -->
-
-  <suppress>
-    <notes>
-      <![CDATA[
-## CVE-2014-3488
-
-The SslHandler in Netty before 3.9.2 allows remote attackers to cause a denial of service (infinite loop and CPU consumption) via a crafted SSLv2Hello message.
-
-## CVE-2015-2156
-
-Allow remote attackers to bypass the httpOnly flag on cookies and obtain sensitive information by leveraging improper validation of cookie name and value characters.
-]]>
-    </notes>
-    <gav regex="true">io\.reactivex:rxnetty(-)?(contexts|servo)?:0\.4\.20</gav>
-    <cve>CVE-2014-3488</cve>
-    <cve>CVE-2015-2156</cve>
-  </suppress>
-
 </suppressions>
