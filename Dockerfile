@@ -1,9 +1,9 @@
-FROM hmcts/cnp-java-base:openjdk-jre-8-alpine-1.4
+FROM hmcts/cnp-java-base:openjdk-8u181-jre-alpine3.8-1.0
 
 # Mandatory!
 ENV APP pdf-service.jar
 ENV APPLICATION_TOTAL_MEMORY 1024M
-ENV APPLICATION_SIZE_ON_DISK_IN_MB 87
+ENV APPLICATION_SIZE_ON_DISK_IN_MB 94
 
 COPY build/libs/$APP /opt/app/
 

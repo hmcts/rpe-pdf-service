@@ -6,9 +6,11 @@ server:
   port: 5500
 
 management:
-  security:
-    enabled: false
-
-idam:
-  s2s-auth:
-    url: ${S2S_URL:}
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /
+  endpoint:
+    health:
+      show-details: always

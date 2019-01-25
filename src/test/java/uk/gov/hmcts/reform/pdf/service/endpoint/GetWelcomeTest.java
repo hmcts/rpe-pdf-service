@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest
+@SuppressWarnings("PMD.JUnitTestsShouldIncludeAssert")
 public class GetWelcomeTest {
 
     @Autowired

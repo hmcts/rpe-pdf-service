@@ -28,7 +28,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/pdf-generator")
 public class PDFGenerationEndpoint {
 
-    private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
 
     private final HTMLToPDFConverter htmlToPdf;
     private final ObjectMapper objectMapper;
@@ -56,9 +56,9 @@ public class PDFGenerationEndpoint {
         @ApiParam("A JSON structure with values for placeholders used in template file")
         @RequestParam("placeholderValues") String placeholderValues
     ) {
-        log.debug("Received a PDF generation request");
+        LOGGER.debug("Received a PDF generation request");
         byte[] pdfDocument = htmlToPdf.convert(asBytes(template), asMap(placeholderValues));
-        log.debug("PDF generated");
+        LOGGER.debug("PDF generated");
         return ResponseEntity
             .ok()
             .contentLength(pdfDocument.length)
