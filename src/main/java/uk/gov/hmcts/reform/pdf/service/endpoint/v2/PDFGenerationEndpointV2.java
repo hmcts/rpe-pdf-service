@@ -25,7 +25,7 @@ public class PDFGenerationEndpointV2 {
 
     public static final String MEDIA_TYPE = "application/vnd.uk.gov.hmcts.pdf-service.v2+json;charset=UTF-8";
 
-    private static final Logger log = LoggerFactory.getLogger(PDFGenerationEndpointV2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PDFGenerationEndpointV2.class);
 
     private final HTMLToPDFConverter htmlToPdf;
 
@@ -38,8 +38,9 @@ public class PDFGenerationEndpointV2 {
     public ResponseEntity<ByteArrayResource> generateFromHtml(
         @RequestBody GeneratePdfRequest request
     ) {
-        byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values);
-        log.info("Generated document");
+        // PMD doesn't like the public field
+        byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values); //NOPMD
+        LOGGER.info("Generated document");
         return ResponseEntity.ok(new ByteArrayResource(pdfDocument));
     }
 }

@@ -8,6 +8,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class ResourceLoader {
 
+    private ResourceLoader() {
+        // Utility class constructor
+    }
+
     public static String loadString(String resourcePath) {
         return new String(loadBytes(resourcePath), UTF_8);
     }
