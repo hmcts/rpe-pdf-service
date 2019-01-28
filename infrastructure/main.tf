@@ -8,22 +8,22 @@ locals {
 }
 
 module "pdf-service-api" {
-  source = "git@github.com:hmcts/cnp-module-webapp.git?ref=master"
-  product = "${var.product}-${var.component}"
-  location = "${var.location}"
-  env = "${var.env}"
-  ilbIp = "${var.ilbIp}"
-  subscription = "${var.subscription}"
-  common_tags = "${var.common_tags}"
-  common_tags = "${merge(var.common_tags, map("Team Name", "Software Engineering"))}"
+  source        = "git@github.com:hmcts/cnp-module-webapp.git?ref=master"
+  product       = "${var.product}-${var.component}"
+  location      = "${var.location}"
+  env           = "${var.env}"
+  ilbIp         = "${var.ilbIp}"
+  subscription  = "${var.subscription}"
+  common_tags   = "${var.common_tags}"
+  common_tags   = "${merge(var.common_tags, map("Team Name", "Software Engineering"))}"
   asp_name      = "${var.product}-${var.component}-${var.env}"
   asp_rg        = "${var.product}-${var.component}-${var.env}"
   instance_size = "${local.sku_size}"
 
   app_settings = {
-    ROOT_APPENDER = "CONSOLE"
-    REFORM_TEAM = "${var.product}"
+    ROOT_APPENDER       = "CONSOLE"
+    REFORM_TEAM         = "${var.product}"
     REFORM_SERVICE_NAME = "${var.component}"
-    REFORM_ENVIRONMENT = "${var.env}"
+    REFORM_ENVIRONMENT  = "${var.env}"
   }
 }
