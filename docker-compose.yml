@@ -19,7 +19,5 @@ services:
       - REFORM_SERVICE_NAME
       - REFORM_TEAM
       - REFORM_ENVIRONMENT
-    volumes:
-      - ./build/install/pdf-service:/opt/app/
     ports:
-      - $SERVER_PORT:$SERVER_PORT
+      - 5500:5500
