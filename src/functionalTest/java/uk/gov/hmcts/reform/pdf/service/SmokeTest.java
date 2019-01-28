@@ -1,3 +1,3 @@
-package uk.gov.hmcts.reform.pdf.service.integration;
+package uk.gov.hmcts.reform.pdf.service;
 
 public interface SmokeTest { /* category marker */ }
