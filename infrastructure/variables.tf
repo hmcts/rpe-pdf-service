@@ -1,5 +1,5 @@
 variable "product" {
-  type    = "string"
+  type = "string"
 }
 
 variable "component" {
@@ -15,7 +15,7 @@ variable "env" {
   type = "string"
 }
 
-variable "ilbIp"{}
+variable "ilbIp" {}
 
 variable "subscription" {}
 
