@@ -9,6 +9,3 @@ management:
   security:
     enabled: false
 
-idam:
-  s2s-auth:
-    url: ${S2S_URL:}

@@ -7,7 +7,8 @@ import uk.gov.hmcts.reform.logging.exception.UnknownErrorCodeException;
  * SonarQube reports as error. Max allowed - 5 parents
  */
 @SuppressWarnings("squid:MaximumInheritanceDepth")
-public class InvalidArgumentException extends UnknownErrorCodeException {
+// PMD is complaining about no serial version uid for some reason
+public class InvalidArgumentException extends UnknownErrorCodeException { //NOPMD
 
     public InvalidArgumentException(String message, Throwable cause) {
         super(AlertLevel.P4, message, cause);
