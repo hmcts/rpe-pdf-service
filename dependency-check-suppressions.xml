@@ -5,9 +5,18 @@
     <gav regex="true">^com\.google\.guava:guava:.*$</gav>
     <cpe>cpe:/a:google:guava</cpe>
   </suppress>
-  
+
   <suppress>
     <notes><![CDATA[ slf4j only has a beta version released with the 'fix', looks like lots of changes in it... ]]></notes>
-  <cve>CVE-2018-8088</cve>
+    <cve>CVE-2018-8088</cve>
+  </suppress>
+
+
+  <suppress>
+    <notes><![CDATA[
+      need to be on spring boot 2.x for the fix, suppressing as spring boot 2 follow up coming very soon, need to merge other prs in the mean time
+      ]]></notes>
+    <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
+    <cpe>cpe:/a:fasterxml:jackson-databind</cpe>
   </suppress>
 </suppressions>
