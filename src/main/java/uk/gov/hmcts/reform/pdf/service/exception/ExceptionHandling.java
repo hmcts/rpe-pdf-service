@@ -15,13 +15,13 @@ import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
 @ControllerAdvice
 public class ExceptionHandling {
 
-    private static final Logger log = LoggerFactory.getLogger(ExceptionHandling.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionHandling.class);
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public void handleException(Exception exception) {
-        log.error("Unhandled exception:", exception);
+        LOGGER.error("Unhandled exception:", exception);
     }
 
     @ExceptionHandler({
@@ -33,6 +33,6 @@ public class ExceptionHandling {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public void handleMissingAndMalformedParametersValues(Exception exception) {
-        log.error("Input parameters were missing/malformed:", exception);
+        LOGGER.error("Input parameters were missing/malformed:", exception);
     }
 }

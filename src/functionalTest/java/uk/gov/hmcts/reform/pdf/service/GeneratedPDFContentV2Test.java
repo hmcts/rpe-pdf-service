@@ -64,7 +64,7 @@ public class GeneratedPDFContentV2Test {
             pdfDocument.close();
         }
     }
-    
+
     private Response makeRequest(String template, Map<String, Object> values)
         throws JsonProcessingException {
 

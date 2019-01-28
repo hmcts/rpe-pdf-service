@@ -45,6 +45,6 @@ public class GeneratePdfRequestTest {
 
         GeneratePdfRequest pdfRequest = mapper.readValue(json, GeneratePdfRequest.class);
 
-        assertThat(pdfRequest.values.get("foo")).isEqualTo("bar");
+        assertThat(pdfRequest.values.get("foo")).isEqualTo("bar"); //NOPMD doesn't like the public field
     }
 }
