@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.charset.Charset;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -30,7 +30,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenTemplateIsNotSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .param(PLACEHOLDER_VALUES, NO_VALUES))
             .andExpect(status().isBadRequest());
     }
@@ -38,7 +38,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenPlaceholderValuesAreNotSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html></html>".getBytes(Charset.defaultCharset())))
             .andExpect(status().isBadRequest());
     }
@@ -46,7 +46,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenEmptyTemplateIsSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, new byte[]{})
                 .param(PLACEHOLDER_VALUES, NO_VALUES))
             .andExpect(status().isBadRequest());
@@ -55,7 +55,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenEmptyStringIsSentForPlaceholderValues() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html></html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, ""))
             .andExpect(status().isBadRequest());
@@ -64,7 +64,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenMalformedJsonIsSentForPlaceholderValues() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html></html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, "{:"))
             .andExpect(status().isBadRequest());
@@ -73,7 +73,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenMalformedHtmlTemplateIsSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html><not-html".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, NO_VALUES))
             .andExpect(status().isBadRequest());
@@ -82,7 +82,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenMalformedTwigTemplateIsSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html> {% notATag </html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, NO_VALUES))
             .andExpect(status().isBadRequest());
@@ -91,7 +91,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn400WhenMissingPlaceholderValues() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html><body> {{person}} </body></html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, "{}"))
             .andExpect(status().isBadRequest());
@@ -100,7 +100,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn200WhenCorrectHtmlTemplateIsSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html><body>Hello!</body></html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, NO_VALUES))
             .andExpect(status().isOk());
@@ -109,7 +109,7 @@ public class ResponseCodesTest {
     @Test
     public void shouldReturn200WhenCorrectTwigTemplateIsSent() throws Exception {
         webClient
-            .perform(multipart(API_URL)
+            .perform(fileUpload(API_URL)
                 .file(TEMPLATE, "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset()))
                 .param(PLACEHOLDER_VALUES, "{ \"hello\": \"world\" }"))
             .andExpect(status().isOk());
