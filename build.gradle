@@ -74,7 +74,18 @@ allprojects {
         srcDir('src/integrationTest/java')
       }
       resources {
-        srcDir('src/integrationTests/resources')
+        srcDir('src/integrationTest/resources')
+      }
+    }
+
+    functionalTest {
+      java {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        srcDir('src/functionalTest/java')
+      }
+      resources {
+        srcDir('src/functionalTest/resources')
       }
     }
   }
@@ -82,6 +93,9 @@ allprojects {
   dependencies {
     integrationTestCompile(sourceSets.test.output)
     integrationTestCompile(project(':pdf-generator').sourceSets.main.output)
+
+    functionalTestCompile(sourceSets.test.output)
+    functionalTestCompile(project(':pdf-generator').sourceSets.main.output)
   }
 
   task apiTest(type: Test) {
@@ -90,22 +104,27 @@ allprojects {
   }
 
   task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
-    setClasspath(sourceSets.integrationTest.runtimeClasspath)
+    setTestClassesDirs(sourceSets.functionalTest.output.classesDirs)
+    setClasspath(sourceSets.functionalTest.runtimeClasspath)
 
     useJUnit {
-      includeCategories 'uk.gov.hmcts.reform.pdf.service.integration.SmokeTest'
+      includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
     }
   }
 
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
-    setClasspath(sourceSets.integrationTest.runtimeClasspath)
+    setTestClassesDirs(sourceSets.functionalTest.output.classesDirs)
+    setClasspath(sourceSets.functionalTest.runtimeClasspath)
   }
 
   compileIntegrationTestJava {
     options.compilerArgs << '-Xlint:deprecation'
   }
+
+  compileFunctionalTestJava {
+    options.compilerArgs << '-Xlint:deprecation'
+  }
+
 
   dependencies {
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
@@ -129,6 +148,9 @@ ext {
 configurations {
   integrationTestCompile.extendsFrom(testCompile)
   integrationTestRuntime.extendsFrom(testRuntime)
+
+  functionalTestCompile.extendsFrom(testCompile)
+  functionalTestRuntime.extendsFrom(testRuntime)
 }
 
 dependencies {
@@ -149,6 +171,8 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
 
   compile project(':pdf-generator')
+
+  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
 }
 
 jacocoTestReport {
@@ -177,7 +201,7 @@ sonarqube {
 
 pmd {
   toolVersion = "6.9.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.integrationTest]
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.integrationTest, sourceSets.functionalTest]
   reportsDir = file("$project.buildDir/reports/pmd")
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
