@@ -193,7 +193,7 @@ dependencies {
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
 bootJar {
-  archiveName = 'pdf-service.jar'
+  archiveName = 'pdf-service-all.jar'
 
   manifest {
     attributes('Implementation-Version': project.version.toString())
