@@ -10,4 +10,12 @@
     <notes><![CDATA[ slf4j only has a beta version released with the 'fix', looks like lots of changes in it... ]]></notes>
     <cve>CVE-2018-8088</cve>
   </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+    Suppress LDAP vulnerabilities in groovy pulled in by rest assured
+    ]]></notes>
+    <cve>CVE-2016-6497</cve>
+  </suppress>
+
 </suppressions>
