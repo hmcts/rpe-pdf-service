@@ -24,8 +24,8 @@ allprojects {
   sourceSets {
     functionalTest {
       java {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
         srcDir file('src/functionalTest/java')
       }
       resources.srcDir file('src/functionalTest/resources')
@@ -33,42 +33,36 @@ allprojects {
 
     integrationTest {
       java {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
         srcDir file('src/integrationTest/java')
       }
       resources.srcDir file('src/integrationTest/resources')
     }
-
-    smokeTest {
-      java {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-        srcDir file('src/smokeTest/java')
-      }
-      resources.srcDir file('src/smokeTest/resources')
-    }
   }
 
   tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked" << "-Werror"
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
   }
 
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
   }
 
   task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
-
   }
 
   task smoke(type: Test) {
     description = "Runs Smoke Tests"
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+
+    useJUnit {
+      includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
+    }
   }
 
   checkstyle {
@@ -150,8 +144,7 @@ project.tasks['sonarqube'].dependsOn test, integration
 
 pmd {
   toolVersion = "6.9.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest, sourceSets.smokeTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
 
@@ -185,17 +178,14 @@ dependencies {
   testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
   testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
 
-
   integrationTestCompile sourceSets.main.runtimeClasspath
   integrationTestCompile sourceSets.test.runtimeClasspath
 
-
   functionalTestCompile sourceSets.main.runtimeClasspath
-
-  smokeTestCompile sourceSets.main.runtimeClasspath
+  functionalTestCompile sourceSets.test.runtimeClasspath
+  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
 
   compile project(':pdf-generator')
-  integrationTestCompile project(':pdf-generator')
 }
 
 
