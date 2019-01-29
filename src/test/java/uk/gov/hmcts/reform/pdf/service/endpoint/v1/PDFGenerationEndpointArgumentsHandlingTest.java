@@ -7,13 +7,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyMapOf;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -35,12 +35,12 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
 
     @Before
     public void beforeEach() {
-        when(htmlToPdf.convert(any(), anyMapOf(String.class, Object.class))).thenReturn(new byte[] { });
+        when(htmlToPdf.convert(any(), anyMap())).thenReturn(new byte[]{});
         endpoint = new PDFGenerationEndpoint(htmlToPdf, objectMapper);
     }
 
     @Test
-    public void itShouldThrowInvalidArgumentExceptionWhenGivenEmptyTemplate() throws Exception {
+    public void itShouldThrowInvalidArgumentExceptionWhenGivenEmptyTemplate() {
         when(file.isEmpty()).thenReturn(true);
 
         exception.expect(InvalidArgumentException.class);
@@ -50,12 +50,12 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
     }
 
     @Test
-    public void itCallGenerateWhenGivenValidArguments() throws Exception {
+    public void itCallGenerateWhenGivenValidArguments() {
         when(file.isEmpty()).thenReturn(false);
 
         endpoint.generateFromHtml(file, "{ }");
 
-        verify(htmlToPdf).convert(any(), anyMapOf(String.class, Object.class));
+        verify(htmlToPdf).convert(any(), anyMap());
     }
 
 }

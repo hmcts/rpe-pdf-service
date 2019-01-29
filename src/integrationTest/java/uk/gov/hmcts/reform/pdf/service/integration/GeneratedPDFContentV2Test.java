@@ -26,8 +26,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyMapOf;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,7 +64,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("Hello!");
-        verify(converter, times(1)).convert(any(), anyMapOf(String.class, Object.class));
+        verify(converter, times(1)).convert(any(), anyMap());
     }
 
     @Test
@@ -75,7 +75,7 @@ public class GeneratedPDFContentV2Test {
         ));
 
         assertThat(textContentOf(response.getContentAsByteArray())).contains("World!");
-        verify(converter, times(1)).convert(any(), anyMapOf(String.class, Object.class));
+        verify(converter, times(1)).convert(any(), anyMap());
     }
 
 
