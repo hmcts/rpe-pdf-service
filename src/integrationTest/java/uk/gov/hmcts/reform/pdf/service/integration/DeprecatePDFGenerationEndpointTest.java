@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.nio.charset.Charset;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,7 +27,7 @@ public class DeprecatePDFGenerationEndpointTest {
     @Test
     public void should_add_warning_header_to_the_response() throws Exception {
         MockHttpServletResponse response = webClient
-            .perform(fileUpload(API_URL)
+            .perform(multipart(API_URL)
                 .file("template", "<html><body>{{ hello }}</body></html>".getBytes(Charset.defaultCharset()))
                 .param("placeholderValues", "{ \"hello\": \"World!\" }"))
             .andReturn().getResponse();

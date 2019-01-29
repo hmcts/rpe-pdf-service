@@ -1,27 +1,69 @@
 plugins {
   id 'application'
   id 'checkstyle'
+  id 'pmd'
+  id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-  id 'org.springframework.boot' version '1.5.17.RELEASE'
+  id 'org.springframework.boot' version '2.1.2.RELEASE'
   id 'org.owasp.dependencycheck' version '4.0.2'
   id 'com.github.ben-manes.versions' version '0.20.0'
   id 'org.sonarqube' version '2.7'
-  id 'jacoco'
-  id 'pmd'
 }
 
-def springBootVersion = plugins.getPlugin('org.springframework.boot').class.package.implementationVersion
+group = 'uk.gov.hmcts.reform'
+version = '1.0.2'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 allprojects {
-
   apply plugin: 'checkstyle'
-  apply plugin: 'io.spring.dependency-management'
-  apply plugin: 'org.springframework.boot'
-  apply plugin: 'org.owasp.dependencycheck'
   apply plugin: 'com.github.ben-manes.versions'
+  apply plugin: 'org.owasp.dependencycheck'
 
-  group 'uk.gov.hmcts.reform'
-  version '1.0.2'
+  sourceSets {
+    functionalTest {
+      java {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        srcDir file('src/functionalTest/java')
+      }
+      resources.srcDir file('src/functionalTest/resources')
+    }
+
+    integrationTest {
+      java {
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+        srcDir file('src/integrationTest/java')
+      }
+      resources.srcDir file('src/integrationTest/resources')
+    }
+  }
+
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
+  }
+
+  task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+  }
+
+  task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+  }
+
+  task smoke(type: Test) {
+    description = "Runs Smoke Tests"
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+
+    useJUnit {
+      includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
+    }
+  }
 
   checkstyle {
     maxWarnings = 0
@@ -30,19 +72,29 @@ allprojects {
     configDir = new File(rootDir, 'config/checkstyle')
   }
 
-  // make build fail on Checkstyle issues (https://github.com/gradle/gradle/issues/881)
-  tasks.withType(Checkstyle).each { checkstyleTask ->
-    checkstyleTask.doLast {
-      reports.all { report ->
-        def outputFile = report.destination
-        if (outputFile.exists() && outputFile.text.contains("<error ")) {
-          throw new GradleException("There were checkstyle warnings! For more info check $outputFile")
+  jacocoTestReport {
+    executionData(test, integration)
+    reports {
+      xml.enabled = true
+      csv.enabled = false
+      xml.setDestination(file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+    }
+  }
+
+  dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+      rules.all { ComponentSelection selection ->
+        boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+          selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+        }
+        if (rejected) {
+          selection.reject('Release candidate')
         }
       }
     }
   }
 
-  // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
+// https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
   dependencyCheck {
     // Specifies if the build should be failed if a CVSS score above a specified level is identified.
     // range of 0-10 fails the build, anything greater and it doesn't fail the build
@@ -54,183 +106,96 @@ allprojects {
     }
   }
 
-  sourceCompatibility = 1.8
-  compileJava {
-    options.compilerArgs << '-parameters'
-  }
-
   repositories {
     jcenter()
     maven {
-      url  "https://dl.bintray.com/hmcts/hmcts-maven"
+      url "https://dl.bintray.com/hmcts/hmcts-maven"
     }
   }
 
-  sourceSets {
-    integrationTest {
-      java {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        srcDir('src/integrationTest/java')
-      }
-      resources {
-        srcDir('src/integrationTest/resources')
-      }
-    }
+// it is important to specify logback classic and core packages explicitly as libraries like spring boot
+// enforces it's own (older) version which is not recommended.
 
-    functionalTest {
-      java {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        srcDir('src/functionalTest/java')
-      }
-      resources {
-        srcDir('src/functionalTest/resources')
-      }
+  test {
+    useJUnitPlatform()
+    failFast = true
+  }
+
+  def flyingSaucerVersion = '9.1.16'
+
+  dependencyManagement {
+    imports {
+      mavenBom "org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}"
     }
   }
 
-  dependencies {
-    integrationTestCompile(sourceSets.test.output)
-    integrationTestCompile(project(':pdf-generator').sourceSets.main.output)
-
-    functionalTestCompile(sourceSets.test.output)
-    functionalTestCompile(project(':pdf-generator').sourceSets.main.output)
-  }
-
-  task apiTest(type: Test) {
-    setTestClassesDirs(sourceSets.integrationTest.output.classesDirs)
-    setClasspath(sourceSets.integrationTest.runtimeClasspath)
-  }
-
-  task smoke(type: Test, description: 'Runs the smoke tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.functionalTest.output.classesDirs)
-    setClasspath(sourceSets.functionalTest.runtimeClasspath)
-
-    useJUnit {
-      includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
-    }
-  }
-
-  task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-    setTestClassesDirs(sourceSets.functionalTest.output.classesDirs)
-    setClasspath(sourceSets.functionalTest.runtimeClasspath)
-  }
-
-  compileIntegrationTestJava {
-    options.compilerArgs << '-Xlint:deprecation'
-  }
-
-  compileFunctionalTestJava {
-    options.compilerArgs << '-Xlint:deprecation'
-  }
-
-
-  dependencies {
-    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
-    testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+  ext {
+    junit = '5.3.2'
+    reformLogging = '4.0.1'
+    springBoot = '2.1.2.RELEASE'
+    springfoxSwagger = '2.9.2'
+    flyingSaucer = flyingSaucerVersion
+    openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
 
 }
 
-apply plugin: 'application'
-
-mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
-
-ext {
-  versions = [
-    spring          : '4.3.16.RELEASE',
-    springfoxSwagger: '2.9.2',
-    reformJavaLogging: '2.1.1'
-  ]
-}
-
-configurations {
-  integrationTestCompile.extendsFrom(testCompile)
-  integrationTestRuntime.extendsFrom(testRuntime)
-
-  functionalTestCompile.extendsFrom(testCompile)
-  functionalTestRuntime.extendsFrom(testRuntime)
-}
-
-dependencies {
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8'
-  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310'
-  compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-parameter-names'
-
-  compile group: 'io.springfox', name: 'springfox-swagger2', version: project.versions.springfoxSwagger
-  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: project.versions.springfoxSwagger
-
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
-
-  compile group: 'uk.gov.hmcts.reform', name: 'http-proxy-spring-boot-autoconfigure', version: '1.1.0'
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: project.versions.reformJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: project.versions.reformJavaLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.2.2'
-
-  compile project(':pdf-generator')
-
-  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
-}
-
-jacocoTestReport {
-  executionData(test, apiTest)
-
-  reports {
-    xml {
-      enabled true
-    }
-
-    html {
-      enabled true
-    }
-  }
-}
-
-project.tasks['sonarqube'].dependsOn test, apiTest
-project.tasks['check'].dependsOn apiTest
-sonarqube {
-  properties {
-    property "sonar.projectName", "Platform :: PDF Service"
-    property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-    property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/apiTest.exec"
-  }
-}
+project.tasks['sonarqube'].dependsOn test, integration
+project.tasks['check'].dependsOn integration
 
 pmd {
   toolVersion = "6.9.0"
-  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.integrationTest, sourceSets.functionalTest]
-  reportsDir = file("$project.buildDir/reports/pmd")
+  sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
 
-jar {
-  archiveName = 'pdf-service.jar'
+sonarqube {
+  properties {
+    property "sonar.projectName", "Reform :: spring-boot-template"
+    property "sonar.projectKey", "uk.gov.hmcts.reform:spring-boot-template"
+    property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    property "sonar.jacoco.itReportPath", "${project.buildDir}/jacoco/integration.exec"
+
+  }
+}
+
+dependencies {
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+
+  compile group: 'io.springfox', name: 'springfox-swagger2', version: springfoxSwagger
+  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: springfoxSwagger
+
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: reformLogging
+
+  compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
+
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
+  testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
+  testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
+
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+
+  integrationTestCompile sourceSets.main.runtimeClasspath
+  integrationTestCompile sourceSets.test.runtimeClasspath
+
+  functionalTestCompile sourceSets.main.runtimeClasspath
+  functionalTestCompile sourceSets.test.runtimeClasspath
+  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
+
+  compile project(':pdf-generator')
+}
+
+
+mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
+
+bootJar {
+  archiveName = 'pdf-service-all.jar'
+
   manifest {
-    attributes 'Implementation-Title': project.name,
-      'Implementation-Version': project.version
-  }
-}
-
-bootRepackage {
-  classifier 'all'
-}
-
-task printVersion {
-  doLast {
-    print project.version
-  }
-}
-
-wrapper {
-    distributionType = Wrapper.DistributionType.ALL
-}
-
-def debug = System.getProperty("debug")
-run {
-  if (debug == 'true') {
-    jvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005']
+    attributes('Implementation-Version': project.version.toString())
   }
 }

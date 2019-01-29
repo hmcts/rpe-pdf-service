@@ -11,12 +11,11 @@
     <cve>CVE-2018-8088</cve>
   </suppress>
 
-
   <suppress>
     <notes><![CDATA[
-      need to be on spring boot 2.x for the fix, suppressing as spring boot 2 follow up coming very soon, need to merge other prs in the mean time
-      ]]></notes>
-    <gav regex="true">^com\.fasterxml\.jackson\.core:jackson-databind:.*$</gav>
-    <cpe>cpe:/a:fasterxml:jackson-databind</cpe>
+    Suppress LDAP vulnerabilities in groovy pulled in by rest assured
+    ]]></notes>
+    <cve>CVE-2016-6497</cve>
   </suppress>
+
 </suppressions>
