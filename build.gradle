@@ -141,6 +141,7 @@ allprojects {
 }
 
 project.tasks['sonarqube'].dependsOn test, integration
+project.tasks['check'].dependsOn integration
 
 pmd {
   toolVersion = "6.9.0"
