@@ -131,7 +131,7 @@ allprojects {
 
   ext {
     junit = '5.3.2'
-    reformLogging = '4.0.1'
+    reformLogging = '5.0.1'
     springBoot = '2.1.2.RELEASE'
     springfoxSwagger = '2.9.2'
     flyingSaucer = flyingSaucerVersion
@@ -171,6 +171,8 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: reformLogging
 
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
+
+  compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
