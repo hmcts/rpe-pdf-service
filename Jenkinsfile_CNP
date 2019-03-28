@@ -1,12 +1,9 @@
-#!groovy
-
-@Library("Infrastructure")
-
-def product = "cmc"
-def component = "pdf-service"
-
-withPipeline("java", product, component) {
-  enableSlackNotifications('#rpe-build-notices')
-  enableDockerBuild()
-  installCharts()
+node {
+    stage('checkout') {
+        checkout scm
+    }
+    
+    stage('debug') {
+        sh 'env'
+    }
 }
