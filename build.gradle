@@ -172,7 +172,7 @@ dependencies {
 
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
 
-  compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.3'
+  compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.4'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
