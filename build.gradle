@@ -4,7 +4,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.7.RELEASE'
-  id 'org.springframework.boot' version '2.1.5.RELEASE' // remove tomcat version force below when updating spring boot version
+  id 'org.springframework.boot' version '2.1.5.RELEASE'
   id 'org.owasp.dependencycheck' version '4.0.2'
   id 'com.github.ben-manes.versions' version '0.21.0'
   id 'org.sonarqube' version '2.7.1'
@@ -126,14 +126,6 @@ allprojects {
   dependencyManagement {
     imports {
       mavenBom "org.xhtmlrenderer:flying-saucer-pdf:${flyingSaucerVersion}"
-    }
-    dependencies {
-    // CVE-2019-0232 - command line injections on windows - fixed on spring boot master but not released
-      dependencySet(group: 'org.apache.tomcat.embed', version: '9.0.19') {
-        entry 'tomcat-embed-core'
-        entry 'tomcat-embed-el'
-        entry 'tomcat-embed-websocket'
-      }
     }
   }
 
