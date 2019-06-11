@@ -4,7 +4,7 @@ locals {
   local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
   local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.ase_name}"
 
-  sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
+  sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" || var.env == "ithc" ? "I2" : "I1"}"
 }
 
 module "pdf-service-api" {
