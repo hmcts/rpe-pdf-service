@@ -1,14 +1,13 @@
 package uk.gov.hmcts.reform.pdf.generator;
 
 import com.lowagie.text.pdf.BaseFont;
-import com.microsoft.applicationinsights.TelemetryClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
 import org.xhtmlrenderer.util.XRRuntimeException;
 import org.xml.sax.SAXParseException;
-import uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsights;
+import uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
 import uk.gov.hmcts.reform.pdf.generator.exception.PDFGenerationException;
 
@@ -18,14 +17,10 @@ import java.io.ByteArrayOutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import static uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEvent.*;
-
 public class PDFGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(PDFGenerator.class);
-
-    private TelemetryClient telemetry = new TelemetryClient();
-    private AppInsights appInsights = new AppInsights(telemetry);
+    private AppInsightsEventTracker eventTracker = new AppInsightsEventTracker();
 
     /**
      * Generates a PDF document from provided HTML.
@@ -54,8 +49,7 @@ public class PDFGenerator {
 
             log.debug("PDF generation finished successfully");
             final byte[] results = outputStream.toByteArray();
-            final double generatedFileSize = outputStream.size();
-            appInsights.trackEvent(PDF_GENERATOR_FILE_SIZE, AppInsights.FILE_SIZE, String.valueOf(generatedFileSize));
+            eventTracker.trackFileSize(outputStream.size());
             return results;
         } catch (XRRuntimeException | SAXParseException e) {
             throw new MalformedTemplateException("Malformed HTML document provided", e);
