@@ -4,25 +4,31 @@ import com.microsoft.applicationinsights.TelemetryClient;
 
 import java.text.DecimalFormat;
 
+import static java.util.Collections.singletonMap;
+import static uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEvent.PDF_GENERATOR_FILE_NAME;
 import static uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEvent.PDF_GENERATOR_FILE_SIZE;
 
 public class AppInsightsEventTracker {
 
-    private TelemetryClient telemetry ;
-    private AppInsights appInsights;
+    private static final String FILE_NAME = "file.name";
+    private static final String FILE_SIZE = "file.size";
+
+    private TelemetryClient telemetry;
 
     public AppInsightsEventTracker() {
         this.telemetry  = new TelemetryClient();
-        this.appInsights = new AppInsights(telemetry);
     }
 
-    public AppInsightsEventTracker(TelemetryClient telemetry, AppInsights appInsights) {
+    public AppInsightsEventTracker(TelemetryClient telemetry) {
         this.telemetry = telemetry;
-        this.appInsights = appInsights;
     }
 
     public void trackFileSize(float fileSize) {
-        appInsights.trackEvent(PDF_GENERATOR_FILE_SIZE, AppInsights.FILE_SIZE, convertSize(fileSize));
+        telemetry.trackEvent(PDF_GENERATOR_FILE_SIZE.toString(), singletonMap(FILE_SIZE, convertSize(fileSize)), null);
+    }
+
+    public void trackFileName(String fileName) {
+        telemetry.trackEvent(PDF_GENERATOR_FILE_NAME.toString(), singletonMap(FILE_NAME, fileName), null);
     }
 
     private String convertSize(float fileSize) {
@@ -33,13 +39,13 @@ public class AppInsightsEventTracker {
         float sizeGb = sizeMb * sizeKb;
         float sizeTerra = sizeGb * sizeKb;
 
-        if(fileSize < sizeMb)
+        if (fileSize < sizeMb) {
             return df.format(fileSize / sizeKb) + " Kb";
-        else if(fileSize < sizeGb)
+        } else if (fileSize < sizeGb) {
             return df.format(fileSize / sizeMb) + " Mb";
-        else if(fileSize < sizeTerra)
+        } else if (fileSize < sizeTerra) {
             return df.format(fileSize / sizeGb) + " Gb";
-
+        }
         return "";
     }
 }
