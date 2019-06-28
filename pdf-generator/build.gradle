@@ -12,6 +12,7 @@ configurations.all {
 
 dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: reformLogging
 
   compile group: 'com.mitchellbosecke', name: 'pebble', version: '2.4.0'
 
@@ -21,8 +22,6 @@ dependencies {
     exclude group: 'org.bouncycastle'
   }
   compile group: 'com.github.librepdf', name: 'openpdf', version: openPdf
-
-  compile group: 'com.microsoft.azure', name: 'applicationinsights-core', version: '2.+'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit

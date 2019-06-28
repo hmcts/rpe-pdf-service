@@ -6,29 +6,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.generator.matchers.EventMetricsMatcher;
-import uk.gov.hmcts.reform.pdf.generator.matchers.FileNameEventPropertiesMatcher;
 import uk.gov.hmcts.reform.pdf.generator.matchers.GbEventPropertiesMatcher;
 import uk.gov.hmcts.reform.pdf.generator.matchers.KbEventPropertiesMatcher;
 import uk.gov.hmcts.reform.pdf.generator.matchers.MbEventPropertiesMatcher;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(JUnit4.class)
-public class AppInsightsEventTrackerTest{
+public class AppInsightsEventTrackerTest {
 
     private TelemetryClient telemetryMock = mock(TelemetryClient.class);
     private AppInsightsEventTracker tracker;
 
     @Test
-    public void shouldTrackEventForFileSizeInKb(){
+    public void shouldTrackEventForFileSizeInKb() {
         tracker = new AppInsightsEventTracker(telemetryMock);
-    //Given
-        float kbFileSize = 500;
 
-    //When
+        float kbFileSize = 500;
         tracker.trackFileSize(kbFileSize);
 
-    //Then
         verify(telemetryMock).trackEvent(
             argThat((String name) -> name.equalsIgnoreCase("PDF File size")),
             argThat(new KbEventPropertiesMatcher()),
@@ -37,15 +35,12 @@ public class AppInsightsEventTrackerTest{
     }
 
     @Test
-    public void shouldTrackEventForFileSizeInMb(){
+    public void shouldTrackEventForFileSizeInMb() {
         tracker = new AppInsightsEventTracker(telemetryMock);
-    //Given
-        float mbFileSize = (1024.0f*1024.0f) + 100;
 
-    //When
+        float mbFileSize = (1024.0f * 1024.0f) + 100;
         tracker.trackFileSize(mbFileSize);
 
-    //Then
         verify(telemetryMock).trackEvent(
             argThat((String name) -> name.equalsIgnoreCase("PDF File size")),
             argThat(new MbEventPropertiesMatcher()),
@@ -54,37 +49,16 @@ public class AppInsightsEventTrackerTest{
     }
 
     @Test
-    public void shouldTrackEventForFileSizeInGb(){
+    public void shouldTrackEventForFileSizeInGb() {
         tracker = new AppInsightsEventTracker(telemetryMock);
-    //Given
-        float gbFileSize = (1024.0f*1024.0f*1024.0f) + 400;
 
-    //When
+        float gbFileSize = (1024.0f * 1024.0f * 1024.0f) + 400;
         tracker.trackFileSize(gbFileSize);
 
-    //Then
         verify(telemetryMock).trackEvent(
             argThat((String name) -> name.equalsIgnoreCase("PDF File size")),
             argThat(new GbEventPropertiesMatcher()),
             argThat(new EventMetricsMatcher())
         );
     }
-
-    @Test
-    public void shouldTrackEventForFileName(){
-        tracker = new AppInsightsEventTracker(telemetryMock);
-    //Given
-        String fileName = "testFile.txt";
-
-    //When
-        tracker.trackFileName(fileName);
-
-    //Then
-        verify(telemetryMock).trackEvent(
-            argThat((String name) -> name.equalsIgnoreCase("PDF Filename")),
-            argThat(new FileNameEventPropertiesMatcher()),
-            argThat(new EventMetricsMatcher())
-        );
-    }
-
 }

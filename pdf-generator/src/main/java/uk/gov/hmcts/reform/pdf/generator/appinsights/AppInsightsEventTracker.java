@@ -5,12 +5,10 @@ import com.microsoft.applicationinsights.TelemetryClient;
 import java.text.DecimalFormat;
 
 import static java.util.Collections.singletonMap;
-import static uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEvent.PDF_GENERATOR_FILE_NAME;
 import static uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEvent.PDF_GENERATOR_FILE_SIZE;
 
 public class AppInsightsEventTracker {
 
-    private static final String FILE_NAME = "file.name";
     private static final String FILE_SIZE = "file.size";
 
     private TelemetryClient telemetry;
@@ -25,10 +23,6 @@ public class AppInsightsEventTracker {
 
     public void trackFileSize(float fileSize) {
         telemetry.trackEvent(PDF_GENERATOR_FILE_SIZE.toString(), singletonMap(FILE_SIZE, convertSize(fileSize)), null);
-    }
-
-    public void trackFileName(String fileName) {
-        telemetry.trackEvent(PDF_GENERATOR_FILE_NAME.toString(), singletonMap(FILE_NAME, fileName), null);
     }
 
     private String convertSize(float fileSize) {
