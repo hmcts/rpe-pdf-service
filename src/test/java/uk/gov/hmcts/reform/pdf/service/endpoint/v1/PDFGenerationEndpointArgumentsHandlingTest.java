@@ -25,6 +25,7 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
 
     @Mock
     private HTMLToPDFConverter htmlToPdf;
+
     @Mock
     private ObjectMapper objectMapper;
 

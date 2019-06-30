@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.pdf.generator.appinsights;
+package uk.gov.hmcts.reform.pdf.service;
 
 public enum AppInsightsEvent {
 

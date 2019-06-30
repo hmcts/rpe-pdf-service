@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.pdf.generator.matchers;
+package uk.gov.hmcts.reform.pdf.service.domain.matchers;
 
 import org.mockito.ArgumentMatcher;
 
@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class EventMetricsMatcher implements ArgumentMatcher<Map<String, Double>> {
 
+    @Override
     public String toString() {
         return "[Event Metrics ('Name','Value')]";
     }

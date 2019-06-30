@@ -7,7 +7,6 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
 import org.xhtmlrenderer.util.XRRuntimeException;
 import org.xml.sax.SAXParseException;
-import uk.gov.hmcts.reform.pdf.generator.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.generator.exception.MalformedTemplateException;
 import uk.gov.hmcts.reform.pdf.generator.exception.PDFGenerationException;
 
@@ -20,7 +19,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 public class PDFGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(PDFGenerator.class);
-    private AppInsightsEventTracker eventTracker = new AppInsightsEventTracker();
 
     /**
      * Generates a PDF document from provided HTML.
@@ -48,9 +46,7 @@ public class PDFGenerator {
             renderer.createPDF(outputStream, true);
 
             log.debug("PDF generation finished successfully");
-            final byte[] results = outputStream.toByteArray();
-            eventTracker.trackFileSize(outputStream.size());
-            return results;
+            return outputStream.toByteArray();
         } catch (XRRuntimeException | SAXParseException e) {
             throw new MalformedTemplateException("Malformed HTML document provided", e);
         } catch (Exception e) {

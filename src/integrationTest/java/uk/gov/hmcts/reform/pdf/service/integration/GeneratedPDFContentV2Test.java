@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.pdf.service.integration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import com.microsoft.applicationinsights.TelemetryClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.pdfbox.pdmodel.PDDocument;
@@ -10,6 +11,7 @@ import org.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -40,8 +42,11 @@ public class GeneratedPDFContentV2Test {
     private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    @MockBean
+    protected TelemetryClient telemetry;
+
     @Autowired
-    private MockMvc webClient;
+    protected MockMvc webClient;
 
     @SpyBean
     private HTMLToPDFConverter converter;

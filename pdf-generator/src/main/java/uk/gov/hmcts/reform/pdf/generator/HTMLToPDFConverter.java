@@ -9,6 +9,7 @@ public class HTMLToPDFConverter {
     private PDFGenerator pdfGenerator;
     private XMLContentSanitizer xmlContentSanitizer;
 
+
     public HTMLToPDFConverter() {
         this(new HTMLTemplateProcessor(), new PDFGenerator(), new XMLContentSanitizer());
     }
@@ -31,7 +32,7 @@ public class HTMLToPDFConverter {
      * @return a byte array which contains generated PDF output
      */
     public byte[] convert(byte[] template, Map<String, Object> context) {
-        String processedHtml = templateProcessor.process(template, context);
+        final String processedHtml = templateProcessor.process(template, context);
         return pdfGenerator.generateFrom(xmlContentSanitizer.stripIllegalCharacters(processedHtml));
     }
 

@@ -8,6 +8,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
+import uk.gov.hmcts.reform.pdf.service.AppInsightsEventTracker;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,7 +23,10 @@ public class GetWelcomeTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private HTMLToPDFConverter converter; // NOPMD we only need context to load
+    protected HTMLToPDFConverter converter; // NOPMD we only need context to load
+
+    @MockBean
+    protected AppInsightsEventTracker eventTracker;
 
     @Test
     public void should_welcome_upon_root_request_with_200_response_code() throws Exception {

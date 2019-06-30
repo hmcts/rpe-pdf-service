@@ -48,11 +48,13 @@ allprojects {
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
+    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
+    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   task smoke(type: Test) {
@@ -63,6 +65,7 @@ allprojects {
     useJUnit {
       includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
     }
+    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   checkstyle {
@@ -178,6 +181,7 @@ dependencies {
   compile group: 'io.springfox', name: 'springfox-swagger-ui', version: springfoxSwagger
 
   compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: reformLogging
 
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
 

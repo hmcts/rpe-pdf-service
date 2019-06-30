@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
+import uk.gov.hmcts.reform.pdf.service.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 
 @Api
@@ -30,6 +31,9 @@ public class PDFGenerationEndpointV2 {
     private final HTMLToPDFConverter htmlToPdf;
 
     @Autowired
+    private AppInsightsEventTracker eventTracker;
+
+    @Autowired
     public PDFGenerationEndpointV2(HTMLToPDFConverter htmlToPdf) {
         this.htmlToPdf = htmlToPdf;
     }
@@ -41,6 +45,7 @@ public class PDFGenerationEndpointV2 {
         // PMD doesn't like the public field
         byte[] pdfDocument = htmlToPdf.convert(request.template.getBytes(), request.values); //NOPMD
         LOGGER.info("Generated document");
+        eventTracker.trackFileSize(pdfDocument.length);
         return ResponseEntity.ok(new ByteArrayResource(pdfDocument));
     }
 }
