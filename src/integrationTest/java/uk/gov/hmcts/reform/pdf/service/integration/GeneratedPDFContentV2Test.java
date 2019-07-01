@@ -83,7 +83,6 @@ public class GeneratedPDFContentV2Test {
         verify(converter, times(1)).convert(any(), anyMap());
     }
 
-
     private MockHttpServletRequestBuilder getRequest(String template, Map<String, Object> values)
         throws JsonProcessingException {
 

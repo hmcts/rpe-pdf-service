@@ -30,12 +30,12 @@ public class PDFGenerationEndpointV2 {
 
     private final HTMLToPDFConverter htmlToPdf;
 
-    @Autowired
-    private AppInsightsEventTracker eventTracker;
+    private final AppInsightsEventTracker eventTracker;
 
     @Autowired
-    public PDFGenerationEndpointV2(HTMLToPDFConverter htmlToPdf) {
+    public PDFGenerationEndpointV2(HTMLToPDFConverter htmlToPdf, AppInsightsEventTracker eventTracker) {
         this.htmlToPdf = htmlToPdf;
+        this.eventTracker = eventTracker;
     }
 
     @PostMapping
