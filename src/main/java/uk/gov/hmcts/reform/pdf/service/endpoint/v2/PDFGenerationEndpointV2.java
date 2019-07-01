@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
-import uk.gov.hmcts.reform.pdf.service.AppInsightsEventTracker;
+import uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 
 @Api

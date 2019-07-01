@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.pdf.service;
+package uk.gov.hmcts.reform.pdf.service.appinsights;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import org.junit.Test;
@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEventTracker;
+import uk.gov.hmcts.reform.pdf.service.appinsights.FileSizeConverter;
 import uk.gov.hmcts.reform.pdf.service.domain.matchers.EventMetricsMatcher;
 import uk.gov.hmcts.reform.pdf.service.domain.matchers.GbEventPropertiesMatcher;
 import uk.gov.hmcts.reform.pdf.service.domain.matchers.KbEventPropertiesMatcher;

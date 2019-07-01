@@ -1,12 +1,9 @@
-package uk.gov.hmcts.reform.pdf.service;
+package uk.gov.hmcts.reform.pdf.service.appinsights;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(JUnit4.class)
 public class FileSizeConverterTest {
 
     private FileSizeConverter fileSizeConverter;
@@ -28,7 +25,7 @@ public class FileSizeConverterTest {
         float mbFileSize = 1024.0f * 1024.0f + 100;
         String mbResult = fileSizeConverter.convertSize(mbFileSize);
 
-        assertThat(mbResult).isEqualToIgnoringCase("1.00 Mb");
+        assertThat(mbResult).isEqualTo("1.00 Mb");
     }
 
     @Test
@@ -38,7 +35,7 @@ public class FileSizeConverterTest {
         float gbFileSize = 1024.0f * 1024.0f * 1024.0f + 400;
         String gbResult = fileSizeConverter.convertSize(gbFileSize);
 
-        assertThat(gbResult).isEqualToIgnoringCase("1.00 Gb");
+        assertThat(gbResult).isEqualTo("1.00 Gb");
     }
 
     @Test
@@ -48,6 +45,6 @@ public class FileSizeConverterTest {
         float tooBigFileSize = 1024.0f * 1024.0f * 1024.0f * 1024.0f;
         String tooBigResult = fileSizeConverter.convertSize(tooBigFileSize);
 
-        assertThat(tooBigResult).isEqualToIgnoringCase("");
+        assertThat(tooBigResult).isEqualTo("");
     }
 }

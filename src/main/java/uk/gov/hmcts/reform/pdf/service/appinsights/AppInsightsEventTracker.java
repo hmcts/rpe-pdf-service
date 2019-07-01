@@ -1,11 +1,11 @@
-package uk.gov.hmcts.reform.pdf.service;
+package uk.gov.hmcts.reform.pdf.service.appinsights;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import static java.util.Collections.singletonMap;
-import static uk.gov.hmcts.reform.pdf.service.AppInsightsEvent.PDF_GENERATOR_FILE_SIZE;
+import static uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEvent.PDF_GENERATOR_FILE_SIZE;
 
 @Component
 public class AppInsightsEventTracker {

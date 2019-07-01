@@ -1,4 +1,4 @@
-package uk.gov.hmcts.reform.pdf.service;
+package uk.gov.hmcts.reform.pdf.service.appinsights;
 
 import org.springframework.stereotype.Component;
 
