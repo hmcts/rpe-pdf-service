@@ -48,7 +48,6 @@ allprojects {
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
-    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
