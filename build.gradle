@@ -160,6 +160,11 @@ sonarqube {
   }
 }
 
+task printJacocoDir (type: Exec) {
+  workingDir "${project.buildDir}/reports/jacoco/test"
+  commandLine 'ls'
+}
+
 configurations.all {
   resolutionStrategy {  
     eachDependency { DependencyResolveDetails details ->
