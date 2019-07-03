@@ -27,5 +27,4 @@ dependencies {
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
   testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBoot
-  testCompile group: 'org.mockito', name: 'mockito-core', version: '2.+'
 }
