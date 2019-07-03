@@ -65,7 +65,6 @@ allprojects {
     useJUnit {
       includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
     }
-    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   checkstyle {
