@@ -8,18 +8,6 @@ import java.text.DecimalFormat;
 public class FileSizeConverter {
 
     public String convertSize(float fileSize) {
-
-        if (fileSize < (1024.0f * 1024.0f)) {
-            return new DecimalFormat("0.00").format(fileSize / (1024.0f)) + " Kb";
-        }
-
-        if (fileSize < (1024.0f * 1024.0f * 1024.0f)) {
-            return new DecimalFormat("0.00").format(fileSize / (1024.0f * 1024.0f)) + " Mb";
-        }
-
-        if (fileSize < (1024.0f * 1024.0f * 1024.0f * 1024.0f)) {
-            return new DecimalFormat("0.00").format(fileSize / (1024.0f * 1024.0f * 1024.0f)) + " Gb";
-        }
-        return "";
+        return new DecimalFormat("0.00").format(fileSize / (1024.0f)) + " Kb";
     }
 }

@@ -19,32 +19,13 @@ public class FileSizeConverterTest {
     }
 
     @Test
-    public void shouldConvertForFileSizeInMb() {
+    public void shouldConvertForBigFileSizeInKb() {
         fileSizeConverter = new FileSizeConverter();
 
-        float mbFileSize = 1024.0f * 1024.0f + 100;
-        String mbResult = fileSizeConverter.convertSize(mbFileSize);
+        float bigFileSize = 1024.0f * 1024.0f * 1024.0f - 100;
+        String mbResult = fileSizeConverter.convertSize(bigFileSize);
 
-        assertThat(mbResult).isEqualTo("1.00 Mb");
+        assertThat(mbResult).isEqualTo("1048575.88 Kb");
     }
 
-    @Test
-    public void shouldConvertForFileSizeInGb() {
-        fileSizeConverter = new FileSizeConverter();
-
-        float gbFileSize = 1024.0f * 1024.0f * 1024.0f + 400;
-        String gbResult = fileSizeConverter.convertSize(gbFileSize);
-
-        assertThat(gbResult).isEqualTo("1.00 Gb");
-    }
-
-    @Test
-    public void shouldConvertToEmptyStringForFileSizeTooBig() {
-        fileSizeConverter = new FileSizeConverter();
-
-        float tooBigFileSize = 1024.0f * 1024.0f * 1024.0f * 1024.0f;
-        String tooBigResult = fileSizeConverter.convertSize(tooBigFileSize);
-
-        assertThat(tooBigResult).isEqualTo("");
-    }
 }
