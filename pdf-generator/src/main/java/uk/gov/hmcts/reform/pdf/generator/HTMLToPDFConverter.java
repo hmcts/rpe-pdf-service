@@ -9,7 +9,6 @@ public class HTMLToPDFConverter {
     private PDFGenerator pdfGenerator;
     private XMLContentSanitizer xmlContentSanitizer;
 
-
     public HTMLToPDFConverter() {
         this(new HTMLTemplateProcessor(), new PDFGenerator(), new XMLContentSanitizer());
     }
