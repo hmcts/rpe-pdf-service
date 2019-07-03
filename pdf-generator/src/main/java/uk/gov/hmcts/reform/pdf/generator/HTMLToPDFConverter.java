@@ -31,7 +31,7 @@ public class HTMLToPDFConverter {
      * @return a byte array which contains generated PDF output
      */
     public byte[] convert(byte[] template, Map<String, Object> context) {
-       String processedHtml = templateProcessor.process(template, context);
+        String processedHtml = templateProcessor.process(template, context);
         return pdfGenerator.generateFrom(xmlContentSanitizer.stripIllegalCharacters(processedHtml));
     }
 
