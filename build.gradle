@@ -54,7 +54,6 @@ allprojects {
   task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
     testClassesDirs = sourceSets.integrationTest.output.classesDirs
     classpath = sourceSets.integrationTest.runtimeClasspath
-    environment("APPINSIGHTS_INSTRUMENTATIONKEY", "test-key")
   }
 
   task smoke(type: Test) {
