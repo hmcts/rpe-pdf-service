@@ -17,7 +17,7 @@ cache:
 
 script:
   - ./gradlew check
-  - ./gradlew clean jacocoTestReport
+  - ./gradlew jacocoTestReport
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
