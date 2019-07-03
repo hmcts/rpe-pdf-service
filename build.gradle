@@ -80,7 +80,7 @@ allprojects {
     reports {
       xml.enabled = true
       csv.enabled = false
-      xml.setDestination(file("${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"))
+      xml.setDestination(file("${project.buildDir}/jacoco/jacoco.xml"))
     }
   }
 
@@ -156,13 +156,8 @@ sonarqube {
   properties {
     property "sonar.projectName", "Reform :: RPE PDF Service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:rpe-pdf-service"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/jacoco.xml"
   }
-}
-
-task printJacocoDir (type: Exec) {
-  workingDir "${project.buildDir}/reports/jacoco/test"
-  commandLine 'ls'
 }
 
 configurations.all {
