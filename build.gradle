@@ -140,7 +140,7 @@ allprojects {
 
 }
 
-project.tasks['sonarqube'].dependsOn test, integration
+project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
 project.tasks['check'].dependsOn integration
 
 pmd {
@@ -153,7 +153,7 @@ sonarqube {
   properties {
     property "sonar.projectName", "Reform :: RPE PDF Service"
     property "sonar.projectKey", "uk.gov.hmcts.reform:rpe-pdf-service"
-    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/jacoco.xml"
+    property "sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/reports/jacoco/test/jacocoTestReport.xml"
   }
 }
 
