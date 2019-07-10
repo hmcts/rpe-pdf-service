@@ -168,13 +168,6 @@ configurations.all {
 }
 
 dependencies {
-  constraints {
-    implementation("com.google.guava:guava") {
-      version {
-        prefer('28.0-jre')
-      }
-    }
-  }
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
