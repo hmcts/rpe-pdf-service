@@ -6,6 +6,10 @@ configurations.all {
       if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
         details.useVersion '2.9.9'
       }
+      
+      if (details.requested.name == 'jackson-databind') {
+        details.useVersion '2.9.9.1'
+      }
     }
   }
 }
@@ -28,5 +32,5 @@ dependencies {
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBoot
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.1.6.RELEASE'
 }
