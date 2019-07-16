@@ -145,6 +145,7 @@ project.tasks['check'].dependsOn integration
 pmd {
   toolVersion = "6.11.0"
   sourceSets = [sourceSets.main, sourceSets.test, sourceSets.functionalTest, sourceSets.integrationTest]
+  ruleSets = []
   ruleSetFiles = files("config/pmd/ruleset.xml")
 }
 
