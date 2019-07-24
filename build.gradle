@@ -200,7 +200,7 @@ dependencies {
 
   functionalTestCompile sourceSets.main.runtimeClasspath
   functionalTestCompile sourceSets.test.runtimeClasspath
-  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.3.0'
+  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured', version: '4.0.0'
 
   compile project(':pdf-generator')
 }
