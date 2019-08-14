@@ -3,4 +3,4 @@ java:
   environment:
     LOGBACK_REQUIRE_ALERT_LEVEL: 'false'
     LOGBACK_REQUIRE_ERROR_CODE: 'false'
-  image: 'https://hmcts.azurecr.io/hmcts/cmc-pdf-service:latest'
+  image: 'https://hmctspublic.azurecr.io/cmc/pdf-service:latest'
