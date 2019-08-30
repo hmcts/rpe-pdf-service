@@ -82,18 +82,20 @@ allprojects {
     }
   }
 
-  dependencyUpdates.resolutionStrategy = {
-    componentSelection { rules ->
-      rules.all { ComponentSelection selection ->
-        boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
-          selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+  dependencyUpdates.resolutionStrategy {
+  componentSelection { rules ->
+    rules.all {
+      def isNonStable = { String version ->
+        ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
+          version ==~ /(?i).*[.-]\$qualifier[.\\d-+]*/
         }
-        if (rejected) {
-          selection.reject('Release candidate')
-        }
+      }
+      if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+        selection.reject('Release candidate')
       }
     }
   }
+}
 
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
   dependencyCheck {
