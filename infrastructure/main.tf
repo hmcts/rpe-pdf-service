@@ -8,7 +8,7 @@ locals {
 }
 
 module "pdf-service-api" {
-  source        = "git@github.com:hmcts/cnp-module-webapp.git?ref=master"
+  source        = "git@github.com:hmcts/cnp-module-webapp?ref=master"
   product       = "${var.product}-${var.component}"
   location      = "${var.location}"
   env           = "${var.env}"
