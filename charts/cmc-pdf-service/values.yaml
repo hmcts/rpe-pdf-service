@@ -1,6 +1,7 @@
 java:
   applicationPort: 5500
+  ingressHost: cmc-pdf-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   environment:
     LOGBACK_REQUIRE_ALERT_LEVEL: 'false'
     LOGBACK_REQUIRE_ERROR_CODE: 'false'
-  image: 'https://hmctspublic.azurecr.io/cmc/pdf-service:latest'
+  image: 'hmctspublic.azurecr.io/cmc/pdf-service:latest'
