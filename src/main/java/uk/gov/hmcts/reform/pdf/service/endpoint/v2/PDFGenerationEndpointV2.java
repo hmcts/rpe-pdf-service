@@ -15,8 +15,6 @@ import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 
-import java.nio.charset.StandardCharsets;
-
 @Api
 @RestController
 @RequestMapping(
@@ -46,7 +44,7 @@ public class PDFGenerationEndpointV2 {
     ) {
         // PMD doesn't like the public field
         byte[] pdfDocument = htmlToPdf.convert(
-            request.template.getBytes(StandardCharsets.UTF_8), request.values); //NOPMD
+            request.template.getBytes(), request.values); //NOPMD
 
         LOGGER.info("Generated document");
         eventTracker.trackFileSize(pdfDocument.length);
