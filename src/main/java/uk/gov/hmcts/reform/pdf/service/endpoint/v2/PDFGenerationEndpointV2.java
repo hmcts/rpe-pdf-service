@@ -44,7 +44,8 @@ public class PDFGenerationEndpointV2 {
         name = "/pdfs",
         docLink = "https://github.com/hmcts/cmc-pdf-service#standard-api",
         expiryDate = "2019-01-04",
-        note = "Please use `/pdfs` with the mediatype application/vnd.uk.gov.hmcts.pdf-service.v3+json;charset=UTF-8  instead.")
+        note = "Please use `/pdfs` with the "
+            + "mediatype application/vnd.uk.gov.hmcts.pdf-service.v3+json;charset=UTF-8 instead.")
     public ResponseEntity<ByteArrayResource> generateFromHtml(
         @RequestBody GeneratePdfRequest request
     ) {
