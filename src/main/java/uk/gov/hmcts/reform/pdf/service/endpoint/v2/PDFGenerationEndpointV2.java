@@ -46,9 +46,8 @@ public class PDFGenerationEndpointV2 {
     ) {
         // PMD doesn't like the public field
         byte[] pdfDocument = htmlToPdf.convert(
-            request.template.getBytes(StandardCharsets.UTF_8), request.values
-        ); //NOPMD
-        
+            request.template.getBytes(StandardCharsets.UTF_8), request.values); //NOPMD
+
         LOGGER.info("Generated document");
         eventTracker.trackFileSize(pdfDocument.length);
         return ResponseEntity.ok(new ByteArrayResource(pdfDocument));
