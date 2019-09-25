@@ -14,7 +14,7 @@ import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.util.PDFTextStripper;
 import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
-import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
+import uk.gov.hmcts.reform.pdf.service.endpoint.v3.PDFGenerationEndpointV3;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GeneratedPDFContentV2Test {
+public class GeneratedPDFContentV3Test {
 
     private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -46,10 +46,21 @@ public class GeneratedPDFContentV2Test {
         assertThat(textContentOf(response.getBody().asByteArray())).contains("Hello!");
     }
 
+
     @Test
     public void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
         Response response = makeRequest(
             "<html><body>&#163;200</body></html>",
+            Collections.emptyMap()
+        );
+
+        assertThat(textContentOf(response.getBody().asByteArray())).contains("£200");
+    }
+
+    @Test
+    public void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
+        Response response = makeRequest(
+            "<html><body>£200</body></html>",
             Collections.emptyMap()
         );
 
@@ -84,7 +95,7 @@ public class GeneratedPDFContentV2Test {
         return RestAssured
             .given()
             .accept(MediaType.APPLICATION_PDF_VALUE)
-            .contentType(PDFGenerationEndpointV2.MEDIA_TYPE)
+            .contentType(PDFGenerationEndpointV3.MEDIA_TYPE)
             .body(json)
             .when()
             .post(API_URL);
