@@ -12,7 +12,7 @@ public class HTMLToPDFConverterTest {
 
     @Test
     public void shouldSuccessfullyProcessContentWithIllegalCharacters() {
-        byte[] templateWithIllegalCharacters = ResourceLoader.loadBytes("/illegal-characters.html");
+        String templateWithIllegalCharacters = ResourceLoader.loadString("/illegal-characters.html");
 
         byte[] output = htmlToPDFConverter.convert(templateWithIllegalCharacters, emptyMap());
 

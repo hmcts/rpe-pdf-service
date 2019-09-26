@@ -30,7 +30,7 @@ public class HTMLToPDFConverter {
      * @param context a map with a structure corresponding to the placeholders used in the template
      * @return a byte array which contains generated PDF output
      */
-    public byte[] convert(byte[] template, Map<String, Object> context) {
+    public byte[] convert(String template, Map<String, Object> context) {
         String processedHtml = templateProcessor.process(template, context);
         return pdfGenerator.generateFrom(xmlContentSanitizer.stripIllegalCharacters(processedHtml));
     }

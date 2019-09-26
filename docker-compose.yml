@@ -9,7 +9,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmcts.azurecr.io/hmcts/cmc-pdf-service
+    image: hmctspublic.azurecr.io/cmc/pdf-service
     environment:
       # used by java-logging library
       - ROOT_APPENDER
@@ -18,6 +18,6 @@ services:
       - REFORM_SERVICE_NAME
       - REFORM_TEAM
       - REFORM_ENVIRONMENT
-      - AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY
+      - AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY=0000-0000-0000-0000
     ports:
       - 5500:5500

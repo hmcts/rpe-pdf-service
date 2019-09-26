@@ -47,6 +47,26 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
+    public void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
+        Response response = makeRequest(
+            "<html><body>&#163;200</body></html>",
+            Collections.emptyMap()
+        );
+
+        assertThat(textContentOf(response.getBody().asByteArray())).contains("£200");
+    }
+
+    @Test
+    public void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
+        Response response = makeRequest(
+            "<html><body>£200</body></html>",
+            Collections.emptyMap()
+        );
+
+        assertThat(textContentOf(response.getBody().asByteArray())).contains("£200");
+    }
+
+    @Test
     public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
         Response response = makeRequest(
             "<html>{{ hello }}</html>",
