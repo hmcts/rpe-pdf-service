@@ -1,4 +1,4 @@
-ARG APP_INSIGHTS_AGENT_VERSION=2.3.1
+ARG APP_INSIGHTS_AGENT_VERSION=2.5.1-BETA
 FROM hmctspublic.azurecr.io/base/java:openjdk-8-distroless-1.2
 
 # Mandatory!

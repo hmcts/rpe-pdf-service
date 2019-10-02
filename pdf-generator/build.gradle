@@ -15,7 +15,7 @@ configurations.all {
 }
 
 dependencies {
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
 
   compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
 
