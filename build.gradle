@@ -134,7 +134,7 @@ allprojects {
 
   ext {
     junit = '5.5.0'
-    reformLogging = '5.0.1'
+    reformLogging = '5.1.0'
     springfoxSwagger = '2.9.2'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
@@ -184,8 +184,8 @@ dependencies {
 
   compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
 
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging', version: reformLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'java-logging-appinsights', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
+  compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: reformLogging
 
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
 
