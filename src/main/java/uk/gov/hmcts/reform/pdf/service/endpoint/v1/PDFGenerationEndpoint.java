@@ -21,6 +21,7 @@ import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Api
@@ -57,7 +58,9 @@ public class PDFGenerationEndpoint {
         @RequestParam("placeholderValues") String placeholderValues
     ) {
         LOGGER.debug("Received a PDF generation request");
-        byte[] pdfDocument = htmlToPdf.convert(asBytes(template), asMap(placeholderValues));
+        byte[] pdfDocument = htmlToPdf.convert(
+            new String(asBytes(template), StandardCharsets.UTF_8),
+            asMap(placeholderValues));
         LOGGER.debug("PDF generated");
         return ResponseEntity
             .ok()
