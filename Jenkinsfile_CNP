@@ -9,6 +9,6 @@ withPipeline("java", product, component) {
   enableSlackNotifications('#rpe-build-notices')
   enableDockerBuild()
   enableAksStagingDeployment()
-  disableLegacyDeploymentOnAAT()
+  disableLegacyDeployment()
   installCharts()
 }
