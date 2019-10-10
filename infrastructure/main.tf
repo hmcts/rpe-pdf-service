@@ -19,6 +19,7 @@ module "pdf-service-api" {
   asp_name      = "${var.product}-${var.component}-${var.env}"
   asp_rg        = "${var.product}-${var.component}-${var.env}"
   instance_size = "${local.sku_size}"
+  enable_ase = false
 
   app_settings = {
     ROOT_APPENDER       = "CONSOLE"
