@@ -82,20 +82,17 @@ allprojects {
     }
   }
 
-  dependencyUpdates.resolutionStrategy {
-  componentSelection { rules ->
-    rules.all {
-      def isNonStable = { String version ->
-        ['alpha', 'beta', 'rc', 'cr', 'm', 'preview', 'b', 'ea'].any { qualifier ->
-          version ==~ /(?i).*[.-]\$qualifier[.\\d-+]*/
-        }
-      }
-      if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-        selection.reject('Release candidate')
-      }
+  def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { version.toUpperCase().contains(it) }
+    def regex = /^[0-9,\\.v\\-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+  }
+
+  dependencyUpdates {
+    rejectVersionIf {
+      isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
     }
   }
-}
 
 // https://jeremylong.github.io/DependencyCheck/dependency-check-gradle/configuration.html
   dependencyCheck {
@@ -164,11 +161,7 @@ configurations.all {
   resolutionStrategy {
     eachDependency { DependencyResolveDetails details ->
       if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-        details.useVersion '2.9.9'
-      }
-
-      if (details.requested.name == 'jackson-databind') {
-        details.useVersion '2.9.10'
+        details.useVersion '2.10.0'
       }
     }
   }
