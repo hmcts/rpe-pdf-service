@@ -1,19 +1,5 @@
 apply plugin: 'java'
 
-configurations.all {
-  resolutionStrategy {
-    eachDependency { DependencyResolveDetails details ->
-      if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-        details.useVersion '2.9.9'
-      }
-
-      if (details.requested.name == 'jackson-databind') {
-        details.useVersion '2.9.10'
-      }
-    }
-  }
-}
-
 dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
 
