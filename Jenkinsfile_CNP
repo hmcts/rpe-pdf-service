@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@container-tests")
 
 def product = "cmc"
 def component = "pdf-service"

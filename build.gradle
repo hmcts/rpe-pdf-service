@@ -163,6 +163,10 @@ configurations.all {
       if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
         details.useVersion '2.10.0'
       }
+
+      if (details.requested.name == 'jackson-databind') {
+        details.useVersion '2.10.0'
+      }
     }
   }
 }
