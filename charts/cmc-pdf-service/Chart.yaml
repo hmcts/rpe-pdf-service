@@ -1,3 +1,4 @@
+apiVersion: v1
 name: cmc-pdf-service
 home: https://github.com/hmcts/rpe-pdf-service
 version: 0.3.0

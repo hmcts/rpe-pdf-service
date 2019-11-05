@@ -14,3 +14,6 @@ src/main/resources/version
 java-rpm-packaging/
 
 .gradletasknamecache
+
+requirements.lock
+*.tgz
