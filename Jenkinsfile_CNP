@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@tag-non-latest")
 
 def product = "cmc"
 def component = "pdf-service"
