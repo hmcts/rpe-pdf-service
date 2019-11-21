@@ -131,7 +131,7 @@ allprojects {
 
   ext {
     junit = '5.5.2'
-    reformLogging = '5.1.0'
+    reformLogging = '5.1.1'
     springfoxSwagger = '2.9.2'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
