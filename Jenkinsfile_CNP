@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@docker-test-vm-config")
 
 def product = "cmc"
 def component = "pdf-service"
