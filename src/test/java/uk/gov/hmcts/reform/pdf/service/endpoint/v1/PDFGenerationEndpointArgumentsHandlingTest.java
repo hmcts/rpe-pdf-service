@@ -15,7 +15,6 @@ import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 import java.io.IOException;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
