@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
+import java.io.IOException;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.verify;
@@ -35,7 +37,7 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
 
     @Before
     public void beforeEach() {
-        when(htmlToPdf.convert(any(), anyMap())).thenReturn(new byte[]{});
+        when(htmlToPdf.convert(any(), any())).thenReturn(new byte[]{});
         endpoint = new PDFGenerationEndpoint(htmlToPdf, objectMapper);
     }
 
@@ -50,12 +52,13 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
     }
 
     @Test
-    public void itCallGenerateWhenGivenValidArguments() {
+    public void itCallGenerateWhenGivenValidArguments() throws IOException {
         when(file.isEmpty()).thenReturn(false);
+        when(file.getBytes()).thenReturn(new byte[]{0});
 
         endpoint.generateFromHtml(file, "{ }");
 
-        verify(htmlToPdf).convert(any(), anyMap());
+        verify(htmlToPdf).convert(any(), any());
     }
 
 }
