@@ -10,6 +10,5 @@ withPipeline("java", product, component) {
   enableDockerBuild()
   enableAksStagingDeployment()
   disableLegacyDeployment()
-  installCharts()
-  
+  installCharts() 
 }
