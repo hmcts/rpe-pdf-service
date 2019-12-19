@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@docker-test-vm-config")
+@Library("Infrastructure")
 
 def product = "cmc"
 def component = "pdf-service"
@@ -11,5 +11,4 @@ withPipeline("java", product, component) {
   enableAksStagingDeployment()
   disableLegacyDeployment()
   installCharts() 
-
 }
