@@ -12,7 +12,6 @@ import uk.gov.hmcts.reform.pdf.generator.exception.PDFGenerationException;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
