@@ -133,7 +133,7 @@ allprojects {
     junit = '5.6.0'
     reformLogging = '5.1.1'
     springfoxSwagger = '2.9.2'
-    flyingSaucer = flyingSaucerVersion
+    flyingSaucer = 9.1.20
     openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
 
