@@ -20,7 +20,7 @@ configurations.all {
 dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
 
-  compile group: 'com.google.guava', name: 'guava', version: '28.1-jre'
+  compile group: 'com.google.guava', name: 'guava', version: '28.2-jre'
 
   compile group: 'com.mitchellbosecke', name: 'pebble', version: '2.4.0'
 
@@ -35,5 +35,5 @@ dependencies {
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.2.RELEASE'
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.4.RELEASE'
 }
