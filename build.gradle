@@ -121,7 +121,7 @@ allprojects {
     failFast = true
   }
 
-  def flyingSaucerVersion = '9.1.18'
+  def flyingSaucerVersion = '9.1.20'
 
   dependencyManagement {
     imports {
