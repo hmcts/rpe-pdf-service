@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@register-private-dns-in-preview")
 
 def product = "cmc"
 def component = "pdf-service"
