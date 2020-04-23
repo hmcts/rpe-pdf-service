@@ -1,3 +1,7 @@
+provider "azurerm" {
+  version = "=1.44.0"  
+}
+
 locals {
   ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
 
