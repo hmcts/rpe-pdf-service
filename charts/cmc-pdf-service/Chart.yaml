@@ -1,7 +1,7 @@
 apiVersion: v1
 name: cmc-pdf-service
 home: https://github.com/hmcts/rpe-pdf-service
-version: 0.4.1
+version: 0.4.2
 description: PDF generation service
 maintainers:
   - name: HMCTS Platform engineering team
