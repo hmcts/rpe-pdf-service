@@ -18,6 +18,13 @@
     <cve>CVE-2016-6497</cve>
   </suppress>
 
+    <suppress>
+        <notes><![CDATA[
+   only affects log appender over SMTP, seriously who does this...
+   ]]></notes>
+        <cve>CVE-2020-9488</cve>
+    </suppress>
+  
   <suppress>
     <notes><![CDATA[
     Suppressing as it seems a false positive as per https://github.com/jeremylong/DependencyCheck/issues/1573
