@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure@re-add-ilb-ip")
+@Library("Infrastructure")
 
 def product = "cmc"
 def component = "pdf-service"
