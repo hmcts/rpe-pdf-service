@@ -187,6 +187,12 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
 
   compile group: 'uk.gov.hmcts.reform', name: 'health-spring-boot-starter', version: '0.0.5'
+  
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.35'
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.35'
+
+  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+  compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.13.3'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit

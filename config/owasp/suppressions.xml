@@ -7,31 +7,10 @@
   </suppress>
 
   <suppress>
-    <notes><![CDATA[ slf4j only has a beta version released with the 'fix', looks like lots of changes in it... ]]></notes>
-    <cve>CVE-2018-8088</cve>
-  </suppress>
-
-  <suppress>
     <notes><![CDATA[
     Suppress LDAP vulnerabilities in groovy pulled in by rest assured
     ]]></notes>
     <cve>CVE-2016-6497</cve>
-  </suppress>
-
-    <suppress>
-        <notes><![CDATA[
-   only affects log appender over SMTP, seriously who does this...
-   ]]></notes>
-        <cve>CVE-2020-9488</cve>
-    </suppress>
-  
-  <suppress>
-    <notes><![CDATA[
-    Suppressing as it seems a false positive as per https://github.com/jeremylong/DependencyCheck/issues/1573
-    ]]></notes>
-    <gav regex="true">^io\.netty:netty-tcnative-boringssl-static:.*</gav>
-    <cve>CVE-2014-3488</cve>
-    <cve>CVE-2015-2156</cve>
   </suppress>
 
   <suppress>
@@ -39,14 +18,6 @@
     <gav regex="true">^org\.apache\.sling:org\.apache\.sling\.javax\.activation:0\.1\.0$</gav>
     <cve>CVE-2016-5394</cve>
     <cve>CVE-2016-6798</cve>
-  </suppress>
-
-<suppress until="2020-01-31">
-    <notes><![CDATA[
-   relates to form based authentication, not relevant to us, fix will be picked up in next spring boot update
-   ]]></notes>
-    <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed.*$</packageUrl>
-    <cve>CVE-2019-17563</cve>
   </suppress>
 
 </suppressions>
