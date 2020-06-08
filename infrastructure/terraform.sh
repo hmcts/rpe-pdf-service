@@ -4,7 +4,7 @@ state_store_resource_group="mgmt-state-store-sandbox"
 state_store_storage_acccount="mgmtstatestoresandbox"
 bootstrap_state_storage_container="mgmtstatestorecontainersandbox"
 productEnvironment="sandbox"
-product="cmc-pdf-service"
+product="rpe-pdf-service"
 
 getCreds() {
 

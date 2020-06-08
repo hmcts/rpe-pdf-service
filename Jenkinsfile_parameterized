@@ -3,7 +3,7 @@
 
 properties([
 		parameters([
-			string(name: 'PRODUCT_NAME', defaultValue: 'cmc', description: ''),
+			string(name: 'PRODUCT_NAME', defaultValue: 'rpe', description: ''),
 			string(name: 'APP', defaultValue: 'pdf-service', description: ''),
 			string(name: 'TYPE', defaultValue: 'java', description: ''),
 			string(name: 'ENVIRONMENT', defaultValue: 'saat', description: 'Environment where code should be build and deployed'),

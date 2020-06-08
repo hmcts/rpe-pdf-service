@@ -15,8 +15,6 @@ variable "env" {
   type = "string"
 }
 
-variable "ilbIp" {}
-
 variable "subscription" {}
 
 variable "common_tags" {

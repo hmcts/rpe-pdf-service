@@ -1,34 +1,30 @@
 provider "azurerm" {
-  version = "=1.44.0"  
+  version = "=1.44.0"
 }
 
-locals {
-  ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+resource "azurerm_resource_group" "rg" {
+  name     = "${var.product}-${var.component}-${var.env}"
+  location = "${var.location}"
 
-  local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-  local_ase = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "core-compute-aat" : "core-compute-saat" : local.ase_name}"
-
-  sku_size = "${var.env == "prod" || var.env == "sprod" || var.env == "aat" ? "I2" : "I1"}"
+  tags = "${var.common_tags}"
 }
 
-module "pdf-service-api" {
-  source        = "git@github.com:hmcts/cnp-module-webapp?ref=master"
-  product       = "${var.product}-${var.component}"
-  location      = "${var.location}"
-  env           = "${var.env}"
-  ilbIp         = "${var.ilbIp}"
-  subscription  = "${var.subscription}"
-  common_tags   = "${var.common_tags}"
-  common_tags   = "${merge(var.common_tags, map("Team Name", "Software Engineering"))}"
-  asp_name      = "${var.product}-${var.component}-${var.env}"
-  asp_rg        = "${var.product}-${var.component}-${var.env}"
-  instance_size = "${local.sku_size}"
-  enable_ase = false
+resource "azurerm_application_insights" "appinsights" {
+  name                = "${var.product}-${var.component}-appinsights-${var.env}"
+  location            = "${var.location}"
+  resource_group_name = "${azurerm_resource_group.rg.name}"
+  application_type    = "Web"
 
-  app_settings = {
-    ROOT_APPENDER       = "CONSOLE"
-    REFORM_TEAM         = "${var.product}"
-    REFORM_SERVICE_NAME = "${var.component}"
-    REFORM_ENVIRONMENT  = "${var.env}"
-  }
+  tags = "${var.common_tags}"
+}
+
+resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
+  name         = "AppInsightsInstrumentationKey"
+  value        = "${azurerm_application_insights.appinsights.instrumentation_key}"
+  key_vault_id = "${data.azurerm_key_vault.rpe_shared_vault.id}"
+}
+
+data "azurerm_key_vault" "rpe_shared_vault" {
+  name                = "${var.product}-shared-${var.env}"
+  resource_group_name = "${var.product}-${var.env}"
 }

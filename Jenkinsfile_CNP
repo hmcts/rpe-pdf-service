@@ -2,7 +2,7 @@
 
 @Library("Infrastructure")
 
-def product = "cmc"
+def product = "rpe"
 def component = "pdf-service"
 
 withPipeline("java", product, component) {
