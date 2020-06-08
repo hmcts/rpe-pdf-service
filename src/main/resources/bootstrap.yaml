@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    propertiesvolume:
+      prefixed: false
+      paths: /mnt/secrets/rpe-shared
+      aliases:
+        AppInsightsInstrumentationKey: azure.application-insights.instrumentation-key

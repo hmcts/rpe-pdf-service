@@ -5,3 +5,7 @@ java:
     LOGBACK_REQUIRE_ALERT_LEVEL: 'false'
     LOGBACK_REQUIRE_ERROR_CODE: 'false'
   image: 'hmctspublic.azurecr.io/rpe/pdf-service:latest'
+  keyVaults:
+    "rpe-shared":
+      secrets:
+        - AppInsightsInstrumentationKey
