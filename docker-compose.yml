@@ -9,7 +9,7 @@ services:
         - http_proxy
         - https_proxy
         - no_proxy
-    image: hmctspublic.azurecr.io/cmc/pdf-service
+    image: hmctspublic.azurecr.io/rpe/pdf-service
     environment:
       # used by java-logging library
       - ROOT_APPENDER

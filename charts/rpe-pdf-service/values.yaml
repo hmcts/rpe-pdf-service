@@ -4,4 +4,4 @@ java:
   environment:
     LOGBACK_REQUIRE_ALERT_LEVEL: 'false'
     LOGBACK_REQUIRE_ERROR_CODE: 'false'
-  image: 'hmctspublic.azurecr.io/cmc/pdf-service:latest'
+  image: 'hmctspublic.azurecr.io/rpe/pdf-service:latest'

@@ -1,10 +1,10 @@
 # PDF service
 
-[![codecov](https://codecov.io/gh/hmcts/cmc-pdf-service/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/cmc-pdf-service)
+[![codecov](https://codecov.io/gh/hmcts/rpe-pdf-service/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/rpe-pdf-service)
 
-This is a PDF service which allows to generate read-only PDFs based on given template in HTML/Twig format and 
-placeholder data in JSON format. 
-The service provides a single RESTful endpoint that merges both template and placeholder data together and 
+This is a PDF service which allows to generate read-only PDFs based on given template in HTML/Twig format and
+placeholder data in JSON format.
+The service provides a single RESTful endpoint that merges both template and placeholder data together and
 returns the PDF as a binary stream.
 
 The template, besides containing ordinary HTML markup, can also contain inline CSS styling and embedded images.
@@ -37,7 +37,7 @@ First you need to create distribution by executing following command:
     ./gradlew installDist
 ```
 
-When the distribution has been created in `build/install/pdf-service` directory, 
+When the distribution has been created in `build/install/pdf-service` directory,
 you can run the application by executing following command:
 
 ```bash
@@ -58,7 +58,7 @@ NOTE: Swagger scans classes in the `uk.gov.hmcts.reform.pdfservice.controllers` 
 There is a client library provided for java https://github.com/hmcts/cmc-pdf-service-client
 
 ### Docker
-Image is available in the HMCTS azure container registry (currently private) @ `hmcts.azurecr.io/hmcts/cmc-pdf-service`. See usage example in: [docker-compose.yml](docker-compose.yml)
+Image is available in the HMCTS azure container registry (currently private) @ `hmcts.azurecr.io/hmcts/rpe/pdf-service`. See usage example in: [docker-compose.yml](docker-compose.yml)
 
 #### Non ASCII Characters Support
 

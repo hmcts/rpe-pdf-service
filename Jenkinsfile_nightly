@@ -8,7 +8,7 @@ properties([
 @Library("Infrastructure")
 
 def type = "java"
-def product = "cmc"
+def product = "rpe"
 def component = "pdf-service"
 
 def channel = '#rpe-build-notices'
