@@ -2,9 +2,7 @@ package uk.gov.hmcts.reform.pdf.service.endpoint.v1;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -14,15 +12,14 @@ import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PDFGenerationEndpointArgumentsHandlingTest {
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Mock
     private HTMLToPDFConverter htmlToPdf;
@@ -43,11 +40,10 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
     @Test
     public void itShouldThrowInvalidArgumentExceptionWhenGivenEmptyTemplate() {
         when(file.isEmpty()).thenReturn(true);
-
-        exception.expect(InvalidArgumentException.class);
-        exception.expectMessage("Received an empty template file");
-
-        endpoint.generateFromHtml(file, "{ }");
+        InvalidArgumentException thrownException = assertThrows(InvalidArgumentException.class, () -> {
+            endpoint.generateFromHtml(file, "{ }");
+        });
+        assertEquals("Invalid exception doesn't match","Received an empty template file", thrownException.getMessage());
     }
 
     @Test
