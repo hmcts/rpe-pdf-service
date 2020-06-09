@@ -1,5 +1,6 @@
 java:
   applicationPort: 5500
+  aadIdentityName: rpe
   ingressHost: cmc-pdf-service-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
   environment:
     LOGBACK_REQUIRE_ALERT_LEVEL: 'false'
