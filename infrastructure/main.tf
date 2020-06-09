@@ -1,5 +1,5 @@
 provider "azurerm" {
-  version = "=1.44.0"
+  version = "=2.13.0"
 }
 
 resource "azurerm_resource_group" "rg" {
