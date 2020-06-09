@@ -43,7 +43,7 @@ public class PDFGenerationEndpointArgumentsHandlingTest {
         InvalidArgumentException thrownException = assertThrows(InvalidArgumentException.class, () -> {
             endpoint.generateFromHtml(file, "{ }");
         });
-        assertEquals("Received an empty template file", thrownException.getMessage());
+        assertEquals("Invalid exception doesn't match","Received an empty template file", thrownException.getMessage());
     }
 
     @Test
