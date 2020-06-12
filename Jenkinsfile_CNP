@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@quick-login")
 
 def product = "rpe"
 def component = "pdf-service"
