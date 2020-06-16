@@ -1,6 +1,6 @@
 #!groovy
 
-@Library("Infrastructure")
+@Library("Infrastructure@point-to-dev-for-testing")
 
 def product = "rpe"
 def component = "pdf-service"
