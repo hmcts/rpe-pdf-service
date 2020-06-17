@@ -14,8 +14,8 @@ ext['rest-assured.version'] = '4.0.0'
 group = 'uk.gov.hmcts.reform'
 version = '1.0.2'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 
 allprojects {
   apply plugin: 'checkstyle'
