@@ -6,7 +6,7 @@ This is a PDF service which allows to generate read-only PDFs based on given tem
 placeholder data in JSON format.
 The service provides a single RESTful endpoint that merges both template and placeholder data together and
 returns the PDF as a binary stream.
-
+ 
 The template, besides containing ordinary HTML markup, can also contain inline CSS styling and embedded images.
 
 ## Getting started
