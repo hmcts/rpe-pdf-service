@@ -10,3 +10,4 @@ withPipeline("java", product, component) {
   enableAksStagingDeployment()
   disableLegacyDeployment()
 }
+
