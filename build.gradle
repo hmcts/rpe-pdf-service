@@ -189,7 +189,7 @@ dependencies {
   compile group: 'uk.gov.hmcts.reform', name: 'properties-volume-spring-boot-starter', version:'0.1.0'
 
   compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.39'
-  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.38'
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.39'
 
   compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
   compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: '2.13.3'
