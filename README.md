@@ -24,7 +24,7 @@ The project uses [Gradle](https://gradle.org) as a build tool but you don't have
 `./gradlew` wrapper script.
 
 To build project please execute the following command:
-
+ 
 ```bash
     ./gradlew build
 ```
