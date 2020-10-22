@@ -90,7 +90,7 @@ To run all unit tests please execute following command:
 ```bash
     ./gradlew test
 ```
-
+ 
 ### Coding style tests
 
 To run all checks (including unit tests) please execute following command:
