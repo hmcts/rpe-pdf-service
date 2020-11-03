@@ -1,12 +1,23 @@
 #!groovy
+import uk.gov.hmcts.contino.AppPipelineDsl
 
 @Library("Infrastructure")
 
 def product = "rpe"
 def component = "pdf-service"
 
+// Vars for Kubernetes
+env.PACT_BROKER_FULL_URL = 'https://pact-broker.platform.hmcts.net'
+env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
+env.PACT_BROKER_PORT = "443"
+env.PACT_BROKER_SCHEME = "https"
+
 withPipeline("java", product, component) {
   enableSlackNotifications('#rpe-build-notices')
   enableAksStagingDeployment()
   disableLegacyDeployment()
+
+  onMaster() {
+    enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+  }
 }
