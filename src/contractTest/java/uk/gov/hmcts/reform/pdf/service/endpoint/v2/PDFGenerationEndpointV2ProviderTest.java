@@ -52,4 +52,8 @@ public class PDFGenerationEndpointV2ProviderTest {
     @State({"A request to generate a divorce pdf document"})
     public void toGeneratePdfDivorceDocumentFromTemplate() throws IOException, JSONException {
     }
+
+    @State({"A request to generate a Probate PDF document"})
+    public void toGeneratePdfProbateeDocumentFromTemplate() throws IOException, JSONException {
+    }
 }
