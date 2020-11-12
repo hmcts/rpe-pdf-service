@@ -3,6 +3,7 @@ package uk.gov.hmcts.reform.pdf.service.endpoint.v2;
 
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
+import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
@@ -25,6 +26,7 @@ import java.io.IOException;
     host = "${PACT_BROKER_URL:localhost}",
     port = "${PACT_BROKER_PORT:80}", consumerVersionSelectors = {
     @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")})
+@IgnoreNoPactsToVerify
 public class PDFGenerationEndpointV2ProviderTest {
 
     PDFGenerationEndpointV2 pdfGenerationEndpointV2;
@@ -55,5 +57,9 @@ public class PDFGenerationEndpointV2ProviderTest {
 
     @State({"A request to generate a Probate PDF document"})
     public void toGeneratePdfProbateeDocumentFromTemplate() throws IOException, JSONException {
+    }
+
+    @State({"A request to generate a PDF document"})
+    public void toGeneratePdfDocumentFromTemplate() throws IOException, JSONException {
     }
 }
