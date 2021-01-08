@@ -13,7 +13,7 @@ env.PACT_BROKER_PORT = "443"
 env.PACT_BROKER_SCHEME = "https"
 
 withPipeline("java", product, component) {
-  enableSlackNotifications('#rpe-build-notices')
+  enableSlackNotifications('#platops-build-notices')
   enableAksStagingDeployment()
   disableLegacyDeployment()
 
