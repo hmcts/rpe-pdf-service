@@ -11,7 +11,7 @@ def type = "java"
 def product = "rpe"
 def component = "pdf-service"
 
-def channel = '#rpe-build-notices'
+def channel = '#platops-build-notices'
 
 withNightlyPipeline(type, product, component) {
   enableSlackNotifications(channel)
