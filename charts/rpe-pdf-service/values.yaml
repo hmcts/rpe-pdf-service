@@ -9,4 +9,5 @@ java:
   keyVaults:
     "rpe-shared":
       secrets:
-        - AppInsightsInstrumentationKey
+        - name: AppInsightsInstrumentationKey
+          alias: azure.application-insights.instrumentation-key
