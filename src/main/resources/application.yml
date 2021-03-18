@@ -1,6 +1,8 @@
 spring:
   application:
     name: "pdf-service"
+  config:
+    import: "optional:configtree:/mnt/secrets/rpe-shared/"
 
 server:
   port: 5500
