@@ -4,16 +4,13 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-  id 'org.springframework.boot' version '2.4.3'
-  id 'org.owasp.dependencycheck' version '6.1.2'
-  id 'com.github.ben-manes.versions' version '0.38.0'
-  id 'org.sonarqube' version '3.1.1'
-  id 'au.com.dius.pact' version '4.1.7'
+  id 'org.springframework.boot' version '2.5.7'
+  id 'org.owasp.dependencycheck' version '6.5.0.1'
+  id 'com.github.ben-manes.versions' version '0.39.0'
+  id 'se.patrikerdes.use-latest-versions' version '0.2.18'
+  id 'org.sonarqube' version '3.3'
+  id 'au.com.dius.pact' version '4.3.2'
 }
-
-def versions = [
-        pact_version       : '4.1.7'
-]
 
 ext['rest-assured.version'] = '4.0.0'
 
@@ -94,7 +91,7 @@ allprojects {
     maxWarnings = 0
     toolVersion = '8.29'
     // need to set configDir to rootDir otherwise submodule will use submodule/config/checkstyle
-    configDir = new File(rootDir, 'config/checkstyle')
+    getConfigDirectory().set(new File(rootDir, 'config/checkstyle'))
   }
 
   jacocoTestReport {
@@ -131,10 +128,10 @@ allprojects {
   }
 
   repositories {
+    mavenLocal()
+    mavenCentral()
     jcenter()
-    maven {
-      url "https://dl.bintray.com/hmcts/hmcts-maven"
-    }
+    maven { url 'https://jitpack.io' }
   }
 
 // it is important to specify logback classic and core packages explicitly as libraries like spring boot
@@ -145,7 +142,7 @@ allprojects {
     failFast = true
   }
 
-  def flyingSaucerVersion = '9.1.20'
+  def flyingSaucerVersion = '9.1.21'
 
   dependencyManagement {
     imports {
@@ -154,9 +151,9 @@ allprojects {
   }
 
   ext {
-    junit = '5.6.2'
-    reformLogging = '5.1.5'
-    springfoxSwagger = '2.9.2'
+    junit = '5.8.2'
+    reformLogging = '5.1.9'
+    springfoxSwagger = '3.0.0'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
@@ -196,65 +193,64 @@ configurations.all {
 }
 
 ext {
-    log4JVersion = "2.15.0"
+    log4JVersion = '2.15.0'
+    pactVersion = '4.3.1'
 }
 
 dependencies {
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-  compile group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
 
-  compile group: 'io.springfox', name: 'springfox-swagger2', version: springfoxSwagger
-  compile group: 'io.springfox', name: 'springfox-swagger-ui', version: springfoxSwagger
+  implementation group: 'io.springfox', name: 'springfox-swagger2', version: springfoxSwagger
+  implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: springfoxSwagger
 
-  compile group: 'com.google.guava', name: 'guava', version: '30.1-jre'
+  implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 
-  compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
-  compile group: 'uk.gov.hmcts.reform', name: 'logging-appinsights', version: reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLogging
 
-  compile group: 'uk.gov.hmcts.reform', name: 'reform-api-standards', version: '0.4.0'
+  implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
 
 
-  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: '9.0.44'
-  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: '9.0.44'
-
-  compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
-  compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
+  implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testImplementation("org.junit.vintage:junit-vintage-engine") {
     exclude group: "org.hamcrest", module: "hamcrest-core"
   }
-  testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-  testCompile group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
+  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+  testImplementation group: 'org.pdfbox', name: 'com.springsource.org.pdfbox', version: '0.7.3'
 
-  integrationTestCompile sourceSets.main.runtimeClasspath
-  integrationTestCompile sourceSets.test.runtimeClasspath
 
-  functionalTestCompile sourceSets.main.runtimeClasspath
-  functionalTestCompile sourceSets.test.runtimeClasspath
+  integrationTestImplementation sourceSets.main.runtimeClasspath
+  integrationTestImplementation sourceSets.test.runtimeClasspath
+
+  functionalTestImplementation sourceSets.main.runtimeClasspath
+  functionalTestImplementation sourceSets.test.runtimeClasspath
   contractTestImplementation sourceSets.main.runtimeClasspath
-  contractTestCompile sourceSets.test.runtimeClasspath
-  functionalTestCompile group: 'io.rest-assured', name: 'rest-assured'
+  contractTestImplementation sourceSets.test.runtimeClasspath
+  functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
 
-  contractTestCompile group: 'au.com.dius.pact.provider', name: 'junit5', version: versions.pact_version
-  contractTestCompile group: 'au.com.dius.pact.provider', name: 'spring', version: versions.pact_version
-  contractTestCompile group: 'au.com.dius.pact.provider', name: 'junit5spring', version: versions.pact_version
-  contractTestCompile("org.junit.jupiter:junit-jupiter-api:5.7.0")
-  contractTestRuntime("org.junit.jupiter:junit-jupiter-engine:5.7.0")
-  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.7.0')
+  contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
+  contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: pactVersion
+  contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: pactVersion
+  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+  contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
+  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.8.2')
 
-  compile project(':pdf-generator')
+  implementation project(':pdf-generator')
 }
 
 
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
 
 bootJar {
-  archiveName = 'pdf-service-all.jar'
+  archiveFileName = 'pdf-service-all.jar'
 
   manifest {
     attributes('Implementation-Version': project.version.toString())
