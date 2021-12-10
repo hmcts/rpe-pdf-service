@@ -18,22 +18,22 @@ configurations.all {
 }
 
 dependencies {
-  compile group: 'uk.gov.hmcts.reform', name: 'logging', version: reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
 
-  compile group: 'com.google.guava', name: 'guava', version: '30.0-jre'
+  implementation group: 'com.google.guava', name: 'guava', version: '30.0-jre'
 
-  compile group: 'com.mitchellbosecke', name: 'pebble', version: '2.4.0'
+  implementation group: 'com.mitchellbosecke', name: 'pebble', version: '2.4.0'
 
-  compile group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: flyingSaucer
-  compile group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: flyingSaucer, {
+  implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-core', version: flyingSaucer
+  implementation group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: flyingSaucer, {
     exclude group: 'com.lowagie'
     exclude group: 'org.bouncycastle'
   }
-  compile group: 'com.github.librepdf', name: 'openpdf', version: openPdf
+  implementation group: 'com.github.librepdf', name: 'openpdf', version: openPdf
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
-  testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
+  testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: junit
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
-  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.4.RELEASE'
+  testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.3.4.RELEASE'
 }
