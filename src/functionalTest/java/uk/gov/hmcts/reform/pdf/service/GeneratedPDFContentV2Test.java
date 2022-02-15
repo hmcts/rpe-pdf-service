@@ -23,7 +23,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GeneratedPDFContentV2Test {
+class GeneratedPDFContentV2Test {
 
     private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -37,7 +37,7 @@ public class GeneratedPDFContentV2Test {
 
     @Test
     @Tag("SmokeTest")
-    public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
+    void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
         Response response = makeRequest(
             "<html><body>Hello!</body></html>",
             Collections.emptyMap()
@@ -47,7 +47,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
+    void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
         Response response = makeRequest(
             "<html><body>&#163;200</body></html>",
             Collections.emptyMap()
@@ -57,7 +57,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
+    void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
         Response response = makeRequest(
             "<html><body>£200</body></html>",
             Collections.emptyMap()
@@ -67,7 +67,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
+    void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
         Response response = makeRequest(
             "<html>{{ hello }}</html>",
             ImmutableMap.of("hello", "World!")
