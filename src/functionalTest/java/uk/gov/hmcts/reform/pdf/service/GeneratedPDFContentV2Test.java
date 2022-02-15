@@ -9,9 +9,9 @@ import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
@@ -28,7 +28,7 @@ public class GeneratedPDFContentV2Test {
     private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    @Before
+    @BeforeEach
     public void init() {
         RestAssured.baseURI = System.getenv("TEST_URL");
         RestAssured.useRelaxedHTTPSValidation();
@@ -36,7 +36,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    @Category(SmokeTest.class)
+    @Tag("SmokeTest")
     public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
         Response response = makeRequest(
             "<html><body>Hello!</body></html>",

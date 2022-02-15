@@ -10,6 +10,7 @@ plugins {
   id 'se.patrikerdes.use-latest-versions' version '0.2.18'
   id 'org.sonarqube' version '3.3'
   id 'au.com.dius.pact' version '4.3.5'
+  id 'jvm-test-suite'
 }
 
 ext['rest-assured.version'] = '4.0.0'
@@ -23,39 +24,47 @@ java {
   }
 }
 
+testing {
+  suites {
+    test {
+      useJUnitJupiter()
+    }
+
+    integrationTest(JvmTestSuite) {
+      testType = TestSuiteType.INTEGRATION_TEST
+      dependencies {
+        implementation project
+        implementation sourceSets.test.runtimeClasspath
+      }
+
+      targets {
+        all {
+          testTask.configure {
+            shouldRunAfter(test)
+          }
+        }
+      }
+    }
+
+    functionalTest(JvmTestSuite) {
+      testType = TestSuiteType.FUNCTIONAL_TEST
+      dependencies {
+        implementation project
+        implementation sourceSets.test.runtimeClasspath
+      }
+    }
+    contractTest(JvmTestSuite) {
+      dependencies {
+        implementation project
+      }
+    }
+  }
+}
+
 allprojects {
   apply plugin: 'checkstyle'
   apply plugin: 'com.github.ben-manes.versions'
   apply plugin: 'org.owasp.dependencycheck'
-
-  sourceSets {
-    functionalTest {
-      java {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        srcDir file('src/functionalTest/java')
-      }
-      resources.srcDir file('src/functionalTest/resources')
-    }
-
-    integrationTest {
-      java {
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-        srcDir file('src/integrationTest/java')
-      }
-      resources.srcDir file('src/integrationTest/resources')
-    }
-
-    contractTest {
-      java {
-        compileClasspath += main.output
-        runtimeClasspath += main.output
-        srcDir file('src/contractTest/java')
-      }
-      resources.srcDir file('src/contractTest/resources')
-    }
-  }
 
   configurations.all {
     resolutionStrategy {
@@ -67,19 +76,13 @@ allprojects {
       }
     }
   }
-  
+
   tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
   }
 
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
-    testClassesDirs = sourceSets.functionalTest.output.classesDirs
-    classpath = sourceSets.functionalTest.runtimeClasspath
-  }
-
-  task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
-    testClassesDirs = sourceSets.integrationTest.output.classesDirs
-    classpath = sourceSets.integrationTest.runtimeClasspath
+    dependsOn functionalTest
   }
 
   task smoke(type: Test) {
@@ -87,19 +90,10 @@ allprojects {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
 
-    useJUnit {
-      includeCategories 'uk.gov.hmcts.reform.pdf.service.SmokeTest'
+    useJUnitPlatform {
+      includeTags "SmokeTest"
     }
   }
-
-  task contract(type: Test) {
-    description = 'Runs the consumer Pact tests'
-    useJUnitPlatform()
-    testClassesDirs = sourceSets.contractTest.output.classesDirs
-    classpath = sourceSets.contractTest.runtimeClasspath
-    systemProperty 'pact.rootDir', "pacts"
-  }
-
 
   checkstyle {
     maxWarnings = 0
@@ -109,7 +103,7 @@ allprojects {
   }
 
   jacocoTestReport {
-    executionData(test, integration)
+    executionData(test, integrationTest)
     reports {
       xml.required = true
       csv.required = false
@@ -182,8 +176,8 @@ allprojects {
 
 }
 
-project.tasks['sonarqube'].dependsOn test, integration, jacocoTestReport
-project.tasks['check'].dependsOn integration
+project.tasks['sonarqube'].dependsOn test, integrationTest, jacocoTestReport
+project.tasks['check'].dependsOn integrationTest
 
 pmd {
   toolVersion = "6.42.0"
@@ -240,13 +234,6 @@ dependencies {
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
   testImplementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
 
-  integrationTestImplementation sourceSets.main.runtimeClasspath
-  integrationTestImplementation sourceSets.test.runtimeClasspath
-
-  functionalTestImplementation sourceSets.main.runtimeClasspath
-  functionalTestImplementation sourceSets.test.runtimeClasspath
-  contractTestImplementation sourceSets.main.runtimeClasspath
-  contractTestImplementation sourceSets.test.runtimeClasspath
   functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
 
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
@@ -276,12 +263,11 @@ wrapper {
 
 
 task runProviderPactVerification(type: Test) {
-  logger.lifecycle("Runs pact Tests")
   testClassesDirs = sourceSets.contractTest.output.classesDirs
   classpath = sourceSets.contractTest.runtimeClasspath
 }
 
-runProviderPactVerification.dependsOn contract
+runProviderPactVerification.dependsOn contractTest
 
 runProviderPactVerification.finalizedBy pactVerify
 
