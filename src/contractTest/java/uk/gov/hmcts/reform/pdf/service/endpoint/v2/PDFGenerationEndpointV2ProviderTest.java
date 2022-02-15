@@ -22,10 +22,13 @@ import java.io.IOException;
 
 @ExtendWith(SpringExtension.class)
 @Provider("rpePdfService_PDFGenerationEndpointV2")
-@PactBroker(scheme = "${PACT_BROKER_SCHEME:http}",
+@PactBroker(
+    scheme = "${PACT_BROKER_SCHEME:http}",
     host = "${PACT_BROKER_URL:localhost}",
-    port = "${PACT_BROKER_PORT:80}", consumerVersionSelectors = {
-    @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")})
+    port = "${PACT_BROKER_PORT:80}",
+    consumerVersionSelectors = {
+        @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
+    })
 @IgnoreNoPactsToVerify
 public class PDFGenerationEndpointV2ProviderTest {
 

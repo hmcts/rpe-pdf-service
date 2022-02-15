@@ -1,0 +1,6 @@
+{
+  "connectionString": "${file:/mnt/secrets/rpe-shared/app-insights-connection-string}",
+  "role": {
+    "name": "pdf-service"
+  }
+}

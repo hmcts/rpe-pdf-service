@@ -7,11 +7,11 @@ import io.restassured.RestAssured;
 import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
 import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
@@ -77,11 +77,8 @@ public class GeneratedPDFContentV2Test {
     }
 
     private static String textContentOf(byte[] pdfData) throws IOException {
-        PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
-        try {
+        try (PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData))) {
             return new PDFTextStripper().getText(pdfDocument);
-        } finally {
-            pdfDocument.close();
         }
     }
 
