@@ -5,7 +5,6 @@ FROM hmctspublic.azurecr.io/base/java:17-distroless
 ENV APP pdf-service-all.jar
 
 COPY lib/applicationinsights.json /opt/app/
-COPY lib/AI-Agent.xml /opt/app/
 
 EXPOSE 5500
 

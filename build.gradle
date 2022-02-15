@@ -57,6 +57,17 @@ allprojects {
     }
   }
 
+  configurations.all {
+    resolutionStrategy {
+      eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'ch.qos.logback' && details.requested.version == '1.2.6') {
+          details.useVersion '1.2.10'
+          details.because 'CVEs on older versions and I have no idea where the dep is coming from =/'
+        }
+      }
+    }
+  }
+  
   tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
   }
@@ -189,20 +200,6 @@ sonarqube {
   }
 }
 
-configurations.all {
-  resolutionStrategy {
-    eachDependency { DependencyResolveDetails details ->
-      if (details.requested.group in ['com.fasterxml.jackson.core', 'com.fasterxml.jackson.module', 'com.fasterxml.jackson.datatype']) {
-        details.useVersion '2.12.2'
-      }
-
-      if (details.requested.name == 'jackson-databind') {
-        details.useVersion '2.12.2'
-      }
-    }
-  }
-}
-
 ext {
     log4JVersion = '2.17.1'
     pactVersion = '4.3.5'
@@ -224,14 +221,8 @@ dependencies {
 
   implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 
-  implementation (group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging) {
-    exclude(group: 'ch.qos.logbac', 'module': 'logback-classic')
-    exclude(group: 'ch.qos.logbac', 'module': 'logback-core')
-  }
-  implementation (group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLogging) {
-    exclude(group: 'ch.qos.logbac', 'module': 'logback-classic')
-    exclude(group: 'ch.qos.logbac', 'module': 'logback-core')
-  }
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
+  implementation group: 'com.github.hmcts.java-logging', name: 'logging-appinsights', version: reformLogging
 
   implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
 
