@@ -4,6 +4,7 @@ FROM hmctspublic.azurecr.io/base/java:17-distroless
 # Mandatory!
 ENV APP pdf-service-all.jar
 
+COPY build/libs/$APP /opt/app/
 COPY lib/applicationinsights.json /opt/app/
 
 EXPOSE 5500
