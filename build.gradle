@@ -88,12 +88,17 @@ allprojects {
 
   task smoke(type: Test) {
     description = "Runs Smoke Tests"
+
+    group = 'verification'
+
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
 
     useJUnitPlatform {
       includeTags "SmokeTest"
     }
+
+    javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
   }
 
   checkstyle {
@@ -156,7 +161,6 @@ allprojects {
 // enforces it's own (older) version which is not recommended.
 
   test {
-    useJUnitPlatform()
     failFast = true
   }
 
@@ -201,9 +205,6 @@ tasks.withType(JavaExec).configureEach {
   javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
 }
 
-tasks.withType(Test) {
-  javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
-}
 ext {
     log4JVersion = '2.17.1'
     pactVersion = '4.3.5'
