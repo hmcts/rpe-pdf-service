@@ -27,8 +27,8 @@ resource "azurerm_application_insights" "appinsights" {
 }
 
 resource "azurerm_key_vault_secret" "AZURE_APPINSGHTS_KEY" {
-  name         = "AppInsightsInstrumentationKey"
-  value        = azurerm_application_insights.appinsights.instrumentation_key
+  name         = "app-insights-connection-string"
+  value        = azurerm_application_insights.appinsights.connection_string
   key_vault_id = data.azurerm_key_vault.rpe_shared_vault.id
 }
 

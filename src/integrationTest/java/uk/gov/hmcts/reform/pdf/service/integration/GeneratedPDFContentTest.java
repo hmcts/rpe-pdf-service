@@ -1,10 +1,10 @@
 package uk.gov.hmcts.reform.pdf.service.integration;
 
 import com.microsoft.applicationinsights.TelemetryClient;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -55,11 +55,8 @@ public class GeneratedPDFContentTest {
     }
 
     private static String textContentOf(byte[] pdfData) throws IOException {
-        PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
-        try {
+        try (PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData))) {
             return new PDFTextStripper().getText(pdfDocument);
-        } finally {
-            pdfDocument.close();
         }
     }
 

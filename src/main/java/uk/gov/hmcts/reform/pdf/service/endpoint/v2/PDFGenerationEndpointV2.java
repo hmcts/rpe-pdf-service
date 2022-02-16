@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.pdf.service.endpoint.v2;
 
-import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEventTracker;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 
-@Api
 @RestController
 @RequestMapping(
     path = "pdfs",

@@ -6,13 +6,16 @@
 <!--
     Checkstyle configuration that checks the Google coding conventions from Google Java Style
     that can be found at https://google.github.io/styleguide/javaguide.html.
+
     Checkstyle is very configurable. Be sure to read the documentation at
     http://checkstyle.sf.net (or in your downloaded distribution).
+
     To completely disable a check, just comment it out or delete it from the file.
+
     Authors: Max Vetrenko, Ruslan Diachenko, Roman Ivanov.
  -->
 
-<module name="Checker">
+<module name = "Checker">
   <property name="charset" value="UTF-8"/>
 
   <property name="severity" value="warning"/>
@@ -23,15 +26,16 @@
   <module name="FileTabCharacter">
     <property name="eachLine" value="true"/>
   </module>
+
+  <module name="SuppressWarningsFilter" />
   <module name="LineLength">
     <property name="max" value="120"/>
     <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
   </module>
-  <module name="SuppressWarningsFilter"/>
   <module name="TreeWalker">
     <module name="UnusedImports"/>
     <module name="HideUtilityClassConstructor"/>
-    <module name="SuppressWarningsHolder"/>
+    <module name="SuppressWarningsHolder" />
     <module name="OuterTypeFilename"/>
     <module name="IllegalTokenText">
       <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL"/>
@@ -182,7 +186,7 @@
     <module name="AbbreviationAsWordInName">
       <property name="ignoreFinal" value="false"/>
       <property name="allowedAbbreviationLength" value="1"/>
-      <property name="allowedAbbreviations" value="PDF,XML"/>
+      <property name="allowedAbbreviations" value="API,PDF,XML"/>
     </module>
     <module name="OverloadMethodsDeclarationOrder"/>
     <module name="VariableDeclarationUsageDistance"/>
@@ -227,7 +231,6 @@
                 value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
     </module>
     <module name="JavadocMethod">
-      <property name="scope" value="nothing"/>
       <property name="allowMissingParamTags" value="true"/>
       <property name="allowMissingReturnTag" value="true"/>
       <property name="allowedAnnotations" value="Override, Test"/>

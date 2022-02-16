@@ -7,11 +7,11 @@ import io.restassured.RestAssured;
 import io.restassured.filter.log.ErrorLoggingFilter;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.response.Response;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import uk.gov.hmcts.reform.pdf.service.domain.GeneratePdfRequest;
 import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
@@ -23,12 +23,12 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GeneratedPDFContentV2Test {
+class GeneratedPDFContentV2Test {
 
     private static final String API_URL = "/pdfs";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    @Before
+    @BeforeEach
     public void init() {
         RestAssured.baseURI = System.getenv("TEST_URL");
         RestAssured.useRelaxedHTTPSValidation();
@@ -36,8 +36,8 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    @Category(SmokeTest.class)
-    public void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
+    @Tag("SmokeTest")
+    void shouldCreateExpectedPdfFromPlainHtmlTemplate() throws Exception {
         Response response = makeRequest(
             "<html><body>Hello!</body></html>",
             Collections.emptyMap()
@@ -47,7 +47,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
+    void shouldCreateExpectedPdfWithUtf8CharactersEncoded() throws Exception {
         Response response = makeRequest(
             "<html><body>&#163;200</body></html>",
             Collections.emptyMap()
@@ -57,7 +57,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
+    void shouldCreateExpectedPdfWithUtf8Characters() throws Exception {
         Response response = makeRequest(
             "<html><body>£200</body></html>",
             Collections.emptyMap()
@@ -67,7 +67,7 @@ public class GeneratedPDFContentV2Test {
     }
 
     @Test
-    public void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
+    void shouldCreateExpectedPdfFromPlainTwigTemplateAndPlaceholders() throws Exception {
         Response response = makeRequest(
             "<html>{{ hello }}</html>",
             ImmutableMap.of("hello", "World!")
@@ -77,11 +77,8 @@ public class GeneratedPDFContentV2Test {
     }
 
     private static String textContentOf(byte[] pdfData) throws IOException {
-        PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData));
-        try {
+        try (PDDocument pdfDocument = PDDocument.load(new ByteArrayInputStream(pdfData))) {
             return new PDFTextStripper().getText(pdfDocument);
-        } finally {
-            pdfDocument.close();
         }
     }
 
