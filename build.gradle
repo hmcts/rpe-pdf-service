@@ -196,6 +196,11 @@ sonarqube {
   }
 }
 
+// https://github.com/gradle/gradle/issues/16791
+tasks.withType(JavaExec).configureEach {
+  javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
+}
+
 ext {
     log4JVersion = '2.17.1'
     pactVersion = '4.3.5'
