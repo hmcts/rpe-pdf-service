@@ -12,10 +12,13 @@ env.PACT_BROKER_URL = "pact-broker.platform.hmcts.net"
 env.PACT_BROKER_PORT = "443"
 env.PACT_BROKER_SCHEME = "https"
 
+def branchesToSync = ['demo', 'perftest', 'ithc']
+
 withPipeline("java", product, component) {
   enableSlackNotifications('#platops-build-notices')
   enableAksStagingDeployment()
   disableLegacyDeployment()
+  syncBranchesWithMaster(branchesToSync)
 
   onMaster() {
     enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
