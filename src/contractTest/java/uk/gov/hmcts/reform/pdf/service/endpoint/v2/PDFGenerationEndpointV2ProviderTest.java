@@ -62,7 +62,7 @@ public class PDFGenerationEndpointV2ProviderTest {
     public void toGeneratePdfProbateeDocumentFromTemplate() throws IOException, JSONException {
     }
 
-    @State({"A request to generate a PDF document"})
+    @State({"A request to generate a pdf document"})
     public void toGeneratePdfDocumentFromTemplate() throws IOException, JSONException {
     }
 }
