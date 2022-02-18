@@ -14,3 +14,5 @@ src/main/resources/version
 java-rpm-packaging/
 
 .gradletasknamecache
+lib/applicationinsights.log
+lib/applicationinsights-*.jar
