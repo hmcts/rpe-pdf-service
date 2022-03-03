@@ -1,4 +1,6 @@
 *
 
+!acb.yaml
+!Dockerfile
 !build/libs/pdf-service*.jar
 !lib
