@@ -49,7 +49,7 @@
     <cve>CVE-2020-13943</cve>
   </suppress>
   
-    <suppress>
+  <suppress>
     <notes><![CDATA[Ignored since a fix is not available]]></notes>
     <packageUrl regex="true">^pkg:maven/org\.springframework/spring.*$</packageUrl>
     <cve>CVE-2016-1000027</cve>
