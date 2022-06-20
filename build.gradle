@@ -217,6 +217,8 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
 
+  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.6.1'
+
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
   // work around older version shipped by spring boot that has CVEs
