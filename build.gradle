@@ -3,7 +3,6 @@ plugins {
   id 'checkstyle'
   id 'pmd'
   id 'jacoco'
-  id 'com.fasterxml.jackson.core' version '2.12.6.1'
   id 'io.spring.dependency-management' version '1.0.11.RELEASE'
   id 'org.springframework.boot' version '2.6.8'
   id 'org.owasp.dependencycheck' version '6.5.3'
@@ -216,8 +215,6 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
-
-  implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.6.1'
 
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
