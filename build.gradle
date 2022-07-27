@@ -11,7 +11,6 @@ plugins {
   id 'org.sonarqube' version '3.3'
   id 'au.com.dius.pact' version '4.3.5'
   id 'jvm-test-suite'
-  id 'fasterXmlJackson' version '2.13.2'
 }
 
 ext['rest-assured.version'] = '4.0.0'
@@ -231,8 +230,7 @@ dependencies {
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '2.6.4'
 
   implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
-  implementation group:'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.1'
-  implementation group: 'com.fasterxml.jackson', name: 'jackson-bom', version: versions.fasterXmlJackson, ext: 'pom'
+
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
