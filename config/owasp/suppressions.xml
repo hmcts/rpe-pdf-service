@@ -13,7 +13,12 @@
     <cve>CVE-2016-1000027</cve>
   </suppress>
 
-
+  <suppress>
+    <notes><![CDATA[
+        Jackson data binding, not used here
+    ]]></notes>
+    <cve>CVE-2020-36518</cve>
+  </suppress>
 
   <suppress>
     <notes><![CDATA[
