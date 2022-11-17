@@ -8,6 +8,20 @@
 
   <suppress>
     <notes><![CDATA[
+    False positive - https://github.com/spring-projects/spring-framework/issues/24434
+    ]]></notes>
+    <cve>CVE-2016-1000027</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+        Jackson data binding, not used here
+    ]]></notes>
+    <cve>CVE-2020-36518</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
     Suppress LDAP vulnerabilities in groovy pulled in by rest assured
     ]]></notes>
     <cve>CVE-2016-6497</cve>
