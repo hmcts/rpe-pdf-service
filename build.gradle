@@ -13,7 +13,7 @@ plugins {
   id 'jvm-test-suite'
 }
 
-ext['rest-assured.version'] = '4.0.0'
+ext['rest-assured.version'] = '4.5.0'
 
 group = 'uk.gov.hmcts.reform'
 version = '1.0.2'
