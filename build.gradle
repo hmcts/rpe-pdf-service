@@ -184,7 +184,7 @@ allprojects {
 
   ext {
     junit = '5.8.2'
-    reformLogging = '5.1.9'
+    reformLogging = '6.0.1'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
