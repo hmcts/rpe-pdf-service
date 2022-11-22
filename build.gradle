@@ -244,7 +244,7 @@ dependencies {
   implementation group: 'org.springframework', name: 'spring-aop', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-context', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-core', version: '6.0.0'
   implementation group: 'org.springframework', name: 'spring-expression', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-jcl', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-web', version: '5.3.22'
