@@ -248,7 +248,7 @@ dependencies {
   implementation group: 'org.springframework', name: 'spring-expression', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-jcl', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-web', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-webmvc', version: '6.0.1'
 
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
