@@ -35,7 +35,7 @@ testing {
       testType = TestSuiteType.INTEGRATION_TEST
       dependencies {
         implementation project()
-        // implementation sourceSets.test.runtimeClasspath
+        implementation sourceSets.test.runtimeClasspath
       }
 
       targets {
