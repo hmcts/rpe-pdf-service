@@ -8,6 +8,20 @@
 
   <suppress>
     <notes><![CDATA[
+    False positive - https://github.com/spring-projects/spring-framework/issues/24434
+    ]]></notes>
+    <cve>CVE-2016-1000027</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
+        Jackson data binding, not used here
+    ]]></notes>
+    <cve>CVE-2020-36518</cve>
+  </suppress>
+
+  <suppress>
+    <notes><![CDATA[
     Suppress LDAP vulnerabilities in groovy pulled in by rest assured
     ]]></notes>
     <cve>CVE-2016-6497</cve>
@@ -48,5 +62,23 @@
     <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-websocket@.*$</packageUrl>
     <cve>CVE-2020-13943</cve>
   </suppress>
+  
+   <suppress>
+    <notes><![CDATA[snakeyaml that doesn't affect us]]></notes>
+    <cve>CVE-2021-4235</cve>
+    <cve>CVE-2022-25857</cve>
+    <cve>CVE-2022-38749</cve>
+    <cve>CVE-2022-38750</cve>
+    <cve>CVE-2022-38751</cve>
+    <cve>CVE-2022-38752</cve>
+    <cve>CVE-2022-41854</cve>
+    <cve>CVE-2022-1471</cve>
+    <cve>CVE-2022-3064</cve>
+    </suppress>
+
+    <suppress>
+      <notes>LatencyUtils</notes>
+      <cve>CVE-2021-4277</cve>
+    </suppress>
 
 </suppressions>

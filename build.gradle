@@ -4,16 +4,17 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.0.12.RELEASE'
-  id 'org.springframework.boot' version '2.6.3'
-  id 'org.owasp.dependencycheck' version '6.5.3'
-  id 'com.github.ben-manes.versions' version '0.42.0'
+  id 'org.springframework.boot' version '2.7.5'
+  id 'org.owasp.dependencycheck' version '8.0.2'
+  id 'com.github.ben-manes.versions' version '0.44.0'
   id 'se.patrikerdes.use-latest-versions' version '0.2.18'
-  id 'org.sonarqube' version '3.3'
-  id 'au.com.dius.pact' version '4.3.5'
+  id 'org.sonarqube' version '3.5.0.2730'
+  id 'au.com.dius.pact' version '4.3.10'
+  id 'java'
   id 'jvm-test-suite'
 }
 
-ext['rest-assured.version'] = '4.0.0'
+ext['rest-assured.version'] = '4.5.0'
 
 group = 'uk.gov.hmcts.reform'
 version = '1.0.2'
@@ -33,7 +34,7 @@ testing {
     integrationTest(JvmTestSuite) {
       testType = TestSuiteType.INTEGRATION_TEST
       dependencies {
-        implementation project
+        implementation project()
         implementation sourceSets.test.runtimeClasspath
       }
 
@@ -49,13 +50,13 @@ testing {
     functionalTest(JvmTestSuite) {
       testType = TestSuiteType.FUNCTIONAL_TEST
       dependencies {
-        implementation project
+        implementation project()
         implementation sourceSets.test.runtimeClasspath
       }
     }
     contractTest(JvmTestSuite) {
       dependencies {
-        implementation project
+        implementation project()
         implementation sourceSets.test.runtimeClasspath
       }
     }
@@ -123,6 +124,16 @@ allprojects {
     return !stableKeyword && !(version ==~ regex)
   }
 
+  dependencyManagement {
+      dependencies {
+
+          //CVE-2022-25857, CVE-2022-38749, CVE-2022-38750, CVE-2022-38751, CVE-2022-38752, CVE-2022-41854
+          dependencySet(group: 'org.yaml', version: '1.33') {
+              entry 'snakeyaml'
+          }
+      }
+  }
+
   dependencyUpdates {
     rejectVersionIf {
       isNonStable(it.candidate.version) && !isNonStable(it.currentVersion)
@@ -174,7 +185,7 @@ allprojects {
 
   ext {
     junit = '5.8.2'
-    reformLogging = '5.1.9'
+    reformLogging = '6.0.1'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
@@ -208,13 +219,13 @@ tasks.withType(JavaExec).configureEach {
 ext {
     log4JVersion = '2.17.1'
     pactVersion = '4.3.5'
-    tomcatVersion = '9.0.58'
+    tomcatVersion = '9.0.69'
 }
 
 dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-  implementation group: 'org.springframework.boot', name: 'spring-boot-starter-json'
+  implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 
   implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
 
@@ -222,7 +233,7 @@ dependencies {
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatVersion
   implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatVersion
 
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.6'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.13'
 
   implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 
@@ -230,10 +241,21 @@ dependencies {
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '2.6.4'
 
   implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
+  // https://mvnrepository.com/artifact/org.springframework/spring-aop
+  implementation group: 'org.springframework', name: 'spring-aop', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-context', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-expression', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-jcl', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-web', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.22'
 
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+
+  implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testImplementation("org.junit.vintage:junit-vintage-engine") {
@@ -243,7 +265,7 @@ dependencies {
   testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: junit
 
   testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
-  testImplementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
+  testImplementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.27'
 
   functionalTestImplementation group: 'io.rest-assured', name: 'rest-assured'
 
