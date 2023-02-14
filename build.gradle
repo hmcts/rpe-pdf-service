@@ -242,7 +242,7 @@ dependencies {
 
   implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
   // https://mvnrepository.com/artifact/org.springframework/spring-aop
-  implementation group: 'org.springframework', name: 'spring-aop', version: '5.3.22'
+  implementation group: 'org.springframework', name: 'spring-aop', version: '6.0.4'
   implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-context', version: '5.3.22'
   implementation group: 'org.springframework', name: 'spring-core', version: '5.3.22'
