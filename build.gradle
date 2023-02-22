@@ -272,9 +272,9 @@ dependencies {
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: pactVersion
-  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
+  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
   contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.8.2')
+  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.9.2')
 
   implementation project(':pdf-generator')
 }
