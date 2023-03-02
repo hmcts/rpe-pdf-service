@@ -13,7 +13,7 @@ The template, besides containing ordinary HTML markup, can also contain inline C
 
 ### Prerequisites
 
-- [JDK 8](https://www.oracle.com/java)
+- [Java 17](https://www.oracle.com/java)
 - [Docker](https://www.docker.com)
 
 ![diagram](docs/component-diagram.jpg)

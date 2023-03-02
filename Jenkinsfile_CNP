@@ -1,7 +1,7 @@
 #!groovy
 import uk.gov.hmcts.contino.AppPipelineDsl
 
-@Library("Infrastructure")
+@Library("Infrastructure@java17")
 
 def product = "rpe"
 def component = "pdf-service"
@@ -15,7 +15,6 @@ env.PACT_BROKER_SCHEME = "https"
 def branchesToSync = ['demo', 'perftest', 'ithc']
 
 withPipeline("java", product, component) {
-  enableSlackNotifications('#platops-build-notices')
   enableAksStagingDeployment()
   disableLegacyDeployment()
   syncBranchesWithMaster(branchesToSync)

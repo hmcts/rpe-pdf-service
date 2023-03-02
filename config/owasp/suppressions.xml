@@ -62,7 +62,7 @@
     <packageUrl regex="true">^pkg:maven/org\.apache\.tomcat\.embed/tomcat\-embed\-websocket@.*$</packageUrl>
     <cve>CVE-2020-13943</cve>
   </suppress>
-  
+
    <suppress>
     <notes><![CDATA[snakeyaml that doesn't affect us]]></notes>
     <cve>CVE-2021-4235</cve>
@@ -80,7 +80,7 @@
       <notes>LatencyUtils</notes>
       <cve>CVE-2021-4277</cve>
     </suppress>
-  
+
     <suppress>
       <notes><![CDATA[
           Looks like a false positive https://github.com/jeremylong/DependencyCheck/issues/5502.
@@ -89,5 +89,14 @@
       <packageUrl regex="true">^(?!pkg:maven/org\.json/json@).+$</packageUrl>
       <cpe>cpe:/a:json-java_project:json-java</cpe>
     </suppress>
-  
+
+  <suppress>
+    <notes><![CDATA[
+   There is no fix, Google deprecated the method but did not remove it or fix it.
+   We don't use it.
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/com\.google\.guava/guava@.*$</packageUrl>
+    <vulnerabilityName>CVE-2020-8908</vulnerabilityName>
+  </suppress>
+
 </suppressions>
