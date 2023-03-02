@@ -4,7 +4,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.0'
-  id 'org.springframework.boot' version '2.7.5'
+  id 'org.springframework.boot' version '3.0.3'
   id 'org.owasp.dependencycheck' version '8.1.0'
   id 'com.github.ben-manes.versions' version '0.44.0'
   id 'se.patrikerdes.use-latest-versions' version '0.2.18'
@@ -13,8 +13,6 @@ plugins {
   id 'java'
   id 'jvm-test-suite'
 }
-
-ext['rest-assured.version'] = '4.5.0'
 
 group = 'uk.gov.hmcts.reform'
 version = '1.0.2'
@@ -68,17 +66,6 @@ allprojects {
   apply plugin: 'com.github.ben-manes.versions'
   apply plugin: 'org.owasp.dependencycheck'
 
-  configurations.all {
-    resolutionStrategy {
-      eachDependency { DependencyResolveDetails details ->
-        if (details.requested.group == 'ch.qos.logback' && details.requested.version == '1.2.6') {
-          details.useVersion '1.2.10'
-          details.because 'CVEs on older versions and I have no idea where the dep is coming from =/'
-        }
-      }
-    }
-  }
-
   tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
   }
@@ -114,7 +101,7 @@ allprojects {
     reports {
       xml.required = true
       csv.required = false
-      xml.destination file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
+      xml.outputLocation = file("${buildDir}/reports/jacoco/test/jacocoTestReport.xml")
     }
   }
 
@@ -184,7 +171,7 @@ allprojects {
   }
 
   ext {
-    junit = '5.8.2'
+    junit = '5.9.2'
     reformLogging = '6.0.1'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
@@ -217,9 +204,8 @@ tasks.withType(JavaExec).configureEach {
 }
 
 ext {
-    log4JVersion = '2.17.1'
+    log4JVersion = '2.20.0'
     pactVersion = '4.3.5'
-    tomcatVersion = '9.0.69'
 }
 
 dependencies {
@@ -227,35 +213,13 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 
-  implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.10'
-
-  // work around older version shipped by spring boot that has CVEs
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatVersion
-  implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatVersion
-
   implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.13'
-
-  implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '2.6.4'
 
-  implementation group: 'com.github.hmcts', name: 'reform-api-standards', version: '0.5.2'
-  // https://mvnrepository.com/artifact/org.springframework/spring-aop
-  implementation group: 'org.springframework', name: 'spring-aop', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-beans', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-context', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-core', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-expression', version: '6.0.5'
-  implementation group: 'org.springframework', name: 'spring-jcl', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-web', version: '5.3.22'
-  implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.22'
-
-
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
-
-  implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testImplementation("org.junit.vintage:junit-vintage-engine") {

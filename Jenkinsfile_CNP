@@ -15,7 +15,6 @@ env.PACT_BROKER_SCHEME = "https"
 def branchesToSync = ['demo', 'perftest', 'ithc']
 
 withPipeline("java", product, component) {
-  enableSlackNotifications('#platops-build-notices')
   enableAksStagingDeployment()
   disableLegacyDeployment()
   syncBranchesWithMaster(branchesToSync)
