@@ -31,6 +31,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/pdf-generator")
 @Deprecated(forRemoval = true)
+@SuppressWarnings("java:S1133") // not ready to remove right now
 public class PDFGenerationEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
@@ -51,6 +52,7 @@ public class PDFGenerationEndpoint {
         produces = MediaType.APPLICATION_PDF_VALUE
     )
     @Deprecated(forRemoval = true)
+    @SuppressWarnings("java:S1133") // not ready to remove right now
     public ResponseEntity<ByteArrayResource> generateFromHtml(
         @Parameter(
             description = "A HTML/Twig file. CSS should be embedded, images should be embedded using Data URI scheme")
