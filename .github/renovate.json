@@ -8,5 +8,5 @@
       "hmctspublic": "https://hmctspublic.azurecr.io/helm/v1/repo/"
     }
   },
-  "rebaseWhen": "auto"
+  "rebaseWhen": "behind-base-branch"
 }
