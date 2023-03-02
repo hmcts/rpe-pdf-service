@@ -16,15 +16,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
+import uk.gov.hmcts.reform.pdf.service.endpoint.v2.PDFGenerationEndpointV2;
 import uk.gov.hmcts.reform.pdf.service.exception.InvalidArgumentException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+/**
+ * Original pdf endpoint, superseded for a long time
+ * Can be removed once checked for consumers.
+ * @deprecated Use {@link PDFGenerationEndpointV2}
+ */
 @RestController
 @RequestMapping("/api/v1/pdf-generator")
-@Deprecated
+@Deprecated(forRemoval = true)
 public class PDFGenerationEndpoint {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PDFGenerationEndpoint.class);
@@ -44,7 +50,7 @@ public class PDFGenerationEndpoint {
         consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
         produces = MediaType.APPLICATION_PDF_VALUE
     )
-    @Deprecated
+    @Deprecated(forRemoval = true)
     public ResponseEntity<ByteArrayResource> generateFromHtml(
         @Parameter(
             description = "A HTML/Twig file. CSS should be embedded, images should be embedded using Data URI scheme")

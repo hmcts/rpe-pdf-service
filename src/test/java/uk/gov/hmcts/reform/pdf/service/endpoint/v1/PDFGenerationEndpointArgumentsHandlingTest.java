@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-@SuppressWarnings("deprecation")
+@SuppressWarnings({"deprecation", "removal"})
 public class PDFGenerationEndpointArgumentsHandlingTest {
 
     @Mock
