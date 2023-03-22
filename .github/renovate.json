@@ -12,5 +12,8 @@
         "datasource=(?<datasource>.*?) depName=(?<depName>.*?)( versioning=(?<versioning>.*?))?\\sARG .*?_VERSION=(?<currentValue>.*)\\s"
       ]
     }
-  ]
+  ],
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true
 }
