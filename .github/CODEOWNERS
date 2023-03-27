@@ -1,3 +1,11 @@
 # https://help.github.com/en/articles/about-code-owners
 
-* @hmcts/platform-operations 
+* @hmcts/platform-operations
+
+# Do not require code owners for renovate updates
+gradle/**
+
+infrastructure/state.tf
+infrastructure/.terraform-version
+build.gradle
+charts/**/Chart.yaml
