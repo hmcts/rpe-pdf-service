@@ -205,7 +205,7 @@ tasks.withType(JavaExec).configureEach {
 
 ext {
     log4JVersion = '2.20.0'
-    pactVersion = '4.5.4'
+    pactVersion = '4.5.5'
 }
 
 dependencies {
