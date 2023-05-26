@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "github>hmcts/.github//renovate/automerge-all"
+  ]
+}
