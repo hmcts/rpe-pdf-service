@@ -1,4 +1,4 @@
-# PDF service
+# PDF service - test
 
 [![codecov](https://codecov.io/gh/hmcts/rpe-pdf-service/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/rpe-pdf-service)
 
