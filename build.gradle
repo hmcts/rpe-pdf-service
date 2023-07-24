@@ -267,4 +267,3 @@ task runProviderPactVerification(type: Test) {
 runProviderPactVerification.dependsOn contractTest
 
 runProviderPactVerification.finalizedBy pactVerify
-
