@@ -236,12 +236,12 @@ dependencies {
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: pactVersion
-  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
+  // contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
   contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
   contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.0')
 
   implementation project(':pdf-generator')
-  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
