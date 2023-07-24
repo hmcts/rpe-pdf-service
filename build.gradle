@@ -243,9 +243,7 @@ dependencies {
   implementation project(':pdf-generator')
 
   // testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-  implementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.10.0'
 
-}
 
 
 mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
