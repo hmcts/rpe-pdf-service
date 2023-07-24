@@ -241,7 +241,7 @@ dependencies {
   contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.0')
 
   implementation project(':pdf-generator')
-  testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+  testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
 }
 
 
