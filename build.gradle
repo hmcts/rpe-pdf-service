@@ -268,3 +268,4 @@ runProviderPactVerification.dependsOn contractTest
 
 runProviderPactVerification.finalizedBy pactVerify
 
+
