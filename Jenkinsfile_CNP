@@ -22,6 +22,6 @@ withPipeline("java", product, component) {
   when {
     branch 'test_master'
   }
-  onMasterOrBranch('your-branch-name') {
+  onMasterOrBranch('test_master') {
     enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
   }
