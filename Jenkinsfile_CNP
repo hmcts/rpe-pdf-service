@@ -19,7 +19,6 @@ withPipeline("java", product, component) {
   disableLegacyDeployment()
   syncBranchesWithMaster(branchesToSync)
 
-  onMaster() {
-    enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
-  }
+  enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
+
 }
