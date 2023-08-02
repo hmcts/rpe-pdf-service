@@ -20,5 +20,4 @@ withPipeline("java", product, component) {
   syncBranchesWithMaster(branchesToSync)
 
   enablePactAs([AppPipelineDsl.PactRoles.PROVIDER])
-
 }
