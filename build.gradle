@@ -4,7 +4,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.4'
-  id 'org.springframework.boot' version '3.1.5'
+  id 'org.springframework.boot' version '3.2.0'
   id 'org.owasp.dependencycheck' version '9.0.1'
   id 'com.github.ben-manes.versions' version '0.50.0'
   id 'se.patrikerdes.use-latest-versions' version '0.2.18'
