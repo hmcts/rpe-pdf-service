@@ -211,6 +211,7 @@ tasks.withType(JavaExec).configureEach {
 ext {
     log4JVersion = '2.22.0'
     pactVersion = '4.3.15'
+    logbackVersion = "1.4.14"
 }
 
 dependencies {
@@ -225,6 +226,8 @@ dependencies {
 
   implementation group: 'org.apache.logging.log4j', name: 'log4j-api', version: log4JVersion
   implementation group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version: log4JVersion
+  implementation group: 'ch.qos.logback', name: 'logback-classic', version: logbackVersion
+  implementation group: 'ch.qos.logback', name: 'logback-core', version: logbackVersion
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
   testImplementation("org.junit.vintage:junit-vintage-engine") {
