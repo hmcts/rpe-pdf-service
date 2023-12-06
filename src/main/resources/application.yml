@@ -16,7 +16,7 @@ management:
   endpoint:
     health:
       show-details: always
-      group:
-       liveness:
-        include: "db"
-      validate-group-membership: false
+      # group:
+      #  liveness:
+      #   include: "db"
+      # validate-group-membership: false
