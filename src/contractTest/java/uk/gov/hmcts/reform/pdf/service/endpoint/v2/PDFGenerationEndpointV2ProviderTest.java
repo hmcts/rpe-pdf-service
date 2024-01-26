@@ -1,6 +1,5 @@
 package uk.gov.hmcts.reform.pdf.service.endpoint.v2;
 
-
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
@@ -27,7 +26,7 @@ import java.io.IOException;
     host = "${PACT_BROKER_URL:localhost}",
     port = "${PACT_BROKER_PORT:80}",
     consumerVersionSelectors = {
-        @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
+        @VersionSelector(tag = "master")
     })
 @IgnoreNoPactsToVerify
 public class PDFGenerationEndpointV2ProviderTest {
