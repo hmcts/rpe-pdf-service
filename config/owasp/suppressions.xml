@@ -99,19 +99,14 @@
     <vulnerabilityName>CVE-2020-8908</vulnerabilityName>
   </suppress>
 
-  <suppress until="2023-12-12">
-    <notes><![CDATA[
-   ** DISPUTED ** An issue was discovered jackson-databind thru 2.15.2 allows attackers to cause a denial of service or other unspecified impacts via crafted object that uses cyclic dependencies. NOTE: the vendor's perspective is that the product is not intended for use with untrusted input. 
-   ]]></notes>
-    <cve>CVE-2023-35116</cve>
-  </suppress>
-  <suppress until="2024-01-12">
+  <suppress>
    <notes><![CDATA[
-   file name: jackson-databind-2.15.3.jar
+   NOTE: the vendor's perspective is that the product is not intended for use with untrusted input.
    ]]></notes>
    <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-databind@.*$</packageUrl>
    <cve>CVE-2023-35116</cve>
 </suppress>
+
 <suppress until="2024-01-12">
    <notes><![CDATA[
    file name: logback-classic-1.4.11.jar
