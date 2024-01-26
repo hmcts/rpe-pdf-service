@@ -123,6 +123,11 @@ allprojects {
             entry 'tomcat-embed-websocket'
             entry 'tomcat-embed-core'
           }
+          //Solves CVE-2023-6481
+          dependencySet(group: 'ch.qos.logback', version: '1.2.13') {
+            entry 'logback-core'
+            entry 'logback-classic'
+          }
       }
   }
 
