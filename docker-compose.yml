@@ -1,23 +1,31 @@
----
-version: '2.1'
+version: "3"
 
 services:
-  pdf-service-api:
-    build:
-      context: .
-      args:
-        - http_proxy
-        - https_proxy
-        - no_proxy
-    image: hmctspublic.azurecr.io/rpe/pdf-service
+  api:
+    image: ruby:3.2-alpine
     environment:
-      # used by java-logging library
-      - ROOT_APPENDER
-      - JSON_CONSOLE_PRETTY_PRINT
-      - ROOT_LOGGING_LEVEL
-      - REFORM_SERVICE_NAME
-      - REFORM_TEAM
-      - REFORM_ENVIRONMENT
-      - AZURE_APPLICATIONINSIGHTS_INSTRUMENTATIONKEY=0000-0000-0000-0000
-    ports:
-      - 5500:5500
+      # Setting the response body as an environment variable is just a way
+      # to get around the multiple layers of nested quotes in the command!
+      RESPONSE_BODY: "{\"id\": \"1\", \"name\": \"Foo\"}"
+    command: sh -c "gem install webrick -v 1.8.1 && gem install rack -v 2.2.7 && rackup -o 0.0.0.0 -b \"run ->(env){ [200, {'Content-Type' => 'application/pdf'}, [ENV['RESPONSE_BODY']]] }\""
+    expose:
+      - "9292"
+
+  pact_verifier:
+    image: pactfoundation/pact-cli:0.53.0-pactcli0.52.0
+    depends_on:
+      - api
+    environment:
+      - PACT_BROKER_BASE_URL
+      - PACT_BROKER_USERNAME
+      - PACT_BROKER_PASSWORD
+      - PACT_BROKER_PUBLISH_VERIFICATION_RESULTS
+      - GIT_COMMIT
+      - GIT_BRANCH
+    command: >
+      verify
+      --provider-base-url http://api:9292
+      --provider rpePdfService_PDFGenerationEndpointV2 
+      --provider-app-version ${GIT_COMMIT}
+      --provider-version-tag ${GIT_BRANCH}
+      --wait 20
