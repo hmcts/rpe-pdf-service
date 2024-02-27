@@ -106,7 +106,7 @@
     <cve>CVE-2023-35116</cve>
   </suppress>
   
-<suppress until="2024-03-12">
+<suppress until="2024-01-12">
    <notes><![CDATA[
    file name: logback-classic-1.4.11.jar
    ]]></notes>
