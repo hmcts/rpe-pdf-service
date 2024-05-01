@@ -67,7 +67,7 @@ allprojects {
   apply plugin: 'org.owasp.dependencycheck'
 
   tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Werror"
   }
 
   task functional(type: Test, description: 'Runs the functional tests.', group: 'Verification') {
