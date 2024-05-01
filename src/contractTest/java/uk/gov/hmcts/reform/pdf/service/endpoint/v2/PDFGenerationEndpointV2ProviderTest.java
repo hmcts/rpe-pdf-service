@@ -4,12 +4,11 @@ package uk.gov.hmcts.reform.pdf.service.endpoint.v2;
 import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
-import au.com.dius.pact.provider.junitsupport.loader.SelectorBuilder;
 import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
+import au.com.dius.pact.provider.junitsupport.loader.SelectorBuilder;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +65,7 @@ public class PDFGenerationEndpointV2ProviderTest {
 
     @PactBrokerConsumerVersionSelectors
     public static SelectorBuilder consumerVersionSelectors() {
-      return new SelectorBuilder()
-        .tag("${PACT_BRANCH_NAME:Dev}");
+        return new SelectorBuilder()
+            .tag("${PACT_BRANCH_NAME:Dev}");
     }
 }
