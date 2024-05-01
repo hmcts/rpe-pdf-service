@@ -65,6 +65,6 @@ public class PDFGenerationEndpointV2ProviderTest {
     @PactBrokerConsumerVersionSelectors
     public static SelectorBuilder consumerVersionSelectors() {
       return new SelectorBuilder()
-        .tag("${PACT_BRANCH_NAME:Dev}")
+        .tag("${PACT_BRANCH_NAME:Dev}");
     }
 }
