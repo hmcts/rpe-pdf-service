@@ -23,10 +23,8 @@ import java.io.IOException;
 @ExtendWith(SpringExtension.class)
 @Provider("rpePdfService_PDFGenerationEndpointV2")
 @PactBroker(
-    url = "${PACT_BROKER_FULL_URL:http://localhost:80}",
-    consumerVersionSelectors = {
-        @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
-    })
+    url = "${PACT_BROKER_FULL_URL:http://localhost:80}"
+    )
 @IgnoreNoPactsToVerify
 public class PDFGenerationEndpointV2ProviderTest {
 
@@ -64,4 +62,9 @@ public class PDFGenerationEndpointV2ProviderTest {
     public void toGeneratePdfDocumentFromTemplate() throws IOException, JSONException {
     }
 
+    @PactBrokerConsumerVersionSelectors
+    public static SelectorBuilder consumerVersionSelectors() {
+      return new SelectorBuilder()
+        .tag("${PACT_BRANCH_NAME:Dev}")
+    }
 }
