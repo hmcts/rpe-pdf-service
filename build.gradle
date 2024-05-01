@@ -210,7 +210,7 @@ tasks.withType(JavaExec).configureEach {
 
 ext {
     log4JVersion = '2.22.0'
-    pactVersion = '4.3.15'
+    pactVersion = '4.6.9'
 }
 
 dependencies {
@@ -267,6 +267,8 @@ wrapper {
 task runProviderPactVerification(type: Test) {
   testClassesDirs = sourceSets.contractTest.output.classesDirs
   classpath = sourceSets.contractTest.runtimeClasspath
+  systemProperty 'pact.verifier.publishResults', System.getProperty('pact.verifier.publishResults')
+  systemProperty 'pact.provider.version', System.getProperty('pact.provider.version')
 }
 
 runProviderPactVerification.dependsOn contractTest
