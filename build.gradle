@@ -267,8 +267,6 @@ wrapper {
 task runProviderPactVerification(type: Test) {
   testClassesDirs = sourceSets.contractTest.output.classesDirs
   classpath = sourceSets.contractTest.runtimeClasspath
-  systemProperty 'pact.verifier.publishResults', System.getProperty('pact.verifier.publishResults')
-  systemProperty 'pact.provider.version', System.getProperty('pact.provider.version')
 }
 
 runProviderPactVerification.dependsOn contractTest
