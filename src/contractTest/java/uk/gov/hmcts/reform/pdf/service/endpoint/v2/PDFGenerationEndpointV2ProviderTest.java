@@ -23,9 +23,7 @@ import java.io.IOException;
 @ExtendWith(SpringExtension.class)
 @Provider("rpePdfService_PDFGenerationEndpointV2")
 @PactBroker(
-    scheme = "${PACT_BROKER_SCHEME:http}",
-    host = "${PACT_BROKER_URL:localhost}",
-    port = "${PACT_BROKER_PORT:80}",
+    url = "${PACT_BROKER_FULL_URL:http://localhost:80}",
     consumerVersionSelectors = {
         @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
     })
@@ -65,4 +63,5 @@ public class PDFGenerationEndpointV2ProviderTest {
     @State({"A request to generate a pdf document"})
     public void toGeneratePdfDocumentFromTemplate() throws IOException, JSONException {
     }
+
 }
