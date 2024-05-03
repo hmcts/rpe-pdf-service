@@ -48,7 +48,9 @@ public class PDFGenerationEndpointV2ProviderTest {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         pdfGenerationEndpointV2 = new PDFGenerationEndpointV2(new HTMLToPDFConverter(), appInsightsEventTrackerMock);
         testTarget.setControllers(pdfGenerationEndpointV2);
-        context.setTarget(testTarget);
+        if (context != null){
+            context.setTarget(testTarget);
+        }
     }
 
     @State({"A request to generate a divorce pdf document"})
