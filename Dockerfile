@@ -1,6 +1,6 @@
-ARG APP_INSIGHTS_AGENT_VERSION=3.4.10
+ARG APP_INSIGHTS_AGENT_VERSION=3.4.19
 ARG PLATFORM=""
-FROM hmctspublic.azurecr.io/base/java${PLATFORM}:17-distroless
+FROM hmctspublic.azurecr.io/base/java${PLATFORM}:21-distroless
 
 # Mandatory!
 ENV APP pdf-service-all.jar

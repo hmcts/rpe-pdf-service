@@ -7,7 +7,8 @@ import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerConsumerVersionSelectors;
+import au.com.dius.pact.provider.junitsupport.loader.SelectorBuilder;
 import au.com.dius.pact.provider.spring.junit5.MockMvcTestTarget;
 import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,12 +24,8 @@ import java.io.IOException;
 @ExtendWith(SpringExtension.class)
 @Provider("rpePdfService_PDFGenerationEndpointV2")
 @PactBroker(
-    scheme = "${PACT_BROKER_SCHEME:http}",
-    host = "${PACT_BROKER_URL:localhost}",
-    port = "${PACT_BROKER_PORT:80}",
-    consumerVersionSelectors = {
-        @VersionSelector(tag = "${PACT_BRANCH_NAME:Dev}")
-    })
+    url = "${PACT_BROKER_FULL_URL:http://localhost:80}"
+    )
 @IgnoreNoPactsToVerify
 public class PDFGenerationEndpointV2ProviderTest {
 
@@ -64,5 +61,11 @@ public class PDFGenerationEndpointV2ProviderTest {
 
     @State({"A request to generate a pdf document"})
     public void toGeneratePdfDocumentFromTemplate() throws IOException, JSONException {
+    }
+
+    @PactBrokerConsumerVersionSelectors
+    public static SelectorBuilder consumerVersionSelectors() {
+        return new SelectorBuilder()
+            .tag("${PACT_BRANCH_NAME:Dev}");
     }
 }
