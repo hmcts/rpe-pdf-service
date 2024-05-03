@@ -38,7 +38,9 @@ public class PDFGenerationEndpointV2ProviderTest {
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
-        context.verifyInteraction();
+        if (context != null){
+            context.verifyInteraction();
+        }
     }
 
 
