@@ -38,7 +38,7 @@ public class PDFGenerationEndpointV2ProviderTest {
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider.class)
     void pactVerificationTestTemplate(PactVerificationContext context) {
-        if (context != null){
+        if (context != null) {
             context.verifyInteraction();
         }
     }
@@ -50,7 +50,7 @@ public class PDFGenerationEndpointV2ProviderTest {
         MockMvcTestTarget testTarget = new MockMvcTestTarget();
         pdfGenerationEndpointV2 = new PDFGenerationEndpointV2(new HTMLToPDFConverter(), appInsightsEventTrackerMock);
         testTarget.setControllers(pdfGenerationEndpointV2);
-        if (context != null){
+        if (context != null) {
             context.setTarget(testTarget);
         }
     }
