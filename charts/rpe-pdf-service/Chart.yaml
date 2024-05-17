@@ -1,11 +1,11 @@
 apiVersion: v2
 name: rpe-pdf-service
 home: https://github.com/hmcts/rpe-pdf-service
-version: 0.6.26
+version: 0.6.27
 description: PDF generation service
 maintainers:
   - name: HMCTS Platform engineering team
 dependencies:
   - name: java
-    version: 5.2.0
+    version: 5.2.1
     repository: 'https://hmctspublic.azurecr.io/helm/v1/repo/'
