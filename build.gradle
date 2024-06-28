@@ -176,7 +176,7 @@ allprojects {
   }
 
   ext {
-    junit = '5.10.2'
+    junit = '5.10.3'
     reformLogging = '6.1.5'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
@@ -241,9 +241,9 @@ dependencies {
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: pactVersion
-  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-  contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
-  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.2')
+  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.10.3")
+  contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.3")
+  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.10.3')
 
   implementation project(':pdf-generator')
 }
