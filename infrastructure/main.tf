@@ -21,7 +21,7 @@ module "application_insights" {
   common_tags = var.common_tags
 
   daily_data_cap_in_gb = var.daily_data_cap_in_gb
-  
+
 }
 
 moved {
