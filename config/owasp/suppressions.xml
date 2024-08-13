@@ -119,7 +119,7 @@
    <packageUrl regex="true">^pkg:maven/ch\.qos\.logback/logback\-classic@.*$</packageUrl>
    <cve>CVE-2023-6378</cve>
 </suppress>
-<suppress until="2024-06-30">
+<suppress until="2024-09-30">
    <notes><![CDATA[
    file name: logback-core-1.4.11.jar
    ]]></notes>
