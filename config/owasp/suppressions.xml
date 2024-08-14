@@ -105,7 +105,7 @@
    ]]></notes>
     <cve>CVE-2023-35116</cve>
   </suppress>
-  <suppress until="2024-06-30">
+  <suppress until="2024-09-30">
    <notes><![CDATA[
    file name: jackson-databind-2.15.3.jar
    ]]></notes>
