@@ -11,7 +11,7 @@ The template, besides containing ordinary HTML markup, can also contain inline C
 
 ## Getting started
 
-### Prerequisites
+## Prerequisites
 
 - [Java 17](https://www.oracle.com/java)
 - [Docker](https://www.docker.com)
