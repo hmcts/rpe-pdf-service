@@ -14,7 +14,7 @@ dependencies {
   }
   implementation group: 'com.github.librepdf', name: 'openpdf', version: openPdf
 
-  testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.26.3'
+  testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.27.0'
   testImplementation group: 'org.hamcrest', name: 'hamcrest', version: '3.0'
 
   testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: junit
