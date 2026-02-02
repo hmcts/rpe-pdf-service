@@ -119,7 +119,7 @@ allprojects {
               entry 'snakeyaml'
           }
           //CVE-2023-41080
-          dependencySet(group: 'org.apache.tomcat.embed', version: '10.1.42') {
+          dependencySet(group: 'org.apache.tomcat.embed', version: '11.0.18') {
             entry 'tomcat-embed-websocket'
             entry 'tomcat-embed-core'
           }
