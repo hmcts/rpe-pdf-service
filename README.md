@@ -13,7 +13,7 @@ The template, besides containing ordinary HTML markup, can also contain inline C
 
 ### Prerequisites
 
-- [Java 17](https://www.oracle.com/java)
+- [Java 21](https://www.oracle.com/java)
 - [Docker](https://www.docker.com)
 
 ![diagram](docs/component-diagram.jpg)
@@ -22,6 +22,11 @@ The template, besides containing ordinary HTML markup, can also contain inline C
 
 The project uses [Gradle](https://gradle.org) as a build tool but you don't have to install it locally since there is a
 `./gradlew` wrapper script.
+
+This project consumes internal HMCTS libraries from Azure DevOps Artifacts (`hmcts-lib`). For local builds you may need:
+
+- `AZURE_DEVOPS_ARTIFACT_USERNAME`
+- `AZURE_DEVOPS_ARTIFACT_TOKEN`
 
 To build project please execute the following command:
 
