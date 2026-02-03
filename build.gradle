@@ -9,7 +9,7 @@ plugins {
   id 'com.github.ben-manes.versions' version '0.52.0'
   id 'se.patrikerdes.use-latest-versions' version '0.2.18'
   id 'org.sonarqube' version '6.2.0.5505'
-  id 'au.com.dius.pact' version '4.6.17'
+  id 'au.com.dius.pact' version '4.6.19'
   id 'java'
   id 'jvm-test-suite'
 }
