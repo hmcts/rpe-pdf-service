@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.gov.hmcts.reform.pdf.service.domain.matchers.EventMetricsMatcher;
 import uk.gov.hmcts.reform.pdf.service.domain.matchers.KbEventPropertiesMatcher;
@@ -18,10 +18,10 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AppInsightsEventTrackerTest {
-    @MockBean
+    @MockitoBean
     private TelemetryClient telemetryClient;
 
-    @MockBean
+    @MockitoBean
     private FileSizeConverter fileSizeConverter;
 
     private static final String EXPECTED_EVENT_NAME = "PDF File size";

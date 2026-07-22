@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import uk.gov.hmcts.reform.pdf.generator.HTMLToPDFConverter;
 import uk.gov.hmcts.reform.pdf.service.appinsights.AppInsightsEventTracker;
@@ -31,7 +31,7 @@ public class PDFGenerationEndpointV2ProviderTest {
 
     PDFGenerationEndpointV2 pdfGenerationEndpointV2;
 
-    @MockBean
+    @MockitoBean
     AppInsightsEventTracker appInsightsEventTrackerMock;
 
 
