@@ -4,7 +4,7 @@ plugins {
   id 'pmd'
   id 'jacoco'
   id 'io.spring.dependency-management' version '1.1.7'
-  id 'org.springframework.boot' version '3.3.5'
+  id 'org.springframework.boot' version '3.5.5'
   id 'org.owasp.dependencycheck' version '12.2.0'
   id 'com.github.ben-manes.versions' version '0.53.0'
   id 'se.patrikerdes.use-latest-versions' version '0.2.19'
@@ -19,7 +19,7 @@ version = '1.0.2'
 
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+    languageVersion = JavaLanguageVersion.of(25)
   }
 }
 
@@ -30,7 +30,6 @@ testing {
     }
 
     integrationTest(JvmTestSuite) {
-      testType = TestSuiteType.INTEGRATION_TEST
       dependencies {
         implementation project()
         implementation sourceSets.test.runtimeClasspath
@@ -46,7 +45,6 @@ testing {
     }
 
     functionalTest(JvmTestSuite) {
-      testType = TestSuiteType.FUNCTIONAL_TEST
       dependencies {
         implementation project()
         implementation sourceSets.test.runtimeClasspath
@@ -183,8 +181,8 @@ allprojects {
   }
 
   ext {
-    junit = '5.10.3'
-    reformLogging = '6.1.9'
+    junit = '5.12.2'
+    reformLogging = '8.0.0'
     flyingSaucer = flyingSaucerVersion
     openPdf = dependencyManagement.importedProperties['openpdf.version']
   }
@@ -225,7 +223,7 @@ dependencies {
   implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
   implementation group: 'com.google.guava', name: 'guava', version: '33.5.0-jre'
 
-  implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.8.0'
+  implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.6'
 
   implementation group: 'com.github.hmcts.java-logging', name: 'logging', version: reformLogging
   implementation group: 'com.microsoft.azure', name: 'applicationinsights-web', version: '3.7.8'
@@ -248,15 +246,17 @@ dependencies {
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'spring', version: pactVersion
   contractTestImplementation group: 'au.com.dius.pact.provider', name: 'junit5spring', version: pactVersion
-  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:5.13.2")
-  contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.13.2")
-  contractTestImplementation('org.junit.jupiter:junit-jupiter-api:5.13.2')
+  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:${junit}")
+  contractTestRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junit}")
+  contractTestImplementation("org.junit.jupiter:junit-jupiter-api:${junit}")
 
   implementation project(':pdf-generator')
 }
 
 
-mainClassName = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
+application {
+  mainClass = 'uk.gov.hmcts.reform.pdf.service.PDFServiceApplication'
+}
 
 bootJar {
   archiveFileName = 'pdf-service-all.jar'
